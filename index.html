@@ -1,0 +1,2464 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>BGV Development — Строим будущее вместе с вами</title>
+  <meta name="description" content="Девелоперская компания BGV Development. Жилые комплексы в Киеве, Боярке, Житомире. Build Your Future.">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="BGV Development">
+  <meta property="og:title" content="BGV Development — Строим будущее вместе с вами">
+  <meta property="og:description" content="Девелоперская компания BGV Development. Жилые комплексы в Киеве, Боярке, Житомире. Build Your Future.">
+  <meta property="og:locale" content="ru_UA">
+  <!-- TODO: заменить на боевой домен и добавить og:image (PNG 1200×630) -->
+  <meta property="og:url" content="https://bgv-development-github-2-1.vercel.app/">
+
+  <!-- Фавикон: инлайн SVG, буква B на фоне --color-logo -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23001A72'/%3E%3Ctext x='32' y='46' text-anchor='middle' font-family='Manrope,Arial,sans-serif' font-size='40' font-weight='800' fill='%23FFFFFF'%3EB%3C/text%3E%3C/svg%3E">
+  <meta name="theme-color" content="#001A72">
+
+  <!-- Шрифт: Manrope как замена Qanelas -->
+  <!-- TODO: заменить на Qanelas при наличии лицензии -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- GSAP + ScrollTrigger (CDN, закреплённая версия) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <style>
+    /* ===== ДИЗАЙН-ТОКЕНЫ (строго из брендбука) ===== */
+    :root {
+      --color-logo: #001A72;
+      --color-main: #253C92;
+      --color-dark: #1A1A1A;
+      --color-blue-400: #4057CB;
+      --color-blue-300: #6B7DDB;
+      --color-blue-200: #BEC8FF;
+      --color-gray: #F0F4F8;
+      --color-white: #FFFFFF;
+
+      /* TODO: заменить на Qanelas при наличии лицензии */
+      --font-base: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+
+      /* Второстепенный текст: --color-dark с прозрачностью (без новых hex) */
+      --color-text-muted: rgba(26, 26, 26, 0.64);
+
+      --header-h: 80px;
+      --container: 1360px;
+      --gutter: clamp(20px, 4vw, 48px);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* ===== МИНИ-СБРОС (сайт не зависит от загрузки Tailwind CDN) ===== */
+    *, *::before, *::after { box-sizing: border-box; border-width: 0; border-style: solid; }
+    body, h1, h2, h3, h4, p, ul, ol, dl, dd, figure { margin: 0; }
+    ul, ol { list-style: none; padding: 0; }
+    a { color: inherit; text-decoration: inherit; }
+    button, input, textarea { font: inherit; color: inherit; margin: 0; }
+    button { background: transparent; padding: 0; cursor: pointer; }
+    svg { display: block; }
+
+    /* ===== БАЗА ===== */
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: var(--header-h);
+      -webkit-text-size-adjust: 100%;
+    }
+    body {
+      font-family: var(--font-base);
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--color-dark);
+      background: var(--color-white);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    html:has(body.is-locked), body.is-locked { overflow: hidden; }
+    .mobile-overlay { touch-action: none; }
+
+    .container-bgv {
+      width: 100%;
+      max-width: var(--container);
+      margin-inline: auto;
+      padding-inline: var(--gutter);
+    }
+
+    .heading {
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px; height: 1px;
+      margin: -1px; padding: 0;
+      overflow: hidden; clip: rect(0 0 0 0);
+      white-space: nowrap; border: 0;
+    }
+
+    .focus-ring:focus-visible,
+    .nav-link:focus-visible,
+    .lang-btn:focus-visible,
+    .btn-primary:focus-visible,
+    .burger:focus-visible,
+    .footer-link:focus-visible,
+    .social-link:focus-visible,
+    .mobile-link:focus-visible,
+    .mobile-close:focus-visible {
+      outline: 2px solid var(--color-blue-300);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* ===== ПРЕЛОАДЕР ===== */
+    .preloader {
+      will-change: transform;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-logo);
+      color: var(--color-white);
+    }
+    .preloader__logo {
+      width: clamp(160px, 22vw, 240px);
+      height: auto;
+    }
+    /* Фолбэк, если GSAP не загрузился */
+    .preloader.is-hidden {
+      transform: translateY(-100%);
+      transition: transform 0.9s var(--ease);
+    }
+
+    /* ===== HEADER ===== */
+    .site-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      height: calc(var(--header-h) + env(safe-area-inset-top, 0px));
+      padding-top: env(safe-area-inset-top, 0px);
+      color: var(--color-white);
+      background: transparent;
+      transition: color 0.35s var(--ease);
+    }
+    /* Белый фон и тень появляются через opacity — без перерисовки */
+    .site-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: var(--color-white);
+      box-shadow: 0 1px 0 rgba(0, 26, 114, 0.06), 0 8px 24px rgba(0, 26, 114, 0.08);
+      opacity: 0;
+      transition: opacity 0.35s var(--ease);
+    }
+    .site-header.is-scrolled { color: var(--color-dark); }
+    .site-header.is-scrolled::before { opacity: 1; }
+    .site-header__inner {
+      height: var(--header-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .header-logo {
+      display: inline-flex;
+      color: var(--color-white);
+      transition: color 0.35s var(--ease);
+    }
+    .site-header.is-scrolled .header-logo { color: var(--color-logo); }
+    .header-logo__svg { width: 104px; height: auto; }
+
+    .main-nav { display: none; }
+    .main-nav__list {
+      display: flex;
+      align-items: center;
+      gap: clamp(20px, 2.6vw, 40px);
+    }
+    .nav-link {
+      position: relative;
+      font-size: 15px;
+      font-weight: 600;
+      color: inherit;
+      text-decoration: none;
+      padding-block: 6px;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 2px;
+      background: currentColor;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s var(--ease);
+    }
+    .nav-link:hover::after { transform: scaleX(1); }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .lang-switch {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .lang-switch__sep { opacity: 0.4; }
+    .lang-btn {
+      color: inherit;
+      opacity: 0.55;
+      padding: 4px 2px;
+      transition: opacity 0.2s;
+    }
+    .lang-btn:hover { opacity: 0.85; }
+    .lang-btn[aria-pressed="true"] { opacity: 1; }
+
+    .burger {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      width: 44px; height: 44px;
+      padding: 10px;
+      color: inherit;
+    }
+    .burger__line {
+      display: block;
+      height: 2px;
+      width: 100%;
+      background: currentColor;
+      border-radius: 2px;
+    }
+    .burger__line:last-child { width: 65%; margin-left: auto; }
+
+    @media (min-width: 1024px) {
+      .main-nav { display: block; }
+      .burger { display: none; }
+    }
+
+    /* ===== МОБИЛЬНОЕ МЕНЮ ===== */
+    .mobile-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      background: rgba(0, 26, 114, 0.45);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s var(--ease), visibility 0.35s;
+    }
+    .mobile-overlay.is-open { opacity: 1; visibility: visible; }
+
+    .mobile-panel {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      z-index: 70;
+      width: min(360px, 88vw);
+      background: var(--color-white);
+      color: var(--color-dark);
+      padding: calc(24px + env(safe-area-inset-top, 0px)) 28px calc(32px + env(safe-area-inset-bottom, 0px));
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      visibility: hidden;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      transition: transform 0.45s var(--ease), visibility 0.45s;
+    }
+    .mobile-panel.is-open { transform: translateX(0); visibility: visible; }
+    .mobile-panel__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 48px;
+      color: var(--color-logo);
+    }
+    .mobile-close {
+      width: 44px; height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-dark);
+    }
+    .mobile-nav__list { display: flex; flex-direction: column; gap: 4px; }
+    .mobile-link {
+      display: block;
+      padding: 12px 0;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: var(--color-dark);
+      text-decoration: none;
+      border-bottom: 1px solid var(--color-gray);
+    }
+    .mobile-link:hover { color: var(--color-main); }
+    .mobile-panel .lang-switch { margin-top: auto; color: var(--color-dark); }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      z-index: 1; /* поверх серой секции, чтобы диагональный срез был виден */
+      height: 100vh;
+      height: 100svh;
+      min-height: 560px;
+      overflow: hidden;
+      color: var(--color-white);
+      background: var(--color-logo);
+      /* Диагональный срез снизу — переход в серую секцию «О компании» */
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - clamp(40px, 8vw, 120px)), 0 100%);
+    }
+    /* Анимированный градиент: большой слой двигается через transform (60fps) */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 200%; height: 200%;
+      background: linear-gradient(125deg, var(--color-logo) 0%, var(--color-main) 25%, var(--color-logo) 50%, var(--color-main) 75%, var(--color-logo) 100%);
+      animation: heroGradient 16s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    @keyframes heroGradient {
+      from { transform: translate3d(0, 0, 0); }
+      to   { transform: translate3d(-50%, -50%, 0); }
+    }
+    .hero__shapes {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding-top: var(--header-h);
+      padding-bottom: clamp(80px, 12vh, 140px);
+    }
+    .hero__title {
+      font-size: clamp(48px, 9vw, 120px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.035em;
+      color: var(--color-white);
+    }
+    .hero__subtitle {
+      margin-top: clamp(20px, 3vh, 32px);
+      max-width: 34ch;
+      font-size: clamp(17px, 1.6vw, 20px);
+      line-height: 1.5;
+      color: var(--color-white);
+      opacity: 0.8;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: clamp(28px, 4.5vh, 48px);
+      min-height: 56px;
+      padding: 0 36px;
+      border-radius: 999px;
+      background: var(--color-white);
+      color: var(--color-logo);
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .btn-primary:hover { background: var(--color-blue-200); }
+    .btn-primary:active { transform: scale(0.98); }
+
+    .scroll-indicator {
+      position: absolute;
+      z-index: 2;
+      left: 50%;
+      bottom: calc(clamp(40px, 8vw, 120px) + 28px);
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      color: var(--color-white);
+      text-decoration: none;
+    }
+    .scroll-indicator__track {
+      position: relative;
+      width: 1px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.35);
+    }
+    .scroll-indicator__dot {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 7px; height: 7px;
+      margin-left: -3.5px;
+      border-radius: 50%;
+      background: var(--color-white);
+    }
+
+    /* ===== О КОМПАНИИ ===== */
+    .about {
+      position: relative;
+      background: var(--color-gray);
+      margin-top: calc(-1 * clamp(40px, 8vw, 120px));
+      /* Верхний срез, симметричный нижнему срезу Hero */
+      clip-path: polygon(0 clamp(40px, 8vw, 120px), 100% 0, 100% 100%, 0 100%);
+      padding-top: calc(clamp(40px, 8vw, 120px) + clamp(64px, 9vw, 120px));
+      padding-bottom: clamp(80px, 10vw, 140px);
+    }
+    .about__head {
+      position: relative;
+      display: grid;
+      gap: 24px;
+      margin-bottom: clamp(56px, 7vw, 96px);
+    }
+    @media (min-width: 1024px) {
+      .about__head { grid-template-columns: 5fr 7fr; gap: 64px; align-items: start; }
+    }
+    .about__title {
+      font-size: clamp(36px, 5vw, 64px);
+      color: var(--color-dark);
+    }
+    .about__text {
+      max-width: 60ch;
+      font-size: clamp(16px, 1.3vw, 18px);
+      color: var(--color-dark);
+      opacity: 0.78;
+    }
+    .about__text + .about__text { margin-top: 16px; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: clamp(16px, 3vw, 40px);
+      row-gap: 48px;
+    }
+    @media (min-width: 1024px) {
+      .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+    .stat {
+      padding-top: 24px;
+      border-top: 2px solid var(--color-blue-200);
+      min-width: 0;
+    }
+    .stat__num {
+      display: block;
+      font-size: clamp(34px, 5vw, 84px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      color: var(--color-logo);
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    @media (max-width: 479px) {
+      .stat__num { font-size: clamp(26px, 8.5vw, 34px); letter-spacing: -0.03em; }
+    }
+    .stat__label {
+      display: block;
+      margin-top: 14px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--color-text-muted);
+    }
+
+    /* ===== FOOTER ===== */
+    .site-footer {
+      background: var(--color-dark);
+      color: var(--color-white);
+      padding-top: clamp(64px, 8vw, 104px);
+      padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+    }
+    .footer-top {
+      display: grid;
+      gap: 48px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 768px) {
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (min-width: 1200px) {
+      .footer-top { grid-template-columns: 180px 1fr auto; gap: 64px; }
+    }
+    .footer-logo { display: inline-flex; color: var(--color-white); }
+    .footer-logo__svg { width: 120px; height: auto; }
+
+    .footer-cols {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 32px 24px;
+    }
+    @media (min-width: 768px) {
+      .footer-cols { grid-column: 1 / -1; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+    @media (min-width: 1200px) {
+      .footer-cols { grid-column: auto; }
+    }
+    .footer-col__title {
+      line-height: 1.1;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--color-white);
+    }
+    .footer-col__list { display: flex; flex-direction: column; gap: 10px; }
+    .footer-link {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.62);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-link:hover { color: var(--color-white); }
+
+    .socials { display: flex; gap: 12px; }
+    @media (min-width: 768px) and (max-width: 1199px) {
+      .socials { justify-content: flex-end; align-self: start; }
+    }
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px; height: 44px;
+      border: 1px solid rgba(190, 200, 255, 0.3);
+      border-radius: 50%;
+      color: var(--color-blue-200);
+      transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+    }
+    .social-link:hover {
+      background: var(--color-blue-200);
+      border-color: var(--color-blue-200);
+      color: var(--color-dark);
+    }
+    .social-link__icon { width: 18px; height: 18px; }
+
+    .footer-bottom {
+      margin-top: clamp(56px, 7vw, 88px);
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+    @media (min-width: 768px) {
+      .footer-bottom { flex-direction: row; justify-content: space-between; align-items: center; }
+    }
+    .footer-legal { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+    .footer-bottom .footer-link { font-size: 13px; color: rgba(255, 255, 255, 0.5); }
+    .footer-bottom .footer-link:hover { color: var(--color-white); }
+
+    /* =====================================================
+       ИТЕРАЦИЯ 2
+       ===================================================== */
+
+    /* ===== ОБЩЕЕ ДЛЯ СЕКЦИЙ ===== */
+    .section-pad {
+      padding-top: clamp(80px, 10vw, 140px);
+      padding-bottom: clamp(80px, 10vw, 140px);
+    }
+    .section-title {
+      font-size: clamp(36px, 5vw, 64px);
+      color: var(--color-dark);
+    }
+    .section-lead {
+      max-width: 52ch;
+      font-size: clamp(16px, 1.3vw, 18px);
+      color: var(--color-dark);
+      opacity: 0.78;
+    }
+
+    /* ===== ПРОЕКТЫ ===== */
+    .projects { background: var(--color-white); }
+    .projects__head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px 48px;
+      margin-bottom: clamp(40px, 5vw, 64px);
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: clamp(16px, 2vw, 28px);
+    }
+    @media (min-width: 768px) {
+      .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    .project-card {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      color: var(--color-white);
+      /* Срезанный угол — диагональ из фирменного стиля */
+      clip-path: polygon(0 0, calc(100% - 56px) 0, 100% 56px, 100% 100%, 0 100%);
+      transition: transform 0.6s var(--ease);
+      will-change: transform;
+    }
+    .project-card:hover,
+    .project-card:focus-within { transform: scale(1.03); }
+
+    .project-card__bg {
+      will-change: transform;
+      position: absolute;
+      left: 0; right: 0;
+      top: -12%; bottom: -12%;
+      background: linear-gradient(135deg, var(--color-main) 0%, var(--color-blue-400) 100%);
+    }
+    .project-card--2 .project-card__bg { background: linear-gradient(160deg, var(--color-main) 0%, var(--color-blue-400) 100%); }
+    .project-card--3 .project-card__bg { background: linear-gradient(110deg, var(--color-main) 0%, var(--color-blue-400) 100%); }
+    .project-card--4 .project-card__bg { background: linear-gradient(200deg, var(--color-main) 0%, var(--color-blue-400) 100%); }
+    .project-card__art {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .project-card__shade {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(26, 26, 26, 0.55) 0%, rgba(26, 26, 26, 0) 60%);
+    }
+    .project-card__shade::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(26, 26, 26, 0.35);
+      opacity: 0;
+      transition: opacity 0.45s var(--ease);
+    }
+    .project-card:hover .project-card__shade::after,
+    .project-card:focus-within .project-card__shade::after { opacity: 1; }
+
+    .project-card__body {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(20px, 2.6vw, 36px);
+    }
+    .project-status {
+      align-self: flex-start;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .project-status--building { background: var(--color-white); color: var(--color-logo); }
+    .project-status--done { background: var(--color-blue-200); color: var(--color-logo); }
+    .project-status--planned { border: 1px solid rgba(255, 255, 255, 0.7); color: var(--color-white); }
+
+    .project-card__city {
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+    .project-card__title {
+      margin-top: 6px;
+      font-size: clamp(24px, 2.6vw, 40px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--color-white);
+    }
+    .btn-tour {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+      min-height: 48px;
+      padding: 0 22px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 999px;
+      color: var(--color-white);
+      font-size: 15px;
+      font-weight: 600;
+      transition: opacity 0.35s var(--ease), transform 0.35s var(--ease), background-color 0.3s, color 0.3s;
+    }
+    .btn-tour:hover { background: var(--color-white); color: var(--color-logo); }
+    .btn-tour:focus-visible { outline: 2px solid var(--color-white); outline-offset: 3px; }
+    .btn-tour__icon { width: 18px; height: 18px; }
+    /* Кнопка появляется по hover только там, где hover существует */
+    @media (hover: hover) {
+      .btn-tour { opacity: 0; transform: translateY(12px); }
+      .project-card:hover .btn-tour,
+      .project-card:focus-within .btn-tour { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== МОДАЛЬНОЕ ОКНО 3D-ТУРА ===== */
+    .tour-modal {
+      width: min(480px, calc(100% - 40px));
+      max-width: none;
+      margin: auto;
+      padding: 0;
+      border: 0;
+      background: var(--color-white);
+      color: var(--color-dark);
+      box-shadow: 0 24px 64px rgba(0, 26, 114, 0.25);
+    }
+    .tour-modal::backdrop { background: rgba(0, 26, 114, 0.55); }
+    .tour-modal[open] { animation: modalIn 0.4s var(--ease); }
+    .tour-modal[open]::backdrop { animation: backdropIn 0.4s ease; }
+    .tour-modal.is-closing { animation: modalOut 0.28s ease forwards; }
+    .tour-modal.is-closing::backdrop { animation: backdropOut 0.28s ease forwards; }
+    @keyframes modalOut {
+      from { opacity: 1; transform: none; }
+      to   { opacity: 0; transform: translateY(8px) scale(0.96); }
+    }
+    @keyframes backdropIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes backdropOut { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(16px) scale(0.94); }
+      to   { opacity: 1; transform: none; }
+    }
+    .tour-modal__inner {
+      position: relative;
+      padding: clamp(32px, 5vw, 48px);
+      border-top: 6px solid var(--color-logo);
+    }
+    .tour-modal__close {
+      position: absolute;
+      top: 12px; right: 12px;
+      width: 44px; height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-dark);
+    }
+    .tour-modal__close:focus-visible,
+    .btn-dark:focus-visible {
+      outline: 2px solid var(--color-blue-300);
+      outline-offset: 3px;
+    }
+    .tour-modal__project {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-main);
+      padding-right: 40px;
+    }
+    .tour-modal__title {
+      margin-top: 8px;
+      font-size: clamp(26px, 3vw, 32px);
+    }
+    .tour-modal__text {
+      margin-top: 12px;
+      font-size: 16px;
+      opacity: 0.78;
+    }
+    .btn-dark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 28px;
+      min-height: 52px;
+      padding: 0 32px;
+      border-radius: 999px;
+      background: var(--color-logo);
+      color: var(--color-white);
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    .btn-dark:hover { background: var(--color-main); }
+
+    /* ===== ГЕОГРАФИЯ ===== */
+    .geo { background: var(--color-gray); }
+    .geo__layout {
+      display: grid;
+      gap: clamp(40px, 5vw, 64px);
+      align-items: center;
+    }
+    @media (min-width: 1024px) {
+      .geo__layout { grid-template-columns: 4fr 8fr; }
+    }
+    .geo__lead { margin-top: 20px; }
+    .geo-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 24px;
+      margin-top: 28px;
+      font-size: 14px;
+      color: var(--color-text-muted);
+    }
+    .geo-legend__item { display: inline-flex; align-items: center; gap: 8px; }
+    .dot {
+      display: inline-block;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .dot--active { background: var(--color-logo); }
+    .dot--planned { background: var(--color-blue-200); }
+
+    .geo-cities {
+      display: flex;
+      flex-direction: column;
+      margin-top: 32px;
+      border-top: 1px solid rgba(0, 26, 114, 0.12);
+    }
+    .geo-city {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      width: 100%;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(0, 26, 114, 0.12);
+      text-align: left;
+      color: var(--color-dark);
+      transition: color 0.2s;
+    }
+    .geo-city:hover,
+    .geo-city[aria-expanded="true"] { color: var(--color-logo); }
+    .geo-city:focus-visible { outline: 2px solid var(--color-blue-300); outline-offset: 2px; }
+    .geo-city__name { line-height: 1.1; font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+    .geo-city__count { font-size: 14px; color: var(--color-text-muted); }
+
+    .geo-map {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 940 / 633;
+    }
+    .geo-map__svg { width: 100%; height: 100%; overflow: visible; }
+    .ua-shape {
+      fill: var(--color-white);
+      stroke: var(--color-blue-200);
+      stroke-width: 2;
+      stroke-linejoin: round;
+    }
+    .ua-hatch { fill: url(#ua-hatch); }
+    .map-leader {
+      stroke: var(--color-logo);
+      stroke-width: 1.5;
+      stroke-dasharray: 4 4;
+      fill: none;
+    }
+    .map-true-point { fill: var(--color-logo); }
+
+    .map-marker {
+      position: absolute;
+      z-index: 2;
+      width: 44px; height: 44px;
+      margin: -22px 0 0 -22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .map-marker--kyiv     { left: 46.70%; top: 25.59%; }
+    .map-marker--boyarka  { left: 45.00%; top: 37.60%; }
+    .map-marker--zhytomyr { left: 36.81%; top: 27.96%; }
+    .map-marker--active  { color: var(--color-logo); }
+    .map-marker--planned { color: var(--color-blue-200); }
+    .map-marker__svg { width: 44px; height: 44px; overflow: visible; }
+    .map-marker__core {
+      fill: currentColor;
+      stroke: var(--color-white);
+      stroke-width: 3;
+      transition: transform 0.25s var(--ease);
+      transform-origin: 22px 22px;
+    }
+    .map-marker:hover .map-marker__core,
+    .map-marker[aria-expanded="true"] .map-marker__core { transform: scale(1.25); }
+    .map-marker__pulse { fill: currentColor; opacity: 0.35; }
+    .map-marker:focus-visible { outline: 2px solid var(--color-blue-300); outline-offset: 0; border-radius: 50%; }
+    .map-marker__label {
+      position: absolute;
+      top: 50%;
+      left: 100%;
+      transform: translateY(-50%);
+      margin-left: -6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-dark);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .map-marker--zhytomyr .map-marker__label { left: auto; right: 100%; margin: 0 -6px 0 0; }
+    @media (max-width: 639px) {
+      .map-marker, .map-marker__svg { width: 32px; height: 32px; }
+      .map-marker { margin: -16px 0 0 -16px; }
+      .map-marker__label { font-size: 11px; }
+    }
+
+    .map-tooltip {
+      position: absolute;
+      z-index: 5;
+      width: min(280px, calc(100% - 16px));
+      padding: 22px 22px 20px;
+      background: var(--color-white);
+      color: var(--color-dark);
+      box-shadow: 0 16px 40px rgba(0, 26, 114, 0.18);
+      border-top: 4px solid var(--color-logo);
+    }
+    .map-tooltip[hidden] { display: none; }
+    .map-tooltip__close {
+      position: absolute;
+      top: 6px; right: 6px;
+      width: 36px; height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-dark);
+    }
+    .map-tooltip__close:focus-visible { outline: 2px solid var(--color-blue-300); }
+    .map-tooltip__city { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+    .map-tooltip__list { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .map-tooltip__item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; }
+    .map-tooltip__item .dot { margin-top: 5px; }
+    .map-tooltip__name { font-weight: 700; display: block; }
+    .map-tooltip__status { color: var(--color-text-muted); font-size: 13px; }
+    .map-tooltip .btn-dark { margin-top: 18px; min-height: 44px; padding: 0 22px; font-size: 14px; }
+
+    /* ===== ПОЧЕМУ ВЫБИРАЮТ BGV ===== */
+    .why { background: var(--color-white); }
+    .why__title { margin-bottom: clamp(40px, 5vw, 64px); }
+    .why-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: clamp(16px, 2vw, 24px);
+    }
+    @media (min-width: 640px) {
+      .why-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (min-width: 1024px) {
+      .why-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    .why-card {
+      position: relative;
+      isolation: isolate;
+      height: 100%;
+      padding: clamp(28px, 3vw, 40px);
+      background: var(--color-gray);
+      transition: transform 0.4s var(--ease);
+    }
+    .why-card:hover { transform: translateY(-8px); }
+    .why-card:hover::after { opacity: 1; }
+    .why-card__icon {
+      width: 48px; height: 48px;
+      color: var(--color-logo);
+      transition: transform 0.4s var(--ease);
+      transform-origin: left center;
+    }
+    .why-card:hover .why-card__icon { transform: scale(1.1); }
+    .why-card__title {
+      margin-top: 28px;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--color-dark);
+    }
+    .why-card__text {
+      margin-top: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--color-text-muted);
+    }
+
+    /* ===== SOCIAL INVESTMENT ===== */
+    .social {
+      position: relative;
+      overflow: hidden;
+      background: var(--color-dark);
+      color: var(--color-white);
+    }
+    .social__layout {
+      display: grid;
+      gap: 48px;
+      align-items: center;
+    }
+    @media (min-width: 1024px) {
+      .social__layout { grid-template-columns: 6fr 5fr; gap: 64px; }
+    }
+    .social__title {
+      font-size: clamp(40px, 6.5vw, 88px);
+      color: var(--color-white);
+    }
+    .social__lead {
+      margin-top: 28px;
+      max-width: 52ch;
+      font-size: clamp(16px, 1.4vw, 19px);
+      color: var(--color-white);
+      opacity: 0.75;
+    }
+    .social__lead + .social__lead { margin-top: 16px; }
+    .social__decor {
+      width: min(100%, 520px);
+      aspect-ratio: 1 / 1;
+      justify-self: center;
+    }
+    @media (max-width: 1023px) {
+      .social__decor { width: min(70%, 360px); }
+    }
+    .social__decor-svg { width: 100%; height: 100%; overflow: visible; }
+    .social-shape { fill: var(--color-blue-400); fill-opacity: 0.2; }
+    .social-shape--line { fill: none; stroke: var(--color-blue-400); stroke-opacity: 0.2; stroke-width: 2; }
+
+    /* =====================================================
+       ИТЕРАЦИЯ 3
+       ===================================================== */
+
+    /* ===== НОВОСТИ ===== */
+    .news { background: var(--color-white); }
+    .news__head { margin-bottom: clamp(40px, 5vw, 64px); }
+    .news-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: clamp(16px, 2vw, 28px);
+    }
+    @media (min-width: 900px) {
+      .news-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    .news-card {
+      position: relative;
+      isolation: isolate;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(0, 26, 114, 0.1);
+      background: var(--color-white);
+      transition: transform 0.4s var(--ease);
+    }
+    /* Тень анимируется через opacity псевдоэлемента — без перерисовки box-shadow */
+    .news-card::after,
+    .why-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      box-shadow: 0 24px 48px rgba(0, 26, 114, 0.14);
+      opacity: 0;
+      transition: opacity 0.4s var(--ease);
+      pointer-events: none;
+    }
+    .news-card:hover { transform: translateY(-8px); }
+    .news-card:hover::after { opacity: 1; }
+    .news-card__media {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--color-logo) 0%, var(--color-main) 100%);
+    }
+    .news-card__media--2 { background: linear-gradient(135deg, var(--color-main) 0%, var(--color-blue-400) 100%); }
+    .news-card__media--3 { background: linear-gradient(135deg, var(--color-blue-400) 0%, var(--color-blue-300) 100%); }
+    .news-card__media::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--color-white);
+      opacity: 0.12;
+      clip-path: polygon(45% 100%, 100% 20%, 100% 100%);
+    }
+    .news-card__body {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      padding: clamp(24px, 2.4vw, 32px);
+    }
+    .news-card__date {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-blue-400);
+    }
+    .news-card__title {
+      margin-top: 12px;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--color-dark);
+    }
+    .news-card__text {
+      margin-top: 12px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--color-text-muted);
+    }
+    .news-card__link {
+      margin-top: auto;
+      padding-top: 20px;
+      align-self: flex-start;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-logo);
+      text-decoration: none;
+      text-underline-offset: 4px;
+    }
+    .news-card__link:hover { text-decoration: underline; }
+    .news-card__link:focus-visible,
+    .btn-outline:focus-visible {
+      outline: 2px solid var(--color-blue-300);
+      outline-offset: 3px;
+    }
+    .news__actions {
+      display: flex;
+      justify-content: center;
+      margin-top: clamp(40px, 5vw, 56px);
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 56px;
+      padding: 0 36px;
+      border: 1.5px solid var(--color-logo);
+      border-radius: 999px;
+      color: var(--color-logo);
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .btn-outline:hover { background: var(--color-logo); color: var(--color-white); }
+
+    /* ===== КОНТАКТЫ ===== */
+    .contacts {
+      position: relative;
+      background: var(--color-gray);
+      padding-top: calc(2 * clamp(40px, 8vw, 120px) + clamp(40px, 5vw, 72px));
+    }
+    /* Диагональный разделитель: белый → серый */
+    /* Срез «Новости → Контакты»: та же высота и угол, что у среза Hero */
+    .divider-diag {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: clamp(40px, 8vw, 120px);
+      display: block;
+      pointer-events: none;
+    }
+    /* Фирменная полоса под срезом (About и Контакты) — отдельное правило */
+    .about__diag,
+    .contacts__stripe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: calc(2 * clamp(40px, 8vw, 120px));
+      display: block;
+      pointer-events: none;
+    }
+    .diag-stripe { fill: var(--color-blue-200); fill-opacity: 0.7; }
+    .contacts__layout {
+      display: grid;
+      gap: clamp(40px, 5vw, 64px);
+      align-items: start;
+    }
+    @media (min-width: 1024px) {
+      .contacts__layout { grid-template-columns: 7fr 5fr; }
+    }
+    .contacts__lead { margin-top: 20px; }
+
+    .contact-form {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 20px;
+      margin-top: clamp(32px, 4vw, 48px);
+    }
+    @media (min-width: 640px) {
+      .contact-form { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .field--wide { grid-column: 1 / -1; }
+    }
+    .field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+    .field__label { font-size: 14px; font-weight: 600; color: var(--color-dark); }
+    .field__req { color: var(--color-blue-400); }
+    .field__input {
+      width: 100%;
+      min-height: 56px;
+      padding: 14px 18px;
+      border: 1px solid rgba(0, 26, 114, 0.18);
+      border-radius: 0;
+      background: var(--color-white);
+      color: var(--color-dark);
+      font-size: 16px; /* 16px — без автозума на iOS */
+      line-height: 1.5;
+      transition: border-color 0.2s;
+    }
+    .field__input::placeholder { color: var(--color-text-muted); opacity: 0.7; }
+    .field__input:focus {
+      outline: 2px solid var(--color-blue-300);
+      outline-offset: 0;
+      border-color: var(--color-logo);
+    }
+    .field__input--area { min-height: 132px; resize: vertical; }
+    .field.is-invalid .field__input {
+      border-color: var(--color-blue-400);
+      box-shadow: inset 0 0 0 1px var(--color-blue-400);
+    }
+    .field__error {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.5;
+      color: var(--color-blue-400);
+    }
+    .field__error[hidden] { display: none; }
+    .field__error::before {
+      content: '!';
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--color-blue-400);
+      color: var(--color-white);
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .contact-form__footer {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px 24px;
+    }
+    .contact-form__footer .btn-dark { margin-top: 0; min-width: 200px; }
+    .form-note { font-size: 13px; color: var(--color-text-muted); }
+
+    .form-success {
+      margin-top: clamp(32px, 4vw, 48px);
+      padding: clamp(28px, 4vw, 40px);
+      background: var(--color-white);
+      border-left: 4px solid var(--color-logo);
+    }
+    .form-success[hidden] { display: none; }
+    .form-success:focus { outline: none; }
+    .form-success__icon { width: 40px; height: 40px; color: var(--color-logo); }
+    .form-success__text {
+      margin-top: 16px;
+      font-size: clamp(20px, 2vw, 24px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--color-dark);
+    }
+    .form-success .btn-outline { margin-top: 24px; min-height: 48px; padding: 0 24px; font-size: 15px; }
+
+    .contacts__info {
+      position: relative;
+      padding: clamp(32px, 4vw, 48px);
+      background: var(--color-logo);
+      color: var(--color-white);
+      /* Срезанный угол — фирменная диагональ */
+      clip-path: polygon(0 0, calc(100% - 56px) 0, 100% 56px, 100% 100%, 0 100%);
+    }
+    .contacts__logo { width: 132px; height: auto; color: var(--color-white); }
+    .contacts__list { margin-top: clamp(32px, 4vw, 48px); display: grid; gap: 24px; }
+    .contacts__term { font-size: 13px; font-weight: 600; color: var(--color-blue-200); }
+    .contacts__value {
+      margin-top: 4px;
+      font-size: clamp(17px, 1.5vw, 20px);
+      font-weight: 600;
+      line-height: 1.5;
+      color: var(--color-white);
+      overflow-wrap: anywhere;
+    }
+    .contacts__link { color: inherit; text-decoration: none; text-underline-offset: 4px; }
+    .contacts__link:hover { text-decoration: underline; }
+    .contacts__link:focus-visible { outline: 2px solid var(--color-white); outline-offset: 3px; }
+
+    /* ===== КАСТОМНЫЙ КУРСОР (только мышь) ===== */
+    .cursor-layer {
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 300;
+      pointer-events: none;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .cursor-layer.is-visible { opacity: 1; }
+    .cursor-dot,
+    .cursor-ring {
+      position: fixed;
+      top: 0; left: 0;
+      will-change: transform;
+    }
+    .cursor-dot {
+      width: 8px; height: 8px;
+      margin: -4px 0 0 -4px;
+      border-radius: 50%;
+      background: var(--color-logo);
+    }
+    .cursor-ring { width: 32px; height: 32px; margin: -16px 0 0 -16px; }
+    .cursor-ring__circle {
+      display: block;
+      width: 100%; height: 100%;
+      border: 1px solid var(--color-logo);
+      border-radius: 50%;
+      transition: transform 0.3s var(--ease);
+    }
+    .cursor-layer.is-hover .cursor-ring__circle { transform: scale(1.5); } /* 32px → 48px */
+    .cursor-layer.is-light .cursor-dot { background: var(--color-white); }
+    .cursor-layer.is-light .cursor-ring__circle { border-color: var(--color-white); }
+
+    @media (hover: hover) and (pointer: fine) {
+      .has-custom-cursor .cursor-layer { display: block; }
+      html.has-custom-cursor:not(.cursor-native),
+      html.has-custom-cursor:not(.cursor-native) * { cursor: none; }
+      html.has-custom-cursor:not(.cursor-native) input,
+      html.has-custom-cursor:not(.cursor-native) textarea { cursor: text; }
+      html.cursor-native .cursor-layer { display: none; }
+    }
+
+    /* ===== УМЕНЬШЕННОЕ ДВИЖЕНИЕ ===== */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .hero::before, .tour-modal[open], .tour-modal[open]::backdrop { animation: none; }
+      *, *::before, *::after { transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Спрайт логотипа BGV (переиспользуется через <use>) -->
+  <svg class="visually-hidden" aria-hidden="true" focusable="false">
+    <symbol id="bgv-logo" viewBox="0 0 120 64">
+      <!-- Рамка -->
+      <rect x="21" y="2" width="78" height="40" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <!-- BGV: текст без textLength, центрируется по рамке при любом шрифте -->
+      <text x="60" y="31" text-anchor="middle" font-family="Manrope, Arial, sans-serif"
+            font-size="26" font-weight="800" fill="currentColor">BGV</text>
+      <!-- DEVELOPMENT: подпись под рамкой, по центру -->
+      <text x="60" y="60" text-anchor="middle" font-family="Manrope, Arial, sans-serif"
+            font-size="10" font-weight="700" letter-spacing="-0.3"
+            fill="currentColor">DEVELOPMENT</text>
+    </symbol>
+  </svg>
+
+  <!-- КАСТОМНЫЙ КУРСОР (только для мыши) -->
+  <div class="cursor-layer" id="cursor-layer" aria-hidden="true">
+    <div class="cursor-ring" id="cursor-ring"><span class="cursor-ring__circle"></span></div>
+    <div class="cursor-dot" id="cursor-dot"></div>
+  </div>
+
+  <!-- СЕКЦИЯ: ПРЕЛОАДЕР -->
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <svg class="preloader__logo" id="preloader-logo" viewBox="0 0 120 64" role="img" aria-label="BGV Development">
+      <use href="#bgv-logo"></use>
+    </svg>
+  </div>
+
+  <!-- СЕКЦИЯ: HEADER -->
+  <header class="site-header" id="site-header">
+    <div class="container-bgv site-header__inner">
+      <a class="header-logo focus-ring" href="#top" aria-label="BGV Development — на главную">
+        <svg class="header-logo__svg" viewBox="0 0 120 64" aria-hidden="true" focusable="false">
+          <use href="#bgv-logo"></use>
+        </svg>
+      </a>
+
+      <nav class="main-nav" aria-label="Основная навигация">
+        <ul class="main-nav__list">
+          <li><a class="nav-link" href="#about">О компании</a></li>
+          <li><a class="nav-link" href="#projects">Проекты</a></li>
+          <li><a class="nav-link" href="#news">Новости</a></li>
+          <li><a class="nav-link" href="#contacts">Контакты</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <div class="lang-switch" role="group" aria-label="Язык сайта">
+          <button class="lang-btn" type="button" data-lang="ua" aria-pressed="true">UA</button>
+          <span class="lang-switch__sep" aria-hidden="true">|</span>
+          <button class="lang-btn" type="button" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+        <button class="burger" id="burger-btn" type="button" aria-label="Открыть меню"
+                aria-expanded="false" aria-controls="mobile-panel">
+          <span class="burger__line"></span>
+          <span class="burger__line"></span>
+          <span class="burger__line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- СЕКЦИЯ: МОБИЛЬНОЕ МЕНЮ -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+  <aside class="mobile-panel" id="mobile-panel" aria-label="Мобильное меню" aria-hidden="true">
+    <div class="mobile-panel__top">
+      <svg class="header-logo__svg" viewBox="0 0 120 64" aria-hidden="true" focusable="false">
+        <use href="#bgv-logo"></use>
+      </svg>
+      <button class="mobile-close" id="mobile-close" type="button" aria-label="Закрыть меню">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M5 5l14 14M19 5L5 19"/>
+        </svg>
+      </button>
+    </div>
+    <nav aria-label="Мобильная навигация">
+      <ul class="mobile-nav__list">
+        <li><a class="mobile-link" href="#about">О компании</a></li>
+        <li><a class="mobile-link" href="#projects">Проекты</a></li>
+        <li><a class="mobile-link" href="#news">Новости</a></li>
+        <li><a class="mobile-link" href="#contacts">Контакты</a></li>
+      </ul>
+    </nav>
+    <div class="lang-switch" role="group" aria-label="Язык сайта (мобильное меню)">
+      <button class="lang-btn" type="button" data-lang="ua" aria-pressed="true">UA</button>
+      <span class="lang-switch__sep" aria-hidden="true">|</span>
+      <button class="lang-btn" type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </aside>
+
+  <main id="top">
+
+    <!-- СЕКЦИЯ: HERO -->
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <!-- Диагональные фигуры бренда -->
+      <svg class="hero__shapes" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+        <g class="hero-shape" id="shape-1">
+          <polygon points="-120,120 520,-60 300,560" fill="#FFFFFF" fill-opacity="0.12"/>
+        </g>
+        <g class="hero-shape" id="shape-2">
+          <polygon points="1080,140 1360,420 1080,700 800,420" fill="#BEC8FF" fill-opacity="0.14"/>
+        </g>
+        <g class="hero-shape" id="shape-3">
+          <polygon points="980,980 1560,520 1560,1020" fill="#FFFFFF" fill-opacity="0.1"/>
+        </g>
+      </svg>
+
+      <div class="container-bgv hero__content">
+        <h1 class="hero__title hero-reveal" id="hero-title">Build Your Future</h1>
+        <p class="hero__subtitle hero-reveal">Девелоперская компания BGV Development. Строим будущее вместе с вами.</p>
+        <a class="btn-primary hero-reveal" href="#projects">Смотреть проекты</a>
+      </div>
+
+      <a class="scroll-indicator" id="scroll-indicator" href="#about" aria-label="Прокрутить к разделу «О компании»">
+        <span class="scroll-indicator__track">
+          <span class="scroll-indicator__dot" id="scroll-dot"></span>
+        </span>
+      </a>
+    </section>
+
+    <!-- СЕКЦИЯ: О КОМПАНИИ / ЦИФРЫ -->
+    <section class="about" id="about" aria-labelledby="about-title">
+      <!-- Фирменная полоса параллельно срезу Hero -->
+      <svg class="about__diag" viewBox="0 0 1440 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <polygon class="diag-stripe" points="0,130 1440,30 1440,42 0,142"/>
+      </svg>
+      <div class="container-bgv">
+        <div class="about__head">
+          <h2 class="heading about__title" id="about-title">О компании</h2>
+          <div>
+            <p class="about__text">BGV Development строит жилые комплексы, в которых удобно жить каждый день: продуманные планировки, надёжные материалы и честные сроки сдачи.</p>
+            <p class="about__text">Мы ведём проект на всех этапах — от выбора участка до передачи ключей — и отвечаем за результат перед каждой семьёй, которая выбрала наш дом.</p>
+          </div>
+        </div>
+
+        <ul class="stats" id="stats">
+          <li class="stat">
+            <span class="stat__num" data-target="15" data-suffix="+">15+</span>
+            <span class="stat__label">лет на рынке</span>
+          </li>
+          <li class="stat">
+            <span class="stat__num" data-target="500000" data-suffix="">500&nbsp;000</span>
+            <span class="stat__label">м² построено</span>
+          </li>
+          <li class="stat">
+            <span class="stat__num" data-target="10000" data-suffix="+">10&nbsp;000+</span>
+            <span class="stat__label">счастливых семей</span>
+          </li>
+          <li class="stat">
+            <span class="stat__num" data-target="3" data-suffix="">3</span>
+            <span class="stat__label">города присутствия</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- СЕКЦИЯ: ПРОЕКТЫ -->
+    <section class="projects section-pad" id="projects" aria-labelledby="projects-title">
+      <div class="container-bgv">
+        <div class="projects__head">
+          <h2 class="heading section-title" id="projects-title">Наши проекты</h2>
+          <p class="section-lead">Жилые комплексы в Киеве, Киевской области и Житомире.</p>
+        </div>
+
+        <ul class="projects-grid">
+          <li class="project-item" id="project-boston">
+            <article class="project-card project-card--1">
+              <div class="project-card__bg" aria-hidden="true">
+                <svg class="project-card__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false">
+                  <polygon points="220,300 330,90 400,160 400,300" fill="#FFFFFF" fill-opacity="0.12"/>
+                  <polygon points="120,300 250,40 290,120 190,300" fill="#FFFFFF" fill-opacity="0.08"/>
+                  <polygon points="0,0 140,0 0,120" fill="#001A72" fill-opacity="0.18"/>
+                </svg>
+              </div>
+              <div class="project-card__shade" aria-hidden="true"></div>
+              <div class="project-card__body">
+                <span class="project-status project-status--building">Строится</span>
+                <div>
+                  <p class="project-card__city">Киев</p>
+                  <h3 class="project-card__title">BOSTON Creative House</h3>
+                  <button class="btn-tour" type="button" data-project="BOSTON Creative House">
+                    <svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>
+                    Смотреть 3D-тур
+                  </button>
+                </div>
+              </div>
+            </article>
+          </li>
+
+          <li class="project-item" id="project-zhyto">
+            <article class="project-card project-card--2">
+              <div class="project-card__bg" aria-hidden="true">
+                <svg class="project-card__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false">
+                  <path d="M0 210 C80 170 140 250 220 205 S340 170 400 200 V300 H0Z" fill="#FFFFFF" fill-opacity="0.1"/>
+                  <path d="M0 240 C90 200 150 280 230 235 S350 205 400 230 V300 H0Z" fill="#FFFFFF" fill-opacity="0.08"/>
+                  <polygon points="260,0 400,0 400,110" fill="#001A72" fill-opacity="0.16"/>
+                </svg>
+              </div>
+              <div class="project-card__shade" aria-hidden="true"></div>
+              <div class="project-card__body">
+                <span class="project-status project-status--building">Строится</span>
+                <div>
+                  <p class="project-card__city">Боярка</p>
+                  <h3 class="project-card__title">ЖИТО</h3>
+                  <button class="btn-tour" type="button" data-project="ЖИТО">
+                    <svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>
+                    Смотреть 3D-тур
+                  </button>
+                </div>
+              </div>
+            </article>
+          </li>
+
+          <li class="project-item" id="project-residence">
+            <article class="project-card project-card--3">
+              <div class="project-card__bg" aria-hidden="true">
+                <svg class="project-card__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false">
+                  <polygon points="200,20 330,150 200,280 70,150" fill="#FFFFFF" fill-opacity="0.1"/>
+                  <polygon points="300,60 400,160 300,260" fill="#FFFFFF" fill-opacity="0.08"/>
+                  <polygon points="0,300 0,160 120,300" fill="#001A72" fill-opacity="0.18"/>
+                </svg>
+              </div>
+              <div class="project-card__shade" aria-hidden="true"></div>
+              <div class="project-card__body">
+                <span class="project-status project-status--done">Сдан</span>
+                <div>
+                  <p class="project-card__city">Житомир</p>
+                  <h3 class="project-card__title">BGV Residence</h3>
+                  <button class="btn-tour" type="button" data-project="BGV Residence">
+                    <svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>
+                    Смотреть 3D-тур
+                  </button>
+                </div>
+              </div>
+            </article>
+          </li>
+
+          <li class="project-item" id="project-park">
+            <article class="project-card project-card--4">
+              <div class="project-card__bg" aria-hidden="true">
+                <svg class="project-card__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false">
+                  <circle cx="310" cy="90" r="70" fill="#FFFFFF" fill-opacity="0.08"/>
+                  <polygon points="0,300 180,110 260,300" fill="#FFFFFF" fill-opacity="0.1"/>
+                  <polygon points="160,300 300,170 400,300" fill="#FFFFFF" fill-opacity="0.07"/>
+                </svg>
+              </div>
+              <div class="project-card__shade" aria-hidden="true"></div>
+              <div class="project-card__body">
+                <span class="project-status project-status--planned">Планируется</span>
+                <div>
+                  <p class="project-card__city">Киев</p>
+                  <h3 class="project-card__title">BGV Park</h3>
+                  <button class="btn-tour" type="button" data-project="BGV Park">
+                    <svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>
+                    Смотреть 3D-тур
+                  </button>
+                </div>
+              </div>
+            </article>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- СЕКЦИЯ: ИНТЕРАКТИВНАЯ КАРТА -->
+    <section class="geo section-pad" id="geography" aria-labelledby="geo-title">
+      <div class="container-bgv geo__layout">
+        <div>
+          <h2 class="heading section-title" id="geo-title">География проектов</h2>
+          <p class="section-lead geo__lead">Строим в Киеве, Киевской области и Житомире. Выберите город, чтобы увидеть проекты.</p>
+
+          <div class="geo-legend">
+            <span class="geo-legend__item"><span class="dot dot--active" aria-hidden="true"></span>Строится или сдан</span>
+            <span class="geo-legend__item"><span class="dot dot--planned" aria-hidden="true"></span>Планируется</span>
+          </div>
+
+          <div class="geo-cities">
+            <button class="geo-city" type="button" data-city="kyiv" aria-expanded="false" aria-controls="map-tooltip">
+              <span class="geo-city__name">Киев</span><span class="geo-city__count">2 проекта</span>
+            </button>
+            <button class="geo-city" type="button" data-city="boyarka" aria-expanded="false" aria-controls="map-tooltip">
+              <span class="geo-city__name">Боярка</span><span class="geo-city__count">1 проект</span>
+            </button>
+            <button class="geo-city" type="button" data-city="zhytomyr" aria-expanded="false" aria-controls="map-tooltip">
+              <span class="geo-city__name">Житомир</span><span class="geo-city__count">1 проект</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="geo-map" id="geo-map">
+          <svg class="geo-map__svg" viewBox="0 0 940 633" role="img" aria-label="Упрощённая карта Украины с отмеченными городами: Киев, Боярка, Житомир" focusable="false">
+            <defs>
+              <pattern id="ua-hatch" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                <line x1="0" y1="0" x2="0" y2="16" stroke="#BEC8FF" stroke-opacity="0.4" stroke-width="1.5"/>
+              </pattern>
+            </defs>
+            <path class="ua-shape" d="M93,83C98,71 140,54 163,52C185,50 249,61 272,65C296,70 327,83 348,88C368,92 426,108 440,103C454,97 452,50 460,42C468,34 488,42 503,39C517,37 558,20 573,20C587,20 610,33 618,43C625,53 623,87 632,103C642,118 674,160 693,168C711,176 766,163 782,168C799,172 805,193 823,201C840,209 911,220 920,229C929,239 900,262 898,278C895,294 907,339 898,356C888,373 846,400 823,412C799,423 728,438 708,448C687,457 664,476 660,486C656,497 667,525 677,531C688,537 742,530 743,535C743,539 697,559 682,568C668,578 639,605 627,609C616,613 599,610 588,602C576,593 537,557 538,542C538,527 594,490 595,483C596,476 558,491 543,486C527,482 486,449 473,449C459,449 447,474 438,486C428,498 409,540 395,546C381,552 327,546 323,535C318,524 348,470 360,460C372,451 415,471 418,460C420,450 392,393 378,375C363,356 319,321 303,315C286,309 261,320 243,326C224,332 181,361 158,363C134,366 75,356 58,349C40,341 17,321 20,300C23,279 70,200 82,181C95,162 116,160 118,147C119,135 87,94 93,83Z"/>
+            <path class="ua-hatch" d="M93,83C98,71 140,54 163,52C185,50 249,61 272,65C296,70 327,83 348,88C368,92 426,108 440,103C454,97 452,50 460,42C468,34 488,42 503,39C517,37 558,20 573,20C587,20 610,33 618,43C625,53 623,87 632,103C642,118 674,160 693,168C711,176 766,163 782,168C799,172 805,193 823,201C840,209 911,220 920,229C929,239 900,262 898,278C895,294 907,339 898,356C888,373 846,400 823,412C799,423 728,438 708,448C687,457 664,476 660,486C656,497 667,525 677,531C688,537 742,530 743,535C743,539 697,559 682,568C668,578 639,605 627,609C616,613 599,610 588,602C576,593 537,557 538,542C538,527 594,490 595,483C596,476 558,491 543,486C527,482 486,449 473,449C459,449 447,474 438,486C428,498 409,540 395,546C381,552 327,546 323,535C318,524 348,470 360,460C372,451 415,471 418,460C420,450 392,393 378,375C363,356 319,321 303,315C286,309 261,320 243,326C224,332 181,361 158,363C134,366 75,356 58,349C40,341 17,321 20,300C23,279 70,200 82,181C95,162 116,160 118,147C119,135 87,94 93,83Z"/>
+            <!-- Боярка рядом с Киевом: маркер вынесен, пунктир ведёт к реальной точке -->
+            <path class="map-leader" d="M427,171 L423,238"/>
+            <circle class="map-true-point" cx="427" cy="171" r="4"/>
+          </svg>
+
+          <button class="map-marker map-marker--active map-marker--kyiv" type="button" data-city="kyiv" aria-label="Киев: 2 проекта" aria-expanded="false" aria-controls="map-tooltip">
+            <svg class="map-marker__svg" viewBox="0 0 44 44" aria-hidden="true" focusable="false">
+              <circle class="map-marker__pulse" cx="22" cy="22" r="10"/>
+              <circle class="map-marker__core" cx="22" cy="22" r="8"/>
+            </svg>
+            <span class="map-marker__label" aria-hidden="true">Киев</span>
+          </button>
+          <button class="map-marker map-marker--active map-marker--boyarka" type="button" data-city="boyarka" aria-label="Боярка: 1 проект" aria-expanded="false" aria-controls="map-tooltip">
+            <svg class="map-marker__svg" viewBox="0 0 44 44" aria-hidden="true" focusable="false">
+              <circle class="map-marker__pulse" cx="22" cy="22" r="10"/>
+              <circle class="map-marker__core" cx="22" cy="22" r="8"/>
+            </svg>
+            <span class="map-marker__label" aria-hidden="true">Боярка</span>
+          </button>
+          <button class="map-marker map-marker--active map-marker--zhytomyr" type="button" data-city="zhytomyr" aria-label="Житомир: 1 проект" aria-expanded="false" aria-controls="map-tooltip">
+            <svg class="map-marker__svg" viewBox="0 0 44 44" aria-hidden="true" focusable="false">
+              <circle class="map-marker__pulse" cx="22" cy="22" r="10"/>
+              <circle class="map-marker__core" cx="22" cy="22" r="8"/>
+            </svg>
+            <span class="map-marker__label" aria-hidden="true">Житомир</span>
+          </button>
+
+          <div class="map-tooltip" id="map-tooltip" role="region" aria-live="polite" aria-labelledby="map-tooltip-city" hidden>
+            <button class="map-tooltip__close" id="map-tooltip-close" type="button" aria-label="Закрыть подсказку">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+            </button>
+            <p class="map-tooltip__city" id="map-tooltip-city">Город</p>
+            <ul class="map-tooltip__list" id="map-tooltip-list"></ul>
+            <a class="btn-dark" id="map-tooltip-link" href="#projects">Подробнее</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЕКЦИЯ: ПОЧЕМУ ВЫБИРАЮТ BGV -->
+    <section class="why section-pad" id="why" aria-labelledby="why-title">
+      <div class="container-bgv">
+        <h2 class="heading section-title why__title" id="why-title">Почему выбирают BGV</h2>
+        <ul class="why-grid">
+          <li>
+            <article class="why-card">
+              <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 31v-6l4-9h22l4 9v6z"/><circle cx="16" cy="33" r="3"/><circle cx="32" cy="33" r="3"/><path d="M7 7l34 34"/>
+              </svg>
+              <h3 class="why-card__title">Двор без машин</h3>
+              <p class="why-card__text">В BOSTON Creative House машины остаются в паркинге, а двор отдан людям: детям, прогулкам и отдыху.</p>
+            </article>
+          </li>
+          <li>
+            <article class="why-card">
+              <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M24 44V12"/><path d="M24 14c0-4 2-7 5-9 0 4-2 7-5 9zM24 14c0-4-2-7-5-9 0 4 2 7 5 9z"/><path d="M24 24c0-4 3-7 7-8 0 4-3 7-7 8zM24 24c0-4-3-7-7-8 0 4 3 7 7 8z"/><path d="M24 34c0-4 3-7 7-8 0 4-3 7-7 8zM24 34c0-4-3-7-7-8 0 4 3 7 7 8z"/>
+              </svg>
+              <h3 class="why-card__title">Волны стиглого жита</h3>
+              <p class="why-card__text">Архитектура ЖИТО в Боярке вдохновлена полем спелой пшеницы: мягкие линии фасада и тёплые природные оттенки.</p>
+            </article>
+          </li>
+          <li>
+            <article class="why-card">
+              <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M8 20h32v22H8z"/><path d="M6 20l4-12h28l4 12"/><path d="M20 42V31h8v11"/><path d="M13 26h4M31 26h4"/>
+              </svg>
+              <h3 class="why-card__title">Собственная инфраструктура</h3>
+              <p class="why-card__text">Детские и спортивные площадки, коммерческие помещения на первых этажах — всё нужное рядом с домом.</p>
+            </article>
+          </li>
+          <li>
+            <article class="why-card">
+              <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6 22L24 7l18 15"/><path d="M11 18v24h26V18"/><path d="M26 21l-6 9h7l-4 8"/>
+              </svg>
+              <h3 class="why-card__title">Энергоэффективные технологии</h3>
+              <p class="why-card__text">Утеплённые фасады, энергосберегающие окна и индивидуальные тепловые пункты снижают расходы на коммунальные услуги.</p>
+            </article>
+          </li>
+          <li>
+            <article class="why-card">
+              <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M24 5l15 6v11c0 10-6.5 17-15 21-8.5-4-15-11-15-21V11z"/><path d="M17 24l5 5 9-10"/>
+              </svg>
+              <h3 class="why-card__title">Закрытая территория 24/7</h3>
+              <p class="why-card__text">Контроль доступа, видеонаблюдение и круглосуточная охрана: двор остаётся безопасным для детей и жителей.</p>
+            </article>
+          </li>
+          <li>
+            <article class="why-card">
+              <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6 8h36v32H6z"/><path d="M24 8v32M6 30h36"/><path d="M12 24l6-6M12 18l2-2"/>
+              </svg>
+              <h3 class="why-card__title">Панорамные окна</h3>
+              <p class="why-card__text">Окна от пола до потолка дают больше дневного света и открывают вид на город и зелень.</p>
+            </article>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- СЕКЦИЯ: SOCIAL INVESTMENT -->
+    <section class="social section-pad" id="social-investment" aria-labelledby="social-title">
+      <div class="container-bgv social__layout">
+        <div>
+          <h2 class="heading social__title" id="social-title">Social Investment</h2>
+          <p class="social__lead">BGV Development вкладывает не только в квадратные метры, но и в среду вокруг них. Мы благоустраиваем общественные пространства, поддерживаем местные сообщества и выбираем решения, которые снижают нагрузку на окружающую среду.</p>
+          <p class="social__lead">Для нас ESG — это ежедневная практика: прозрачные процессы, ответственное строительство и дома, в которых будет хорошо жить через десятилетия.</p>
+        </div>
+        <div class="social__decor" aria-hidden="true">
+          <svg class="social__decor-svg" viewBox="0 0 520 520" focusable="false">
+            <g id="social-shape-1">
+              <polygon class="social-shape" points="260,40 480,260 260,480 40,260"/>
+            </g>
+            <g id="social-shape-2">
+              <polygon class="social-shape" points="260,120 430,420 90,420"/>
+            </g>
+            <g id="social-shape-3">
+              <polygon class="social-shape--line" points="260,0 520,260 260,520 0,260"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЕКЦИЯ: НОВОСТИ -->
+    <section class="news section-pad" id="news" aria-labelledby="news-title">
+      <div class="container-bgv">
+        <h2 class="heading section-title news__head" id="news-title">Новости и события</h2>
+
+        <ul class="news-grid">
+          <li>
+            <article class="news-card">
+              <div class="news-card__media" aria-hidden="true"></div>
+              <div class="news-card__body">
+                <time class="news-card__date" datetime="2026-09-15">15 сентября 2026</time>
+                <h3 class="news-card__title">BGV Development начал строительство нового ЖК в Боярке</h3>
+                <p class="news-card__text">На площадке ЖК ЖИТО стартовали подготовительные работы и устройство фундамента. Рассказываем о первых этапах и о том, как следить за ходом строительства.</p>
+                <a class="news-card__link" href="#news" aria-label="Читать далее: BGV Development начал строительство нового ЖК в Боярке">Читать далее <span aria-hidden="true">→</span></a>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="news-card">
+              <div class="news-card__media news-card__media--2" aria-hidden="true"></div>
+              <div class="news-card__body">
+                <time class="news-card__date" datetime="2026-08-28">28 августа 2026</time>
+                <h3 class="news-card__title">Boston Creative House получил награду за архитектуру</h3>
+                <p class="news-card__text">Жюри отметило двор без машин и выразительные фасады комплекса. Делимся, какие решения легли в основу проекта.</p>
+                <a class="news-card__link" href="#news" aria-label="Читать далее: Boston Creative House получил награду за архитектуру">Читать далее <span aria-hidden="true">→</span></a>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="news-card">
+              <div class="news-card__media news-card__media--3" aria-hidden="true"></div>
+              <div class="news-card__body">
+                <time class="news-card__date" datetime="2026-07-10">10 июля 2026</time>
+                <h3 class="news-card__title">BGV Development инвестирует в социальные проекты Киева</h3>
+                <p class="news-card__text">Компания направит средства на благоустройство общественных пространств и поддержку местных инициатив. Рассказываем, какие проекты уже в работе.</p>
+                <a class="news-card__link" href="#news" aria-label="Читать далее: BGV Development инвестирует в социальные проекты Киева">Читать далее <span aria-hidden="true">→</span></a>
+              </div>
+            </article>
+          </li>
+        </ul>
+
+        <div class="news__actions">
+          <a class="btn-outline" href="#news">Все новости</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЕКЦИЯ: КОНТАКТЫ -->
+    <section class="contacts section-pad" id="contacts" aria-labelledby="contacts-title">
+      <!-- Диагональ как у Hero: белая «Новости» уходит вниз слева, под ней фирменная полоса -->
+      <svg class="divider-diag" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <polygon points="0,0 1440,0 0,100" fill="#FFFFFF"/>
+      </svg>
+      <svg class="contacts__stripe" viewBox="0 0 1440 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <polygon class="diag-stripe" points="0,130 1440,30 1440,42 0,142"/>
+      </svg>
+
+      <div class="container-bgv contacts__layout">
+        <div>
+          <h2 class="heading section-title" id="contacts-title">Контакты</h2>
+          <p class="section-lead contacts__lead">Оставьте заявку — менеджер отдела продаж перезвонит и ответит на вопросы о проектах.</p>
+
+          <!-- TODO: подключить отправку (API / CRM). Сейчас форма только проверяет поля и показывает сообщение. -->
+          <form class="contact-form" id="contact-form" novalidate>
+            <div class="field">
+              <label class="field__label" for="cf-name">Имя <span class="field__req" aria-hidden="true">*</span></label>
+              <input class="field__input" id="cf-name" name="name" type="text" autocomplete="name" required aria-describedby="cf-name-error">
+              <p class="field__error" id="cf-name-error" hidden></p>
+            </div>
+            <div class="field">
+              <label class="field__label" for="cf-phone">Телефон <span class="field__req" aria-hidden="true">*</span></label>
+              <input class="field__input" id="cf-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+38 (0XX) XXX-XX-XX" required aria-describedby="cf-phone-error">
+              <p class="field__error" id="cf-phone-error" hidden></p>
+            </div>
+            <div class="field field--wide">
+              <label class="field__label" for="cf-email">Email <span class="field__req" aria-hidden="true">*</span></label>
+              <input class="field__input" id="cf-email" name="email" type="email" autocomplete="email" placeholder="name@example.com" required aria-describedby="cf-email-error">
+              <p class="field__error" id="cf-email-error" hidden></p>
+            </div>
+            <div class="field field--wide">
+              <label class="field__label" for="cf-message">Сообщение</label>
+              <textarea class="field__input field__input--area" id="cf-message" name="message" rows="4"></textarea>
+            </div>
+            <div class="contact-form__footer">
+              <button class="btn-dark" type="submit">Отправить</button>
+              <p class="form-note">Поля со звёздочкой обязательны.</p>
+            </div>
+          </form>
+
+          <div class="form-success" id="form-success" role="status" tabindex="-1" hidden>
+            <svg class="form-success__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="20" cy="20" r="18"/><path d="M12 20.5l5.5 5.5L28 15"/>
+            </svg>
+            <p class="form-success__text">Спасибо! Мы свяжемся с вами в течение 24 часов.</p>
+            <button class="btn-outline" id="form-again" type="button">Отправить ещё одну заявку</button>
+          </div>
+        </div>
+
+        <aside class="contacts__info" aria-label="Контактные данные">
+          <svg class="contacts__logo" viewBox="0 0 120 64" role="img" aria-label="BGV Development" focusable="false">
+            <use href="#bgv-logo"></use>
+          </svg>
+          <dl class="contacts__list">
+            <div>
+              <dt class="contacts__term">Адрес</dt>
+              <dd class="contacts__value">Киев, ул. Николая Михновского, 6</dd>
+            </div>
+            <div>
+              <dt class="contacts__term">Телефон</dt>
+              <dd class="contacts__value"><a class="contacts__link" href="tel:+380447215581">+38 (044) 721-55-81</a></dd>
+            </div>
+            <div>
+              <dt class="contacts__term">Email</dt>
+              <dd class="contacts__value"><a class="contacts__link" href="mailto:reception@bgvdevelopment.com.ua">reception@bgvdevelopment.com.ua</a></dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- СЕКЦИЯ: FOOTER -->
+  <footer class="site-footer" id="site-footer">
+    <div class="container-bgv">
+      <div class="footer-top">
+        <a class="footer-logo focus-ring" href="#top" aria-label="BGV Development — наверх">
+          <svg class="footer-logo__svg" viewBox="0 0 120 64" aria-hidden="true" focusable="false">
+            <use href="#bgv-logo"></use>
+          </svg>
+        </a>
+
+        <nav class="footer-cols" aria-label="Навигация в подвале">
+          <div>
+            <h2 class="footer-col__title">О компании</h2>
+            <!-- TODO: заменить на реальные URL при появлении страниц -->
+            <ul class="footer-col__list">
+              <li><a class="footer-link" href="#">История</a></li>
+              <li><a class="footer-link" href="#">Команда</a></li>
+              <li><a class="footer-link" href="#">Вакансии</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2 class="footer-col__title">Проекты</h2>
+            <ul class="footer-col__list">
+              <li><a class="footer-link" href="#projects">Строятся</a></li>
+              <li><a class="footer-link" href="#projects">Сданные</a></li>
+              <li><a class="footer-link" href="#projects">Коммерция</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2 class="footer-col__title">Новости</h2>
+            <ul class="footer-col__list">
+              <li><a class="footer-link" href="#news">Новости компании</a></li>
+              <li><a class="footer-link" href="#news">Ход строительства</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2 class="footer-col__title">Контакты</h2>
+            <ul class="footer-col__list">
+              <li><a class="footer-link" href="#contacts">Отдел продаж</a></li>
+              <li><a class="footer-link" href="#contacts">Офис компании</a></li>
+              <li><a class="footer-link" href="#contacts">Написать нам</a></li>
+            </ul>
+          </div>
+        </nav>
+
+        <div class="socials">
+          <a class="social-link" href="#" aria-label="Facebook">
+            <svg class="social-link__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1z"/>
+            </svg>
+          </a>
+          <a class="social-link" href="#" aria-label="Instagram">
+            <svg class="social-link__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <rect x="3.5" y="3.5" width="17" height="17" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          <a class="social-link" href="#" aria-label="LinkedIn">
+            <svg class="social-link__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M6.9 8.8H3.8V20h3.1V8.8zM5.3 3.8a1.8 1.8 0 100 3.6 1.8 1.8 0 000-3.6zM20.2 13.6c0-3-1.6-5-4.3-5-1.4 0-2.4.7-2.9 1.5V8.8h-3V20h3.1v-5.6c0-1.5.6-2.6 2-2.6s1.9 1.1 1.9 2.6V20h3.2v-6.4z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© <span id="copyright-year">2024</span> BGV Development. Все права защищены.</p>
+        <div class="footer-legal">
+          <a class="footer-link" href="#">Политика конфиденциальности</a>
+          <a class="footer-link" href="#">Условия использования</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- МОДАЛЬНОЕ ОКНО: 3D-ТУР -->
+  <dialog class="tour-modal" id="tour-modal" aria-labelledby="tour-modal-title">
+    <div class="tour-modal__inner">
+      <button class="tour-modal__close" type="button" data-close-modal aria-label="Закрыть окно">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+      </button>
+      <p class="tour-modal__project" id="tour-modal-project"></p>
+      <h2 class="heading tour-modal__title" id="tour-modal-title">3D-тур</h2>
+      <p class="tour-modal__text">3D-тур скоро будет доступен.</p>
+      <button class="btn-dark" type="button" data-close-modal>Понятно</button>
+    </div>
+  </dialog>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var hasGsap = typeof window.gsap !== 'undefined';
+      var hasST = typeof window.ScrollTrigger !== 'undefined';
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ---------- Год в копирайте ---------- */
+      var yearEl = document.getElementById('copyright-year');
+      if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+      /* ---------- Форматирование чисел: 500 000 ---------- */
+      function formatNum(n) {
+        return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00A0');
+      }
+
+      /* ---------- HEADER: смена фона при скролле ---------- */
+      var header = document.getElementById('site-header');
+      function onScroll() {
+        header.classList.toggle('is-scrolled', window.scrollY > 20);
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      /* ---------- Переключатель языка (визуальный) ---------- */
+      var langBtns = document.querySelectorAll('.lang-btn');
+      langBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var lang = btn.getAttribute('data-lang');
+          langBtns.forEach(function (b) {
+            b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === lang));
+          });
+        });
+      });
+
+      /* ---------- Мобильное меню ---------- */
+      var burger = document.getElementById('burger-btn');
+      var panel = document.getElementById('mobile-panel');
+      var overlay = document.getElementById('mobile-overlay');
+      var closeBtn = document.getElementById('mobile-close');
+
+      function openMenu() {
+        panel.classList.add('is-open');
+        overlay.classList.add('is-open');
+        panel.setAttribute('aria-hidden', 'false');
+        burger.setAttribute('aria-expanded', 'true');
+        document.body.classList.add('is-locked');
+        var first = panel.querySelector('.mobile-link');
+        if (first) setTimeout(function () { first.focus(); }, 300);
+      }
+      function closeMenu(returnFocus) {
+        if (!panel.classList.contains('is-open')) return;
+        panel.classList.remove('is-open');
+        overlay.classList.remove('is-open');
+        panel.setAttribute('aria-hidden', 'true');
+        burger.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('is-locked');
+        if (returnFocus) burger.focus();
+      }
+      burger.addEventListener('click', openMenu);
+      closeBtn.addEventListener('click', function () { closeMenu(true); });
+      overlay.addEventListener('click', function () { closeMenu(true); });
+      panel.querySelectorAll('.mobile-link').forEach(function (link) {
+        link.addEventListener('click', function () { closeMenu(false); });
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeMenu(true);
+      });
+      window.addEventListener('resize', function () {
+        if (window.innerWidth >= 1024) closeMenu(false);
+      });
+
+      /* ---------- ИТЕРАЦИЯ 2: модальное окно 3D-тура ---------- */
+      var modal = document.getElementById('tour-modal');
+      var modalProject = document.getElementById('tour-modal-project');
+      var modalTrigger = null;
+      document.querySelectorAll('.btn-tour').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          modalTrigger = btn;
+          modalProject.textContent = btn.getAttribute('data-project') || '';
+          modal.showModal();
+          document.body.classList.add('is-locked');
+          document.documentElement.classList.add('cursor-native');
+        });
+      });
+      /* Плавное закрытие: fade + scale, затем нативный close() */
+      function closeModal() {
+        if (!modal.open || modal.classList.contains('is-closing')) return;
+        if (reduceMotion) { modal.close(); return; }
+        modal.classList.add('is-closing');
+        var done = false;
+        var finish = function () {
+          if (done) return;
+          done = true;
+          modal.classList.remove('is-closing');
+          modal.close();
+        };
+        modal.addEventListener('animationend', function onEnd(ev) {
+          if (ev.animationName !== 'modalOut') return;
+          modal.removeEventListener('animationend', onEnd);
+          finish();
+        });
+        setTimeout(finish, 400); /* страховка, если animationend не придёт */
+      }
+      modal.querySelectorAll('[data-close-modal]').forEach(function (btn) {
+        btn.addEventListener('click', closeModal);
+      });
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) closeModal(); /* клик вне окна (по подложке) */
+      });
+      modal.addEventListener('cancel', function (e) {
+        e.preventDefault(); /* Escape — закрываем с анимацией */
+        closeModal();
+      });
+      modal.addEventListener('close', function () {
+        modal.classList.remove('is-closing');
+        document.body.classList.remove('is-locked');
+        document.documentElement.classList.remove('cursor-native');
+        if (modalTrigger) modalTrigger.focus();
+      });
+
+      /* ---------- ИТЕРАЦИЯ 2: карта и подсказки ---------- */
+      var mapData = {
+        kyiv: {
+          city: 'Киев', link: '#projects',
+          projects: [
+            { name: 'BOSTON Creative House', status: 'Строится', type: 'active' },
+            { name: 'BGV Park', status: 'Планируется', type: 'planned' }
+          ]
+        },
+        boyarka: {
+          city: 'Боярка', link: '#project-zhyto',
+          projects: [{ name: 'ЖИТО', status: 'Строится', type: 'active' }]
+        },
+        zhytomyr: {
+          city: 'Житомир', link: '#project-residence',
+          projects: [{ name: 'BGV Residence', status: 'Сдан', type: 'active' }]
+        }
+      };
+      var geoMap = document.getElementById('geo-map');
+      var tip = document.getElementById('map-tooltip');
+      var tipCity = document.getElementById('map-tooltip-city');
+      var tipList = document.getElementById('map-tooltip-list');
+      var tipLink = document.getElementById('map-tooltip-link');
+      var tipClose = document.getElementById('map-tooltip-close');
+      var cityTriggers = document.querySelectorAll('.map-marker, .geo-city');
+      var activeCity = null;
+
+      function setExpanded(city) {
+        cityTriggers.forEach(function (el) {
+          el.setAttribute('aria-expanded', String(el.getAttribute('data-city') === city));
+        });
+      }
+      function positionTip() {
+        if (!activeCity) return;
+        var marker = geoMap.querySelector('.map-marker[data-city="' + activeCity + '"]');
+        var mapRect = geoMap.getBoundingClientRect();
+        var mRect = marker.getBoundingClientRect();
+        var x = mRect.left + mRect.width / 2 - mapRect.left;
+        var y = mRect.top + mRect.height / 2 - mapRect.top;
+        var w = tip.offsetWidth;
+        var h = tip.offsetHeight;
+        var gap = mRect.height / 2 + 10;
+        var left = Math.max(0, Math.min(x - w / 2, mapRect.width - w));
+        var top = y - gap - h;
+        if (top < 0) top = y + gap; /* не помещается сверху — показываем снизу */
+        tip.style.left = left + 'px';
+        tip.style.top = top + 'px';
+      }
+      function openTip(city) {
+        var d = mapData[city];
+        if (!d) return;
+        tipCity.textContent = d.city;
+        tipList.textContent = '';
+        d.projects.forEach(function (p) {
+          var li = document.createElement('li');
+          li.className = 'map-tooltip__item';
+          var dot = document.createElement('span');
+          dot.className = 'dot dot--' + p.type;
+          dot.setAttribute('aria-hidden', 'true');
+          var wrap = document.createElement('span');
+          var name = document.createElement('span');
+          name.className = 'map-tooltip__name';
+          name.textContent = p.name;
+          var status = document.createElement('span');
+          status.className = 'map-tooltip__status';
+          status.textContent = p.status;
+          wrap.appendChild(name);
+          wrap.appendChild(status);
+          li.appendChild(dot);
+          li.appendChild(wrap);
+          tipList.appendChild(li);
+        });
+        tipLink.setAttribute('href', d.link);
+        tip.hidden = false;
+        activeCity = city;
+        setExpanded(city);
+        positionTip();
+      }
+      function closeTip(returnFocus) {
+        if (!activeCity) return;
+        var prev = activeCity;
+        tip.hidden = true;
+        activeCity = null;
+        setExpanded(null);
+        if (returnFocus) {
+          var m = geoMap.querySelector('.map-marker[data-city="' + prev + '"]');
+          if (m) m.focus();
+        }
+      }
+      cityTriggers.forEach(function (el) {
+        el.addEventListener('click', function () {
+          var city = el.getAttribute('data-city');
+          if (activeCity === city) closeTip(false); else openTip(city);
+        });
+      });
+      tipClose.addEventListener('click', function () { closeTip(true); });
+      tipLink.addEventListener('click', function () { closeTip(false); });
+      document.addEventListener('click', function (e) {
+        if (!activeCity) return;
+        if (tip.contains(e.target) || e.target.closest('.map-marker, .geo-city')) return;
+        closeTip(false);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeTip(true);
+      });
+      window.addEventListener('resize', positionTip);
+
+      /* ---------- ИТЕРАЦИЯ 3: пустые ссылки-заглушки не прыгают наверх ---------- */
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('a[href="#"]');
+        if (a) e.preventDefault();
+      });
+
+      /* ---------- ИТЕРАЦИЯ 3: кастомный курсор ---------- */
+      var fineMq = window.matchMedia('(hover: hover) and (pointer: fine)');
+      var cursorLayer = document.getElementById('cursor-layer');
+      if (fineMq.matches) {
+        var docEl = document.documentElement;
+        var cDot = document.getElementById('cursor-dot');
+        var cRing = document.getElementById('cursor-ring');
+        var mx = 0, my = 0, rx = 0, ry = 0, cRaf = null, cShown = false;
+        var lerp = reduceMotion ? 1 : 0.2;
+        var lightSel = '.preloader, .hero, .social, .site-footer, .project-card, .contacts__info, .mobile-overlay';
+        docEl.classList.add('has-custom-cursor');
+
+        var ringLoop = function () {
+          rx += (mx - rx) * lerp;
+          ry += (my - ry) * lerp;
+          cRing.style.transform = 'translate3d(' + rx + 'px,' + ry + 'px,0)';
+          if (Math.abs(mx - rx) > 0.1 || Math.abs(my - ry) > 0.1) {
+            cRaf = requestAnimationFrame(ringLoop);
+          } else {
+            cRaf = null;
+          }
+        };
+        document.addEventListener('mousemove', function (e) {
+          mx = e.clientX; my = e.clientY;
+          cDot.style.transform = 'translate3d(' + mx + 'px,' + my + 'px,0)';
+          if (!cShown) {
+            rx = mx; ry = my;
+            cursorLayer.classList.add('is-visible');
+            cShown = true;
+          }
+          if (!cRaf) cRaf = requestAnimationFrame(ringLoop);
+        }, { passive: true });
+        document.addEventListener('mouseover', function (e) {
+          var t = e.target;
+          if (!t.closest) return;
+          cursorLayer.classList.toggle('is-hover', !!t.closest('a, button'));
+          var onLight = !!t.closest(lightSel) ||
+            (!!t.closest('.site-header') && !header.classList.contains('is-scrolled'));
+          cursorLayer.classList.toggle('is-light', onLight);
+        });
+        docEl.addEventListener('mouseleave', function () {
+          cursorLayer.classList.remove('is-visible');
+          cShown = false;
+        });
+      }
+
+      /* ---------- ИТЕРАЦИЯ 3: форма обратной связи ---------- */
+      var form = document.getElementById('contact-form');
+      var formSuccess = document.getElementById('form-success');
+      var formAgain = document.getElementById('form-again');
+      var fName = document.getElementById('cf-name');
+      var fPhone = document.getElementById('cf-phone');
+      var fEmail = document.getElementById('cf-email');
+      var formTouched = false;
+
+      /* Маска телефона: +38 (0XX) XXX-XX-XX */
+      function phoneDigits(value) {
+        var d = value.replace(/\D/g, '');
+        if (value.trim().indexOf('+38') === 0 || d.indexOf('380') === 0) d = d.slice(2);
+        if (d.length && d.charAt(0) !== '0') d = '0' + d;
+        return d.slice(0, 10);
+      }
+      function formatPhone(value) {
+        var d = phoneDigits(value);
+        if (!d.length) return '';
+        var out = '+38 (' + d.slice(0, 3);
+        if (d.length > 3) out += ') ' + d.slice(3, 6);
+        if (d.length > 6) out += '-' + d.slice(6, 8);
+        if (d.length > 8) out += '-' + d.slice(8, 10);
+        return out;
+      }
+      fPhone.addEventListener('focus', function () {
+        if (!fPhone.value) fPhone.value = '+38 (0';
+      });
+      fPhone.addEventListener('input', function () {
+        fPhone.value = formatPhone(fPhone.value);
+      });
+      fPhone.addEventListener('blur', function () {
+        if (phoneDigits(fPhone.value).length <= 1) fPhone.value = '';
+      });
+
+      var validators = {
+        'cf-name': function (v) {
+          v = v.trim();
+          if (!v) return 'Введите имя';
+          if (v.length < 2) return 'Имя должно содержать минимум 2 символа';
+          return '';
+        },
+        'cf-phone': function (v) {
+          var d = phoneDigits(v);
+          if (d.length <= 1) return 'Введите номер телефона';
+          if (d.length !== 10) return 'Введите номер полностью: +38 (0XX) XXX-XX-XX';
+          return '';
+        },
+        'cf-email': function (v) {
+          v = v.trim();
+          if (!v) return 'Введите email';
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return 'Проверьте email, например: name@example.com';
+          return '';
+        }
+      };
+      function validateField(input) {
+        var msg = validators[input.id](input.value);
+        var field = input.closest('.field');
+        var err = document.getElementById(input.id + '-error');
+        field.classList.toggle('is-invalid', !!msg);
+        input.setAttribute('aria-invalid', String(!!msg));
+        err.textContent = msg;
+        err.hidden = !msg;
+        return !msg;
+      }
+      [fName, fPhone, fEmail].forEach(function (input) {
+        input.addEventListener('input', function () { if (formTouched) validateField(input); });
+        input.addEventListener('blur', function () { if (formTouched) validateField(input); });
+      });
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        formTouched = true;
+        var firstInvalid = null;
+        [fName, fPhone, fEmail].forEach(function (input) {
+          if (!validateField(input) && !firstInvalid) firstInvalid = input;
+        });
+        if (firstInvalid) { firstInvalid.focus(); return; }
+        /* TODO: отправка данных на сервер / в CRM */
+        form.reset();
+        formTouched = false;
+        form.hidden = true;
+        formSuccess.hidden = false;
+        formSuccess.focus();
+      });
+      formAgain.addEventListener('click', function () {
+        formSuccess.hidden = true;
+        form.hidden = false;
+        fName.focus();
+      });
+
+      /* ---------- Фолбэк без GSAP: всё видно, прелоадер уходит ---------- */
+      var preloader = document.getElementById('preloader');
+      if (!hasGsap) {
+        setTimeout(function () {
+          preloader.classList.add('is-hidden');
+          setTimeout(function () { preloader.style.display = 'none'; }, 950);
+        }, 1200);
+        return;
+      }
+
+      if (hasST) gsap.registerPlugin(ScrollTrigger);
+
+      /* ---------- ПРЕЛОАДЕР + вход Hero ---------- */
+      var reveals = gsap.utils.toArray('.hero-reveal');
+      var indicator = document.getElementById('scroll-indicator');
+      gsap.set(reveals, { y: 60, opacity: 0 });
+      gsap.set(indicator, { opacity: 0 });
+      document.body.classList.add('is-locked');
+
+      var intro = gsap.timeline();
+      intro
+        .fromTo('#preloader-logo',
+          { opacity: 0, scale: 0.82 },
+          { opacity: 1, scale: 1, duration: reduceMotion ? 0.2 : 0.9, ease: 'power3.out' })
+        .to(preloader, {
+          yPercent: -100,
+          duration: reduceMotion ? 0.3 : 0.9,
+          ease: 'power4.inOut',
+          delay: reduceMotion ? 0.2 : 1.1   /* итого ~2 с до ухода */
+        })
+        .add(function () {
+          preloader.style.display = 'none';
+          document.body.classList.remove('is-locked');
+          if (hasST) ScrollTrigger.refresh();
+        })
+        .to(reveals, {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: 'power3.out',
+          stagger: 0.3   /* заголовок → подзаголовок +0.3 с → кнопка +0.6 с */
+        }, '-=0.35')
+        .to(indicator, { opacity: 1, duration: 0.6 }, '-=0.3');
+
+      /* ---------- Диагональные фигуры: медленное бесконечное движение ---------- */
+      if (!reduceMotion) {
+        gsap.to('#shape-1', { x: 60, y: 40, rotation: 6, transformOrigin: '50% 50%', duration: 16, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+        gsap.to('#shape-2', { x: -50, y: 60, rotation: -10, transformOrigin: '50% 50%', duration: 19, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+        gsap.to('#shape-3', { x: -70, y: -40, rotation: 5, transformOrigin: '50% 50%', duration: 22, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+
+        /* Индикатор скролла: точка движется вниз */
+        gsap.fromTo('#scroll-dot',
+          { y: 0, opacity: 0 },
+          { keyframes: [
+              { opacity: 1, duration: 0.3 },
+              { y: 53, duration: 1.2, ease: 'power1.inOut' },
+              { opacity: 0, duration: 0.3 }
+            ],
+            repeat: -1, repeatDelay: 0.3 });
+      }
+
+      /* ---------- Count-up цифр ---------- */
+      var nums = gsap.utils.toArray('.stat__num');
+      nums.forEach(function (el) {
+        var target = parseFloat(el.getAttribute('data-target')) || 0;
+        var suffix = el.getAttribute('data-suffix') || '';
+        var finalText = formatNum(target) + suffix;
+
+        if (!hasST || reduceMotion) { el.textContent = finalText; return; }
+
+        var counter = { val: 0 };
+        el.textContent = '0' + suffix;
+        gsap.to(counter, {
+          val: target,
+          duration: 2,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: '#stats', start: 'top 85%', once: true },
+          onUpdate: function () { el.textContent = formatNum(counter.val) + suffix; },
+          onComplete: function () { el.textContent = finalText; }
+        });
+      });
+
+      /* ---------- ИТЕРАЦИЯ 2: проекты — появление и параллакс ---------- */
+      if (hasST && !reduceMotion) {
+        gsap.set('.project-item', { y: 60, opacity: 0 });
+        ScrollTrigger.batch('.project-item', {
+          start: 'top 88%',
+          once: true,
+          onEnter: function (batch) {
+            gsap.to(batch, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', stagger: 0.15, clearProps: 'transform' });
+          }
+        });
+        gsap.utils.toArray('.project-card__bg').forEach(function (bg) {
+          gsap.fromTo(bg, { yPercent: -7 }, {
+            yPercent: 7,
+            ease: 'none',
+            scrollTrigger: { trigger: bg.parentNode, start: 'top bottom', end: 'bottom top', scrub: true }
+          });
+        });
+      }
+
+      if (!reduceMotion) {
+        /* ---------- Пульсация маркеров на карте ---------- */
+        gsap.fromTo('.map-marker__pulse',
+          { scale: 1, opacity: 0.5 },
+          { scale: 2.4, opacity: 0, duration: 1.8, ease: 'power1.out', transformOrigin: '50% 50%',
+            stagger: { each: 0.45, repeat: -1 } });
+
+        /* ---------- Social Investment: медленное вращение фигур ---------- */
+        gsap.to('#social-shape-1', { rotation: 360, svgOrigin: '260 260', duration: 90, ease: 'none', repeat: -1 });
+        gsap.to('#social-shape-2', { rotation: -360, svgOrigin: '260 300', duration: 70, ease: 'none', repeat: -1 });
+        gsap.to('#social-shape-3', { rotation: 360, svgOrigin: '260 260', duration: 120, ease: 'none', repeat: -1 });
+      }
+    })();
+  </script>
+</body>
+</html>
