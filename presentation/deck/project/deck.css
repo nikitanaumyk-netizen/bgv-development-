@@ -210,3 +210,8 @@ p { font-size: 32px; line-height: 1.45; }
 .dot p { font-size: 36px; }
 .tl-col h3 { font-size: 40px; margin-top: 32px; }
 .tl-col .txt { font-size: 32px; margin-top: 10px; }
+.gallery .g4 { width: 474px; height: 560px; object-fit: cover; }
+/* slide 3: unified bottom band */
+.tiles4 { gap: 0; bottom: 88px; }
+.tile { background: none; border-top: none; border-left: 2px solid var(--blue200); padding: 6px 28px 6px 28px; }
+.tile p { font-size: 32px; font-weight: 600; line-height: 1.3; }
