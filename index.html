@@ -2,6 +2,7 @@
 <html lang="uk">
 <head>
   <meta charset="UTF-8">
+  <script>document.documentElement.classList.add('js');</script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>BGV Development – Будівництво в Україні</title>
   <meta name="description" content="BGV Development — девелоперська компанія інвестиційної групи BGV Group Management. Житлова та комерційна нерухомість: Equides Villas, BOSTON Creative House, OZON House, Circle, ТРЦ ЖИТО.">
@@ -1498,6 +1499,39 @@
     .charity-media__btn { position: absolute; left: 24px; bottom: 24px; margin-top: 0; }
     @media (max-width: 1023px) { .charity-media { width: min(100%, 380px); } }
 
+    /* ===== ИТЕРАЦИЯ 6: работа без JavaScript (WordPress) ===== */
+    .preloader { display: none; }
+    html.js .preloader { display: flex; }
+    html:not(.js) .site-header { color: var(--color-dark); }
+    html:not(.js) .site-header::before { opacity: 1; }
+    html:not(.js) .header-logo { color: var(--color-logo); --logo-bg: var(--color-white); }
+    html:not(.js) .burger { display: none; }
+    html:not(.js) .mobile-panel,
+    html:not(.js) .mobile-overlay,
+    html:not(.js) .cursor-layer,
+    html:not(.js) .scroll-indicator { display: none; }
+    html:not(.js) .project-filters,
+    html:not(.js) #news-more,
+    html:not(.js) .map-tooltip { display: none; }
+    html:not(.js) .project-cat { display: block; font-size: 12px; font-weight: 600; opacity: 0.85; }
+    html.js .news-item--more:not(.is-shown) { display: none; }
+    .geo-city__projects { display: none; }
+    html:not(.js) .geo-city__projects {
+      display: flex; flex-wrap: wrap; gap: 6px 16px;
+      padding: 0 0 16px; border-bottom: 1px solid rgba(0, 26, 114, 0.12);
+      font-size: 14px; color: var(--color-text-muted);
+    }
+    html:not(.js) .geo-city { border-bottom: 0; cursor: default; }
+    html:not(.js) .map-marker { pointer-events: none; }
+    @media (max-width: 1023px) {
+      html:not(.js) { --header-h: 108px; }
+      html:not(.js) .site-header__inner { flex-wrap: wrap; height: auto; row-gap: 0; padding-top: 12px; }
+      html:not(.js) .main-nav { display: block; order: 3; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      html:not(.js) .main-nav__list { gap: 20px; padding: 10px 0 12px; white-space: nowrap; }
+      html:not(.js) .nav-link { font-size: 14px; }
+      html:not(.js) .header-logo__svg { width: 160px; }
+    }
+
     /* ===== УМЕНЬШЕННОЕ ДВИЖЕНИЕ ===== */
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -1835,7 +1869,7 @@
                   <p class="project-card__city">Житомир</p>
                   <h3 class="project-card__title">ЦУМ Житомира</h3>
                   <ul class="project-facts"><li><span>Площа</span><b>4 572 м²</b></li><li><span>Етап</span><b>концепція реновації</b></li></ul>
-                  <button class="btn-tour" type="button" data-modal-kicker="Комерційна нерухомість" data-modal-title="ЦУМ Житомира" data-modal-text="Реновація Центрального універмагу Житомира площею 4 572 м². Наразі триває розробка концепції реновації." data-modal-cta="Залишити заявку" data-modal-href="#contacts"><svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>Детальніше</button>
+                  <a class="btn-tour" href="#contacts"><svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>Залишити заявку</a>
                 </div>
               </div>
             </article>
@@ -1900,12 +1934,15 @@
             <button class="geo-city" type="button" data-city="kyiv" aria-expanded="false" aria-controls="map-tooltip">
               <span class="geo-city__name">Київ</span><span class="geo-city__count">3 проєкти</span>
             </button>
+            <ul class="geo-city__projects"><li>ЖК BOSTON Creative House</li><li>ЖК OZON House</li><li>Апарт-готель Circle</li></ul>
             <button class="geo-city" type="button" data-city="boyarka" aria-expanded="false" aria-controls="map-tooltip">
               <span class="geo-city__name">Київська область</span><span class="geo-city__count">2 проєкти</span>
             </button>
+            <ul class="geo-city__projects"><li>Котеджне містечко Equides Villas</li><li>ТРЦ ЖИТО, Боярка</li></ul>
             <button class="geo-city" type="button" data-city="zhytomyr" aria-expanded="false" aria-controls="map-tooltip">
               <span class="geo-city__name">Житомир</span><span class="geo-city__count">2 проєкти</span>
             </button>
+            <ul class="geo-city__projects"><li>ТЦ ЖИТО</li><li>ЦУМ Житомира</li></ul>
           </div>
         </div>
 
@@ -2022,7 +2059,7 @@
               </div>
             </article>
           </li>
-          <li class="news-item news-item--more" id="news-7" hidden>
+          <li class="news-item news-item--more" id="news-7">
             <article class="news-card">
               <div class="news-card__media news-card__media--1"><img src="img/news-7.webp" alt="" loading="lazy" decoding="async" width="800" height="450"></div>
               <div class="news-card__body">
@@ -2032,7 +2069,7 @@
               </div>
             </article>
           </li>
-          <li class="news-item news-item--more" id="news-8" hidden>
+          <li class="news-item news-item--more" id="news-8">
             <article class="news-card">
               <div class="news-card__media news-card__media--2"><img src="img/news-8.webp" alt="" loading="lazy" decoding="async" width="800" height="450"></div>
               <div class="news-card__body">
@@ -2042,7 +2079,7 @@
               </div>
             </article>
           </li>
-          <li class="news-item news-item--more" id="news-9" hidden>
+          <li class="news-item news-item--more" id="news-9">
             <article class="news-card">
               <div class="news-card__media news-card__media--3"><img src="img/news-9.webp" alt="" loading="lazy" decoding="async" width="800" height="450"></div>
               <div class="news-card__body">
@@ -2052,7 +2089,7 @@
               </div>
             </article>
           </li>
-          <li class="news-item news-item--more" id="news-10" hidden>
+          <li class="news-item news-item--more" id="news-10">
             <article class="news-card">
               <div class="news-card__media news-card__media--1"><img src="img/news-10.webp" alt="" loading="lazy" decoding="async" width="800" height="450"></div>
               <div class="news-card__body">
@@ -2579,7 +2616,7 @@
       var newsMore = document.getElementById('news-more');
       newsMore.addEventListener('click', function () {
         var expanded = newsMore.getAttribute('aria-expanded') === 'true';
-        document.querySelectorAll('.news-item--more').forEach(function (n) { n.hidden = expanded; });
+        document.querySelectorAll('.news-item--more').forEach(function (n) { n.classList.toggle('is-shown', !expanded); });
         newsMore.setAttribute('aria-expanded', String(!expanded));
         newsMore.textContent = expanded ? 'Усі новини' : 'Згорнути';
         if (expanded) document.getElementById('news').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
@@ -2588,7 +2625,7 @@
       /* Переход по якорю #news-7..10 раскрывает список */
       function revealHashNews() {
         var t = location.hash && document.querySelector(location.hash + '.news-item--more');
-        if (t && t.hidden) newsMore.click();
+        if (t && !t.classList.contains('is-shown')) newsMore.click();
       }
       window.addEventListener('hashchange', revealHashNews);
       revealHashNews();
