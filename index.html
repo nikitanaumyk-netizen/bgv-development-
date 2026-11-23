@@ -12,11 +12,12 @@
   <meta property="og:title" content="BGV Development – Будівництво в Україні">
   <meta property="og:description" content="BGV Development — девелоперська компанія інвестиційної групи BGV Group Management. Житлова та комерційна нерухомість: Equides Villas, BOSTON Creative House, OZON House, Circle, ТРЦ ЖИТО.">
   <meta property="og:locale" content="uk_UA">
-  <!-- TODO: заменить на боевой домен и добавить og:image (PNG 1200×630) -->
+  <meta property="og:image" content="https://bgv-development-site610v4.vercel.app/img/og.jpg">
   <meta property="og:url" content="https://bgv-development-site610v4.vercel.app/">
 
   <!-- Фавикон: инлайн SVG, буква B на фоне --color-logo -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23001A72'/%3E%3Ctext x='32' y='46' text-anchor='middle' font-family='Manrope,Arial,sans-serif' font-size='40' font-weight='800' fill='%23FFFFFF'%3EB%3C/text%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="apple-touch-icon" href="img/favicon.png">
   <meta name="theme-color" content="#001A72">
 
   <!-- Шрифт: Manrope как замена Qanelas -->
@@ -1441,6 +1442,62 @@
     .footer-text { font-size: 14px; color: rgba(255, 255, 255, 0.62); }
     @media (min-width: 1200px) { .footer-top { grid-template-columns: 180px 1fr; } }
 
+    /* ===== ИТЕРАЦИЯ 5: фото и логотип с официального сайта ===== */
+    .logo-inv { fill: var(--logo-bg, #FFFFFF); }
+    .header-logo { --logo-bg: var(--color-logo); }
+    .site-header.is-scrolled .header-logo { --logo-bg: var(--color-white); }
+    .header-logo__svg { width: clamp(170px, 16vw, 210px); }
+    .mobile-panel__top { --logo-bg: var(--color-white); }
+    .mobile-panel__top .header-logo__svg { width: 180px; }
+    .preloader { --logo-bg: var(--color-logo); }
+    .preloader__logo { width: clamp(220px, 32vw, 360px); }
+    .footer-logo { --logo-bg: var(--color-dark); }
+    .footer-logo__svg { width: 220px; }
+    .contacts__info { --logo-bg: var(--color-logo); }
+    .contacts__logo { width: 220px; }
+    @media (min-width: 1200px) { .footer-top { grid-template-columns: 240px 1fr auto; } }
+
+    .hero__photo {
+      position: absolute; inset: 0; z-index: 0;
+      width: 100%; height: 100%; object-fit: cover; object-position: center 35%;
+    }
+    .hero::before { z-index: 1; opacity: 0.86; }
+    .hero__shapes { z-index: 1; }
+
+    .about__aside { display: flex; flex-direction: column; gap: 32px; }
+    .about__img {
+      width: 100%; max-width: 520px; aspect-ratio: 4 / 3; object-fit: cover;
+      clip-path: polygon(0 0, calc(100% - 56px) 0, 100% 56px, 100% 100%, 0 100%);
+    }
+    @media (max-width: 1023px) { .about__img { max-height: 340px; } }
+
+    .project-card__img {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    }
+    .project-card__shade { background: linear-gradient(to top, rgba(0, 26, 114, 0.92) 0%, rgba(0, 26, 114, 0.55) 42%, rgba(0, 26, 114, 0.05) 75%); }
+    .project-card__shade::before {
+      content: ''; position: absolute; inset: 0 0 auto 0; height: 120px;
+      background: linear-gradient(to bottom, rgba(26, 26, 26, 0.35), rgba(26, 26, 26, 0));
+    }
+
+    .news-card__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease); }
+    .news-card:hover .news-card__media img { transform: scale(1.05); }
+    .news-card__media::after { z-index: 1; opacity: 0; }
+    .news__actions { flex-direction: column; align-items: center; gap: 16px; }
+    .news__archive { font-size: 15px; font-weight: 700; color: var(--color-logo); text-underline-offset: 4px; }
+    .news__archive:hover { text-decoration: underline; }
+    .news__archive:focus-visible { outline: 2px solid var(--color-blue-300); outline-offset: 3px; }
+
+    .why-card__icon { object-fit: contain; }
+
+    .charity-media { position: relative; justify-self: center; width: min(100%, 460px); }
+    .charity-media img {
+      display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
+      clip-path: polygon(0 0, calc(100% - 64px) 0, 100% 64px, 100% 100%, 0 100%);
+    }
+    .charity-media__btn { position: absolute; left: 24px; bottom: 24px; margin-top: 0; }
+    @media (max-width: 1023px) { .charity-media { width: min(100%, 380px); } }
+
     /* ===== УМЕНЬШЕННОЕ ДВИЖЕНИЕ ===== */
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -1453,17 +1510,31 @@
 
   <!-- Спрайт логотипа BGV (переиспользуется через <use>) -->
   <svg class="visually-hidden" aria-hidden="true" focusable="false">
-    <symbol id="bgv-logo" viewBox="0 0 120 64">
-      <!-- Рамка -->
-      <rect x="21" y="2" width="78" height="40" fill="none" stroke="currentColor" stroke-width="2.5"/>
-      <!-- BGV: текст без textLength, центрируется по рамке при любом шрифте -->
-      <text x="60" y="31" text-anchor="middle" font-family="Manrope, Arial, sans-serif"
-            font-size="26" font-weight="800" fill="currentColor">BGV</text>
-      <!-- DEVELOPMENT: подпись под рамкой, по центру -->
-      <text x="60" y="60" text-anchor="middle" font-family="Manrope, Arial, sans-serif"
-            font-size="10" font-weight="700" letter-spacing="-0.3"
-            fill="currentColor">DEVELOPMENT</text>
-    </symbol>
+    <symbol id="bgv-logo" viewBox="0 0 339 40">
+<g clip-path="url(#bgv-logo-clip)">
+<path d="M102 30.5263V9.47369H110.131C115.99 9.47369 118.86 12.2807 118.86 18.0117V21.8714C118.86 27.6023 115.99 30.4094 110.131 30.4094H102V30.5263ZM106.424 26.5497H110.37C113.12 26.5497 114.435 25.2632 114.435 22.5731V17.4269C114.435 14.7369 113.12 13.4503 110.37 13.4503H106.424V26.5497Z" fill="currentColor"/>
+<path d="M123.404 30.5263V9.47369H138.112V13.4503H127.948V17.6608H137.275V21.6374H127.948V26.5497H138.112V30.5263H123.404Z" fill="currentColor"/>
+<path d="M140.264 10.2924L140.862 9.47369H144.808L149.71 26.5497H150.189L155.091 9.47369H159.037L159.635 10.2924L153.537 30.5263H146.482L140.383 10.2924H140.264Z" fill="currentColor"/>
+<path d="M162.625 30.5263V9.47369H177.333V13.4503H167.169V17.6608H176.496V21.6374H167.169V26.5497H177.333V30.5263H162.625Z" fill="currentColor"/>
+<path d="M181.398 30.5263V9.47369H185.823V26.5497H195.15V30.5263H181.398Z" fill="currentColor"/>
+<path d="M198.259 25.3801V14.6199C198.259 11.2281 200.052 9.47369 203.52 9.47369H210.575C214.043 9.47369 215.837 11.2281 215.837 14.6199V25.3801C215.837 28.7719 214.043 30.5263 210.575 30.5263H203.52C200.052 30.5263 198.259 28.7719 198.259 25.3801ZM202.683 25.614C202.683 26.1988 203.042 26.5497 203.64 26.5497H210.336C210.934 26.5497 211.293 26.1988 211.293 25.614V14.386C211.293 13.8012 210.934 13.4503 210.336 13.4503H203.64C203.042 13.4503 202.683 13.8012 202.683 14.386V25.614Z" fill="currentColor"/>
+<path d="M220.619 30.5263V9.47369H231.022C234.49 9.47369 236.284 11.2281 236.284 14.6199V18.7135C236.284 22.1053 234.49 23.8597 231.022 23.8597H225.043V30.5263H220.619ZM225.043 19.883H230.783C231.381 19.883 231.74 19.5322 231.74 18.9474V14.386C231.74 13.8012 231.381 13.4503 230.783 13.4503H225.043V19.883Z" fill="currentColor"/>
+<path d="M240.469 30.5263V9.47369H245.85L251.949 22.1053L258.047 9.47369H263.428V30.5263H259.004V17.193L253.981 27.7193H250.275L245.252 17.193V30.5263H240.828H240.469Z" fill="currentColor"/>
+<path d="M268.331 30.5263V9.47369H283.039V13.4503H272.874V17.6608H282.201V21.6374H272.874V26.5497H283.039V30.5263H268.331Z" fill="currentColor"/>
+<path d="M287.104 30.5263V9.47369H292.006L300.496 23.2749V9.47369H304.92V30.5263H300.018L291.528 16.7252V30.5263H287.104Z" fill="currentColor"/>
+<path d="M308.27 13.4503V9.47369H325.847V13.4503H319.271V30.5263H314.846V13.4503H308.27Z" fill="currentColor"/>
+<path d="M336.011 2.92398V37.076H91.8356V2.92398H335.892M339.001 0H88.8462V40H338.881V0H339.001Z" fill="currentColor"/>
+<path d="M86.5735 0H0V40H86.5735V0Z" fill="currentColor"/>
+<path d="M53.6911 19.1813H44.2446V22.807H49.5059C49.3864 23.8596 49.0276 24.6784 48.4297 25.3801C48.071 25.848 47.7123 26.1988 47.5927 26.1988C46.1578 27.4854 44.3641 27.4854 44.125 27.4854C41.9726 27.4854 40.5377 26.3158 40.0594 25.848C38.2657 24.0936 38.1461 21.8713 38.1461 20.117C38.1461 17.4269 38.744 15.4386 39.9398 14.0351C40.1789 13.6842 40.7768 13.0994 41.853 12.6316C42.9292 12.1637 43.8858 12.0468 44.2446 12.0468C45.2012 12.0468 46.0382 12.2807 46.3969 12.5146C46.7557 12.6316 47.3535 12.9825 47.9514 13.5673C48.4297 14.152 48.7885 14.8538 49.0276 15.6725H54.289C54.289 15.0877 54.0498 14.152 53.5715 13.0994C53.452 12.7485 52.6149 11.2281 50.8213 9.94152C49.0276 8.77193 47.3535 8.42105 46.5165 8.30409C45.5599 8.18713 44.7229 8.18713 44.2446 8.18713C43.5271 8.18713 42.6901 8.18713 41.7334 8.30409C41.1356 8.30409 39.7006 8.65497 38.1461 9.59064C38.1461 9.59064 36.8308 10.2924 35.8742 11.462C32.8848 14.6199 32.8848 19.5322 32.8848 20C32.8848 21.7544 32.8848 25.4971 35.8742 28.3041C36.3525 28.7719 37.4287 29.8246 39.2223 30.5263C39.2223 30.5263 40.8964 31.2281 43.2879 31.345C43.7662 31.345 44.2446 31.345 44.2446 31.345C44.2446 31.345 44.8424 31.345 45.3207 31.345C46.8752 31.1111 48.4297 30.4094 48.4297 30.4094C49.0276 30.1754 49.7451 29.7076 50.5821 29.0058C50.5821 29.5906 50.5821 30.2924 50.5821 30.8772H54.4086V19.0643H53.6911V19.1813Z" class="logo-inv"/>
+<path d="M76.4098 9.00586L70.7897 26.5497L69.3548 30.9942H62.4193L60.9844 26.5497L55.4839 9.00586H61.2236L65.8871 25.1462L70.5506 9.00586H76.4098Z" class="logo-inv"/>
+<path d="M28.34 18.8304C29.1771 17.7778 29.6554 16.4912 29.6554 15.0877C29.6554 11.6959 26.9051 9.00586 23.4374 9.00586H10.8818V31.1111H23.0787C27.1443 31.1111 30.4924 27.8363 30.4924 23.8597C30.4924 19.8831 29.6554 20.117 28.4596 18.8304H28.34ZM16.1432 12.8655H21.6437C22.9591 12.8655 23.9157 13.9181 23.9157 15.0877C23.9157 16.2573 22.8395 17.31 21.6437 17.31H16.1432V12.8655ZM22.6004 26.4328H16.1432V21.1696H22.6004C24.0353 21.1696 25.231 22.3392 25.231 23.7427C25.231 25.1462 24.0353 26.3158 22.6004 26.3158V26.4328Z" class="logo-inv"/>
+</g>
+<defs>
+<clipPath id="bgv-logo-clip">
+<rect width="339" height="40" class="logo-inv"/>
+</clipPath>
+</defs>
+</symbol>
   </svg>
 
   <!-- КАСТОМНЫЙ КУРСОР (только для мыши) -->
@@ -1474,7 +1545,7 @@
 
   <!-- СЕКЦИЯ: ПРЕЛОАДЕР -->
   <div class="preloader" id="preloader" aria-hidden="true">
-    <svg class="preloader__logo" id="preloader-logo" viewBox="0 0 120 64" role="img" aria-label="BGV Development">
+    <svg class="preloader__logo" id="preloader-logo" viewBox="0 0 339 40" role="img" aria-label="BGV Development">
       <use href="#bgv-logo"></use>
     </svg>
   </div>
@@ -1483,7 +1554,7 @@
   <header class="site-header" id="site-header">
     <div class="container-bgv site-header__inner">
       <a class="header-logo focus-ring" href="#top" aria-label="BGV Development — на головну">
-        <svg class="header-logo__svg" viewBox="0 0 120 64" aria-hidden="true" focusable="false">
+        <svg class="header-logo__svg" viewBox="0 0 339 40" aria-hidden="true" focusable="false">
           <use href="#bgv-logo"></use>
         </svg>
       </a>
@@ -1514,7 +1585,7 @@
   <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
   <aside class="mobile-panel" id="mobile-panel" aria-label="Мобільне меню" aria-hidden="true">
     <div class="mobile-panel__top">
-      <svg class="header-logo__svg" viewBox="0 0 120 64" aria-hidden="true" focusable="false">
+      <svg class="header-logo__svg" viewBox="0 0 339 40" aria-hidden="true" focusable="false">
         <use href="#bgv-logo"></use>
       </svg>
       <button class="mobile-close" id="mobile-close" type="button" aria-label="Закрити меню">
@@ -1542,6 +1613,7 @@
 
     <!-- СЕКЦИЯ: HERO -->
     <section class="hero" id="hero" aria-labelledby="hero-title">
+      <img class="hero__photo" src="img/hero.webp" alt="" fetchpriority="high" decoding="async" width="1920" height="1728">
       <svg class="hero__shapes" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
         <g class="hero-shape" id="shape-1">
           <polygon points="-120,120 520,-60 300,560" fill="#FFFFFF" fill-opacity="0.12"/>
@@ -1577,7 +1649,10 @@
       </svg>
       <div class="container-bgv">
         <div class="about__head">
-          <h2 class="heading about__title" id="about-title">Про нас</h2>
+          <div class="about__aside">
+            <h2 class="heading about__title" id="about-title">Про нас</h2>
+            <img class="about__img" src="img/about.webp" alt="ЖК BOSTON Creative House — проєкт BGV Development" loading="lazy" decoding="async" width="1200" height="1080">
+          </div>
           <div>
             <p class="about__text">BGV Development — це девелоперська компанія, яка входить до складу інвестиційної групи Геннадія Буткевича — BGV Group Management.</p>
             <p class="about__text">Уже майже 10 років BGV Group Management створює інноваційні та високоефективні бізнеси, інвестуючи у передові проєкти, орієнтовані на розвиток технологій та стійке економічне майбутнє.</p>
@@ -1628,7 +1703,7 @@
           <li class="project-item" id="project-equides" data-cat="res">
             <article class="project-card project-card--1">
               <div class="project-card__bg" aria-hidden="true">
-                <svg class="project-card__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false"><polygon points="220,300 330,90 400,160 400,300" fill="#FFFFFF" fill-opacity="0.12"/><polygon points="120,300 250,40 290,120 190,300" fill="#FFFFFF" fill-opacity="0.08"/><polygon points="0,0 140,0 0,120" fill="#001A72" fill-opacity="0.18"/></svg>
+                <img class="project-card__img" src="img/project-equides.webp" alt="" loading="lazy" decoding="async" width="960" height="720">
               </div>
               <div class="project-card__shade" aria-hidden="true"></div>
               <div class="project-card__body">
@@ -1640,7 +1715,7 @@
                   <p class="project-card__city">Лісники, Київська область</p>
                   <h3 class="project-card__title">Котеджне містечко Equides Villas</h3>
                   <ul class="project-facts"><li><span>Площа</span><b>5 733 м²</b></li><li><span>Завершення</span><b>30.12.2026</b></li></ul>
-                  <a class="btn-tour" href="https://equides-villas.com.ua/" target="_blank" rel="noopener" aria-label="Сайт проєкту Котеджне містечко Equides Villas (equides-villas.com.ua, відкриється в новій вкладці)"><svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Сайт проєкту</a>
+                  <a class="btn-tour" href="https://equides-villas.com.ua/" target="_blank" rel="noopener" aria-label="Сайт проєкту: Котеджне містечко Equides Villas (equides-villas.com.ua, відкриється в новій вкладці)"><svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Сайт проєкту</a>
                 </div>
               </div>
             </article>
@@ -1648,7 +1723,7 @@
           <li class="project-item" id="project-boston" data-cat="res">
             <article class="project-card project-card--2">
               <div class="project-card__bg" aria-hidden="true">
-                <svg class="project-card__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false"><path d="M0 210 C80 170 140 250 220 205 S340 170 400 200 V300 H0Z" fill="#FFFFFF" fill-opacity="0.1"/><path d="M0 240 C90 200 150 280 230 235 S350 205 400 230 V300 H0Z" fill="#FFFFFF" fill-opacity="0.08"/><polygon points="260,0 400,0 400,110" fill="#001A72" fill-opacity="0.16"/></svg>
+                <img class="project-card__img" src="img/project-boston.webp" alt="" loading="lazy" decoding="async" width="960" height="720">
               </div>
               <div class="project-card__shade" aria-hidden="true"></div>
               <div class="project-card__body">
@@ -1660,7 +1735,7 @@
                   <p class="project-card__city">Київ</p>
                   <h3 class="project-card__title">ЖК BOSTON Creative House</h3>
                   <ul class="project-facts"><li><span>Площа</span><b>32 690 м²</b></li><li><span>Етап</span><b>2-й будинок будується</b></li></ul>
-                  <a class="btn-tour" href="https://boston-house.kiev.ua/" target="_blank" rel="noopener" aria-label="Сайт проєкту ЖК BOSTON Creative House (boston-house.kiev.ua, відкриється в новій вкладці)"><svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Сайт проєкту</a>
+                  <a class="btn-tour" href="https://boston-house.kiev.ua/" target="_blank" rel="noopener" aria-label="Сайт проєкту: ЖК BOSTON Creative House (boston-house.kiev.ua, відкриється в новій вкладці)"><svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Сайт проєкту</a>
                 </div>
               </div>
             </article>
@@ -1668,7 +1743,7 @@
           <li class="project-item" id="project-ozon" data-cat="res">
             <article class="project-card project-card--3">
               <div class="project-card__bg" aria-hidden="true">
-                <svg class="project-card__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false"><polygon points="200,20 330,150 200,280 70,150" fill="#FFFFFF" fill-opacity="0.1"/><polygon points="300,60 400,160 300,260" fill="#FFFFFF" fill-opacity="0.08"/><polygon points="0,300 0,160 120,300" fill="#001A72" fill-opacity="0.18"/></svg>
+                <img class="project-card__img" src="img/project-ozon.webp" alt="" loading="lazy" decoding="async" width="960" height="720">
               </div>
               <div class="project-card__shade" aria-hidden="true"></div>
               <div class="project-card__body">
@@ -1680,7 +1755,7 @@
                   <p class="project-card__city">Київ, Печерськ</p>
                   <h3 class="project-card__title">ЖК OZON House</h3>
                   <ul class="project-facts"><li><span>Квартир</span><b>понад 1 000</b></li><li><span>Завершення</span><b>IV кв. 2033</b></li></ul>
-                  <a class="btn-tour" href="https://ozonhouse.com.ua/" target="_blank" rel="noopener" aria-label="Сайт проєкту ЖК OZON House (ozonhouse.com.ua, відкриється в новій вкладці)"><svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Сайт проєкту</a>
+                  <a class="btn-tour" href="https://ozonhouse.com.ua/" target="_blank" rel="noopener" aria-label="Сайт проєкту: ЖК OZON House (ozonhouse.com.ua, відкриється в новій вкладці)"><svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Сайт проєкту</a>
                 </div>
               </div>
             </article>
@@ -1688,7 +1763,7 @@
           <li class="project-item" id="project-circle" data-cat="com">
             <article class="project-card project-card--4">
               <div class="project-card__bg" aria-hidden="true">
-                <svg class="project-card__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false"><circle cx="310" cy="90" r="70" fill="#FFFFFF" fill-opacity="0.08"/><polygon points="0,300 180,110 260,300" fill="#FFFFFF" fill-opacity="0.1"/><polygon points="160,300 300,170 400,300" fill="#FFFFFF" fill-opacity="0.07"/></svg>
+                <img class="project-card__img" src="img/project-circle.webp" alt="" loading="lazy" decoding="async" width="960" height="720">
               </div>
               <div class="project-card__shade" aria-hidden="true"></div>
               <div class="project-card__body">
@@ -1700,7 +1775,7 @@
                   <p class="project-card__city">Київ</p>
                   <h3 class="project-card__title">Апарт-готель Circle</h3>
                   <ul class="project-facts"><li><span>Апартаментів</span><b>382</b></li></ul>
-                  <a class="btn-tour" href="https://www.circlehotel.com.ua/" target="_blank" rel="noopener" aria-label="Сайт проєкту Апарт-готель Circle (www.circlehotel.com.ua, відкриється в новій вкладці)"><svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Сайт проєкту</a>
+                  <a class="btn-tour" href="https://www.circlehotel.com.ua/" target="_blank" rel="noopener" aria-label="Сайт проєкту: Апарт-готель Circle (www.circlehotel.com.ua, відкриється в новій вкладці)"><svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Сайт проєкту</a>
                 </div>
               </div>
             </article>
@@ -1708,7 +1783,7 @@
           <li class="project-item" id="project-zhyto-zt" data-cat="com">
             <article class="project-card project-card--5">
               <div class="project-card__bg" aria-hidden="true">
-                <svg class="project-card__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false"><polygon points="220,300 330,90 400,160 400,300" fill="#FFFFFF" fill-opacity="0.12"/><polygon points="120,300 250,40 290,120 190,300" fill="#FFFFFF" fill-opacity="0.08"/><polygon points="0,0 140,0 0,120" fill="#001A72" fill-opacity="0.18"/></svg>
+                <img class="project-card__img" src="img/project-zhyto-zt.webp" alt="" loading="lazy" decoding="async" width="960" height="720">
               </div>
               <div class="project-card__shade" aria-hidden="true"></div>
               <div class="project-card__body">
@@ -1720,7 +1795,7 @@
                   <p class="project-card__city">Житомир</p>
                   <h3 class="project-card__title">ТЦ ЖИТО</h3>
                   <ul class="project-facts"><li><span>Площа</span><b>3 811 м²</b></li></ul>
-                  <button class="btn-tour" type="button" data-modal-kicker="Комерційна нерухомість" data-modal-title="ТЦ ЖИТО" data-modal-text="Торговий центр ЖИТО в Житомирі — реалізований проєкт BGV Development площею 3 811 м². Новини та актуальна інформація — в Instagram проєкту." data-modal-cta="Залишити заявку" data-modal-href="#contacts"><svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>Детальніше</button>
+                  <a class="btn-tour" href="https://www.instagram.com/zhyto.ua" target="_blank" rel="noopener" aria-label="Instagram проєкту: ТЦ ЖИТО (www.instagram.com/zhyto.ua, відкриється в новій вкладці)"><svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Instagram проєкту</a>
                 </div>
               </div>
             </article>
@@ -1728,7 +1803,7 @@
           <li class="project-item" id="project-zhyto-boyarka" data-cat="com">
             <article class="project-card project-card--6">
               <div class="project-card__bg" aria-hidden="true">
-                <svg class="project-card__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false"><path d="M0 210 C80 170 140 250 220 205 S340 170 400 200 V300 H0Z" fill="#FFFFFF" fill-opacity="0.1"/><path d="M0 240 C90 200 150 280 230 235 S350 205 400 230 V300 H0Z" fill="#FFFFFF" fill-opacity="0.08"/><polygon points="260,0 400,0 400,110" fill="#001A72" fill-opacity="0.16"/></svg>
+                <img class="project-card__img" src="img/project-zhyto-boyarka.webp" alt="" loading="lazy" decoding="async" width="960" height="720">
               </div>
               <div class="project-card__shade" aria-hidden="true"></div>
               <div class="project-card__body">
@@ -1740,7 +1815,7 @@
                   <p class="project-card__city">Боярка, Київська область</p>
                   <h3 class="project-card__title">ТРЦ ЖИТО</h3>
                   <ul class="project-facts"><li><span>Площа</span><b>23 647 м²</b></li><li><span>Відзнака</span><b>European Property Awards 2026–2027</b></li></ul>
-                  <a class="btn-tour" href="https://zhyto.ua/" target="_blank" rel="noopener" aria-label="Сайт проєкту ТРЦ ЖИТО (zhyto.ua, відкриється в новій вкладці)"><svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Сайт проєкту</a>
+                  <a class="btn-tour" href="https://zhyto.ua/boyarka" target="_blank" rel="noopener" aria-label="Сайт проєкту: ТРЦ ЖИТО (zhyto.ua/boyarka, відкриється в новій вкладці)"><svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Сайт проєкту</a>
                 </div>
               </div>
             </article>
@@ -1748,7 +1823,7 @@
           <li class="project-item" id="project-tsum" data-cat="com">
             <article class="project-card project-card--1">
               <div class="project-card__bg" aria-hidden="true">
-                <svg class="project-card__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false"><polygon points="200,20 330,150 200,280 70,150" fill="#FFFFFF" fill-opacity="0.1"/><polygon points="300,60 400,160 300,260" fill="#FFFFFF" fill-opacity="0.08"/><polygon points="0,300 0,160 120,300" fill="#001A72" fill-opacity="0.18"/></svg>
+                <img class="project-card__img" src="img/project-tsum.webp" alt="" loading="lazy" decoding="async" width="960" height="720">
               </div>
               <div class="project-card__shade" aria-hidden="true"></div>
               <div class="project-card__body">
@@ -1768,7 +1843,7 @@
           <li class="project-item" id="project-art-school" data-cat="soc">
             <article class="project-card project-card--2">
               <div class="project-card__bg" aria-hidden="true">
-                <svg class="project-card__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false"><circle cx="310" cy="90" r="70" fill="#FFFFFF" fill-opacity="0.08"/><polygon points="0,300 180,110 260,300" fill="#FFFFFF" fill-opacity="0.1"/><polygon points="160,300 300,170 400,300" fill="#FFFFFF" fill-opacity="0.07"/></svg>
+                <img class="project-card__img" src="img/project-art-school.webp" alt="" loading="lazy" decoding="async" width="960" height="720">
               </div>
               <div class="project-card__shade" aria-hidden="true"></div>
               <div class="project-card__body">
@@ -1780,7 +1855,7 @@
                   <p class="project-card__city">Соціальний та культурний проєкт</p>
                   <h3 class="project-card__title">Дитяча школа мистецтв імені Левка Левицького</h3>
                   
-                  <button class="btn-tour" type="button" data-modal-kicker="Спорт, рекреація, благодійність" data-modal-title="Дитяча школа мистецтв імені Левка Левицького" data-modal-text="Соціальний та культурний проєкт BGV Development, спрямований на підтримку дитячої мистецької освіти." data-modal-cta="Залишити заявку" data-modal-href="#contacts"><svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>Детальніше</button>
+                  <a class="btn-tour" href="https://bgvfund.org/" target="_blank" rel="noopener" aria-label="BGV Charity Fund: Дитяча школа мистецтв імені Левка Левицького (bgvfund.org, відкриється в новій вкладці)"><svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>BGV Charity Fund</a>
                 </div>
               </div>
             </article>
@@ -1788,7 +1863,7 @@
           <li class="project-item" id="project-halfmarathon" data-cat="soc">
             <article class="project-card project-card--3">
               <div class="project-card__bg" aria-hidden="true">
-                <svg class="project-card__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false"><polygon points="220,300 330,90 400,160 400,300" fill="#FFFFFF" fill-opacity="0.12"/><polygon points="120,300 250,40 290,120 190,300" fill="#FFFFFF" fill-opacity="0.08"/><polygon points="0,0 140,0 0,120" fill="#001A72" fill-opacity="0.18"/></svg>
+                <img class="project-card__img" src="img/project-halfmarathon.webp" alt="" loading="lazy" decoding="async" width="960" height="720">
               </div>
               <div class="project-card__shade" aria-hidden="true"></div>
               <div class="project-card__body">
@@ -1799,8 +1874,8 @@
                 <div>
                   <p class="project-card__city">Спортивний та благодійний проєкт · 2026</p>
                   <h3 class="project-card__title">Поліський напівмарафон. Біг, що наближає до перемоги</h3>
-                  
-                  <button class="btn-tour" type="button" data-modal-kicker="Спорт, рекреація, благодійність" data-modal-title="Поліський напівмарафон. Біг, що наближає до перемоги" data-modal-text="Спортивний та благодійний забіг, організований за участі BGV Development у 2026 році. Біг, що наближає до перемоги." data-modal-cta="Залишити заявку" data-modal-href="#contacts"><svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>Детальніше</button>
+                  <ul class="project-facts"><li><span>Рік</span><b>2026</b></li></ul>
+                  <a class="btn-tour" href="https://bgvfund.org/" target="_blank" rel="noopener" aria-label="BGV Charity Fund: Поліський напівмарафон. Біг, що наближає до перемоги (bgvfund.org, відкриється в новій вкладці)"><svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>BGV Charity Fund</a>
                 </div>
               </div>
             </article>
@@ -1889,101 +1964,101 @@
         <ul class="news-grid" id="news-grid">
           <li class="news-item" id="news-1">
             <article class="news-card">
-              <div class="news-card__media news-card__media--1" aria-hidden="true"></div>
+              <div class="news-card__media news-card__media--1"><img src="img/news-1.webp" alt="" loading="lazy" decoding="async" width="800" height="450"></div>
               <div class="news-card__body">
                 <time class="news-card__date" datetime="2026-11-18">18 листопада 2026</time>
                 <h3 class="news-card__title">Поліський напівмарафон – спорт, що об’єднує</h3>
-                <button class="news-card__link" type="button" data-modal-kicker="Новини · 18 листопада 2026" data-modal-title="Поліський напівмарафон – спорт, що об’єднує" data-modal-text="Повний текст публікації розміщено на офіційному сайті BGV Development у розділі «Новини та події»." data-modal-cta="Читати на сайті BGV" data-modal-href="https://bgv-development.com.ua/" data-modal-external="true">Читати далі <span aria-hidden="true">→</span></button>
+                <a class="news-card__link" href="https://bgv-development.com.ua/%d0%bf%d0%be%d0%bb%d1%96%d1%81%d1%8c%d0%ba%d0%b8%d0%b9-%d0%bd%d0%b0%d0%bf%d1%96%d0%b2%d0%bc%d0%b0%d1%80%d0%b0%d1%84%d0%be%d0%bd-%d1%81%d0%bf%d0%be%d1%80%d1%82-%d1%89%d0%be-%d0%be%d0%b1%d1%94%d0%b4/" target="_blank" rel="noopener" aria-label="Читати повністю: Поліський напівмарафон – спорт, що об’єднує (сайт BGV Development, нова вкладка)">Читати повністю <span aria-hidden="true">→</span></a>
               </div>
             </article>
           </li>
           <li class="news-item" id="news-2">
             <article class="news-card">
-              <div class="news-card__media news-card__media--2" aria-hidden="true"></div>
+              <div class="news-card__media news-card__media--2"><img src="img/news-2.webp" alt="" loading="lazy" decoding="async" width="800" height="450"></div>
               <div class="news-card__body">
                 <time class="news-card__date" datetime="2026-11-10">10 листопада 2026</time>
                 <h3 class="news-card__title">Працівники групи компаній BGV зібрали 11 літрів донорської крові для Інституту Серця</h3>
-                <button class="news-card__link" type="button" data-modal-kicker="Новини · 10 листопада 2026" data-modal-title="Працівники групи компаній BGV зібрали 11 літрів донорської крові для Інституту Серця" data-modal-text="Повний текст публікації розміщено на офіційному сайті BGV Development у розділі «Новини та події»." data-modal-cta="Читати на сайті BGV" data-modal-href="https://bgv-development.com.ua/" data-modal-external="true">Читати далі <span aria-hidden="true">→</span></button>
+                <a class="news-card__link" href="https://bgv-development.com.ua/bgv-zibrali-11-litriv-donorskoyi-krovi-dlya-institutu-sercya/" target="_blank" rel="noopener" aria-label="Читати повністю: Працівники групи компаній BGV зібрали 11 літрів донорської крові для Інституту Серця (сайт BGV Development, нова вкладка)">Читати повністю <span aria-hidden="true">→</span></a>
               </div>
             </article>
           </li>
           <li class="news-item" id="news-3">
             <article class="news-card">
-              <div class="news-card__media news-card__media--3" aria-hidden="true"></div>
+              <div class="news-card__media news-card__media--3"><img src="img/news-3.webp" alt="" loading="lazy" decoding="async" width="800" height="450"></div>
               <div class="news-card__body">
                 <time class="news-card__date" datetime="2026-11-09">9 листопада 2026</time>
                 <h3 class="news-card__title">«Людям більше не потрібні зайві квадратні метри»: Євген Бінявський на UIBC 2026</h3>
-                <button class="news-card__link" type="button" data-modal-kicker="Новини · 9 листопада 2026" data-modal-title="«Людям більше не потрібні зайві квадратні метри»: Євген Бінявський на UIBC 2026" data-modal-text="Повний текст публікації розміщено на офіційному сайті BGV Development у розділі «Новини та події»." data-modal-cta="Читати на сайті BGV" data-modal-href="https://bgv-development.com.ua/" data-modal-external="true">Читати далі <span aria-hidden="true">→</span></button>
+                <a class="news-card__link" href="https://bgv-development.com.ua/liudiam-bilshe-ne-potribni-zaivi-kvadratni-metry-uibc-2026/" target="_blank" rel="noopener" aria-label="Читати повністю: «Людям більше не потрібні зайві квадратні метри»: Євген Бінявський на UIBC 2026 (сайт BGV Development, нова вкладка)">Читати повністю <span aria-hidden="true">→</span></a>
               </div>
             </article>
           </li>
           <li class="news-item" id="news-4">
             <article class="news-card">
-              <div class="news-card__media news-card__media--1" aria-hidden="true"></div>
+              <div class="news-card__media news-card__media--1"><img src="img/news-4.webp" alt="" loading="lazy" decoding="async" width="800" height="450"></div>
               <div class="news-card__body">
                 <time class="news-card__date" datetime="2026-10-13">13 жовтня 2026</time>
                 <h3 class="news-card__title">BGV Development та SAGA Development розпочали продажі в OZON House на Печерську</h3>
-                <button class="news-card__link" type="button" data-modal-kicker="Новини · 13 жовтня 2026" data-modal-title="BGV Development та SAGA Development розпочали продажі в OZON House на Печерську" data-modal-text="Повний текст публікації розміщено на офіційному сайті BGV Development у розділі «Новини та події»." data-modal-cta="Читати на сайті BGV" data-modal-href="https://bgv-development.com.ua/" data-modal-external="true">Читати далі <span aria-hidden="true">→</span></button>
+                <a class="news-card__link" href="https://bgv-development.com.ua/bgv-ta-saga-rozpochaly-prodazhi-v-ozon-house/" target="_blank" rel="noopener" aria-label="Читати повністю: BGV Development та SAGA Development розпочали продажі в OZON House на Печерську (сайт BGV Development, нова вкладка)">Читати повністю <span aria-hidden="true">→</span></a>
               </div>
             </article>
           </li>
           <li class="news-item" id="news-5">
             <article class="news-card">
-              <div class="news-card__media news-card__media--2" aria-hidden="true"></div>
+              <div class="news-card__media news-card__media--2"><img src="img/news-5.webp" alt="" loading="lazy" decoding="async" width="800" height="450"></div>
               <div class="news-card__body">
                 <time class="news-card__date" datetime="2026-10-05">5 жовтня 2026</time>
                 <h3 class="news-card__title">BGV Development і SAGA Development представили кейс BOSTON Creative House на «МЕТРОНОМ 2026»</h3>
-                <button class="news-card__link" type="button" data-modal-kicker="Новини · 5 жовтня 2026" data-modal-title="BGV Development і SAGA Development представили кейс BOSTON Creative House на «МЕТРОНОМ 2026»" data-modal-text="Повний текст публікації розміщено на офіційному сайті BGV Development у розділі «Новини та події»." data-modal-cta="Читати на сайті BGV" data-modal-href="https://bgv-development.com.ua/" data-modal-external="true">Читати далі <span aria-hidden="true">→</span></button>
+                <a class="news-card__link" href="https://bgv-development.com.ua/bgv-development-metronom-2026/" target="_blank" rel="noopener" aria-label="Читати повністю: BGV Development і SAGA Development представили кейс BOSTON Creative House на «МЕТРОНОМ 2026» (сайт BGV Development, нова вкладка)">Читати повністю <span aria-hidden="true">→</span></a>
               </div>
             </article>
           </li>
           <li class="news-item" id="news-6">
             <article class="news-card">
-              <div class="news-card__media news-card__media--3" aria-hidden="true"></div>
+              <div class="news-card__media news-card__media--3"><img src="img/news-6.webp" alt="" loading="lazy" decoding="async" width="800" height="450"></div>
               <div class="news-card__body">
                 <time class="news-card__date" datetime="2026-09-11">11 вересня 2026</time>
                 <h3 class="news-card__title">ТРЦ «ЖИТО» в Боярці від BGV Development здобув відзнаку European Property Awards 2026–2027</h3>
-                <button class="news-card__link" type="button" data-modal-kicker="Новини · 11 вересня 2026" data-modal-title="ТРЦ «ЖИТО» в Боярці від BGV Development здобув відзнаку European Property Awards 2026–2027" data-modal-text="Повний текст публікації розміщено на офіційному сайті BGV Development у розділі «Новини та події»." data-modal-cta="Читати на сайті BGV" data-modal-href="https://bgv-development.com.ua/" data-modal-external="true">Читати далі <span aria-hidden="true">→</span></button>
+                <a class="news-card__link" href="https://bgv-development.com.ua/trts-zhyto-v-boiartsi-zdobuv-epa-26-27/" target="_blank" rel="noopener" aria-label="Читати повністю: ТРЦ «ЖИТО» в Боярці від BGV Development здобув відзнаку European Property Awards 2026–2027 (сайт BGV Development, нова вкладка)">Читати повністю <span aria-hidden="true">→</span></a>
               </div>
             </article>
           </li>
           <li class="news-item news-item--more" id="news-7" hidden>
             <article class="news-card">
-              <div class="news-card__media news-card__media--1" aria-hidden="true"></div>
+              <div class="news-card__media news-card__media--1"><img src="img/news-7.webp" alt="" loading="lazy" decoding="async" width="800" height="450"></div>
               <div class="news-card__body">
                 <time class="news-card__date" datetime="2026-09-09">9 вересня 2026</time>
                 <h3 class="news-card__title">Попри виклики війни: BGV і SAGA завершили першу вежу BOSTON Creative House</h3>
-                <button class="news-card__link" type="button" data-modal-kicker="Новини · 9 вересня 2026" data-modal-title="Попри виклики війни: BGV і SAGA завершили першу вежу BOSTON Creative House" data-modal-text="Повний текст публікації розміщено на офіційному сайті BGV Development у розділі «Новини та події»." data-modal-cta="Читати на сайті BGV" data-modal-href="https://bgv-development.com.ua/" data-modal-external="true">Читати далі <span aria-hidden="true">→</span></button>
+                <a class="news-card__link" href="https://bgv-development.com.ua/bgv-i-saga-zavershyly-pershu-vezhu-boston-creative-house/" target="_blank" rel="noopener" aria-label="Читати повністю: Попри виклики війни: BGV і SAGA завершили першу вежу BOSTON Creative House (сайт BGV Development, нова вкладка)">Читати повністю <span aria-hidden="true">→</span></a>
               </div>
             </article>
           </li>
           <li class="news-item news-item--more" id="news-8" hidden>
             <article class="news-card">
-              <div class="news-card__media news-card__media--2" aria-hidden="true"></div>
+              <div class="news-card__media news-card__media--2"><img src="img/news-8.webp" alt="" loading="lazy" decoding="async" width="800" height="450"></div>
               <div class="news-card__body">
                 <time class="news-card__date" datetime="2026-07-09">9 липня 2026</time>
                 <h3 class="news-card__title">BGV Development організували День донора в центральному офісі і зібрали понад 11 літрів крові для Інституту Серця</h3>
-                <button class="news-card__link" type="button" data-modal-kicker="Новини · 9 липня 2026" data-modal-title="BGV Development організували День донора в центральному офісі і зібрали понад 11 літрів крові для Інституту Серця" data-modal-text="Повний текст публікації розміщено на офіційному сайті BGV Development у розділі «Новини та події»." data-modal-cta="Читати на сайті BGV" data-modal-href="https://bgv-development.com.ua/" data-modal-external="true">Читати далі <span aria-hidden="true">→</span></button>
+                <a class="news-card__link" href="https://bgv-development.com.ua/bgv-development-orhanizuvaly-den-donora-v-tsentralnomu-ofisi/" target="_blank" rel="noopener" aria-label="Читати повністю: BGV Development організували День донора в центральному офісі і зібрали понад 11 літрів крові для Інституту Серця (сайт BGV Development, нова вкладка)">Читати повністю <span aria-hidden="true">→</span></a>
               </div>
             </article>
           </li>
           <li class="news-item news-item--more" id="news-9" hidden>
             <article class="news-card">
-              <div class="news-card__media news-card__media--3" aria-hidden="true"></div>
+              <div class="news-card__media news-card__media--3"><img src="img/news-9.webp" alt="" loading="lazy" decoding="async" width="800" height="450"></div>
               <div class="news-card__body">
                 <time class="news-card__date" datetime="2026-06-25">25 червня 2026</time>
                 <h3 class="news-card__title">Forbes відзначив BGV Development серед бізнесів, які формують нову економіку України</h3>
-                <button class="news-card__link" type="button" data-modal-kicker="Новини · 25 червня 2026" data-modal-title="Forbes відзначив BGV Development серед бізнесів, які формують нову економіку України" data-modal-text="Повний текст публікації розміщено на офіційному сайті BGV Development у розділі «Новини та події»." data-modal-cta="Читати на сайті BGV" data-modal-href="https://bgv-development.com.ua/" data-modal-external="true">Читати далі <span aria-hidden="true">→</span></button>
+                <a class="news-card__link" href="https://bgv-development.com.ua/forbes-vidznachyv-bgv-sered-biznesiv-yaki-formuiut-ekonomiku/" target="_blank" rel="noopener" aria-label="Читати повністю: Forbes відзначив BGV Development серед бізнесів, які формують нову економіку України (сайт BGV Development, нова вкладка)">Читати повністю <span aria-hidden="true">→</span></a>
               </div>
             </article>
           </li>
           <li class="news-item news-item--more" id="news-10" hidden>
             <article class="news-card">
-              <div class="news-card__media news-card__media--1" aria-hidden="true"></div>
+              <div class="news-card__media news-card__media--1"><img src="img/news-10.webp" alt="" loading="lazy" decoding="async" width="800" height="450"></div>
               <div class="news-card__body">
                 <time class="news-card__date" datetime="2026-06-10">10 червня 2026</time>
                 <h3 class="news-card__title">«Хвилі стиглого ЖИТА»: у Боярці з’явиться сучасний ТРЦ від BGV Development</h3>
-                <button class="news-card__link" type="button" data-modal-kicker="Новини · 10 червня 2026" data-modal-title="«Хвилі стиглого ЖИТА»: у Боярці з’явиться сучасний ТРЦ від BGV Development" data-modal-text="Повний текст публікації розміщено на офіційному сайті BGV Development у розділі «Новини та події»." data-modal-cta="Читати на сайті BGV" data-modal-href="https://bgv-development.com.ua/" data-modal-external="true">Читати далі <span aria-hidden="true">→</span></button>
+                <a class="news-card__link" href="https://bgv-development.com.ua/u-boiartsi-ziavytsia-suchasnyi-trts-vid-bgv-development/" target="_blank" rel="noopener" aria-label="Читати повністю: «Хвилі стиглого ЖИТА»: у Боярці з’явиться сучасний ТРЦ від BGV Development (сайт BGV Development, нова вкладка)">Читати повністю <span aria-hidden="true">→</span></a>
               </div>
             </article>
           </li>
@@ -1991,6 +2066,7 @@
 
         <div class="news__actions">
           <button class="btn-outline" id="news-more" type="button" aria-controls="news-grid" aria-expanded="false">Усі новини</button>
+          <a class="news__archive" href="https://bgv-development.com.ua/blog" target="_blank" rel="noopener">Архів новин на сайті BGV →</a>
         </div>
       </div>
     </section>
@@ -2002,36 +2078,28 @@
         <ul class="why-grid why-grid--4">
           <li>
             <article class="why-card">
-              <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M24 44V22"/><path d="M24 26c-9 0-14-6-14-16 10 0 14 6 14 16z"/><path d="M24 30c7 0 12-5 12-13-8 0-12 5-12 13z"/>
-              </svg>
+              <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 44V22"/><path d="M24 26c-9 0-14-6-14-16 10 0 14 6 14 16z"/><path d="M24 30c7 0 12-5 12-13-8 0-12 5-12 13z"/></svg>
               <h3 class="why-card__title">Екологічність</h3>
               <p class="why-card__text">Збереження навколишнього середовища, природного ландшафту, флори та фауни під час будівництва об’єктів.</p>
             </article>
           </li>
           <li>
             <article class="why-card">
-              <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="15" cy="16" r="7"/><path d="M15 23v15"/><circle cx="33" cy="20" r="5"/><path d="M33 25v13"/><path d="M4 42c6-3 12-3 20 0s14 3 20 0"/>
-              </svg>
+              <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="15" cy="16" r="7"/><path d="M15 23v15"/><circle cx="33" cy="20" r="5"/><path d="M33 25v13"/><path d="M4 42c6-3 12-3 20 0s14 3 20 0"/></svg>
               <h3 class="why-card__title">Створення екологічних просторів</h3>
               <p class="why-card__text">Зони відпочинку, озеленення, водойми та комфортна інфраструктура.</p>
             </article>
           </li>
           <li>
             <article class="why-card">
-              <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="22" cy="8" r="3"/><path d="M22 13v13h11l5 10"/><path d="M22 19h10"/><path d="M15 23a11 11 0 1 0 15 13"/>
-              </svg>
+              <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="22" cy="8" r="3"/><path d="M22 13v13h11l5 10"/><path d="M22 19h10"/><path d="M15 23a11 11 0 1 0 15 13"/></svg>
               <h3 class="why-card__title">Інклюзивність</h3>
               <p class="why-card__text">Пандуси, ліфти та інші рішення для комфортного користування об’єктами всіма відвідувачами.</p>
             </article>
           </li>
           <li>
             <article class="why-card">
-              <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M24 40S7 30 7 18a9 9 0 0 1 17-4 9 9 0 0 1 17 4c0 12-17 22-17 22z"/>
-              </svg>
+              <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 40S7 30 7 18a9 9 0 0 1 17-4 9 9 0 0 1 17 4c0 12-17 22-17 22z"/></svg>
               <h3 class="why-card__title">Благодійність</h3>
               <p class="why-card__text">Діяльність благодійного фонду BGV Charity Fund.</p>
             </article>
@@ -2051,18 +2119,9 @@
             <span class="charity-stat__label">допомоги реалізовано за 3 роки повномасштабної війни</span>
           </div>
         </div>
-        <div class="social__decor" aria-hidden="true">
-          <svg class="social__decor-svg" viewBox="0 0 520 520" focusable="false">
-            <g id="social-shape-1">
-              <polygon class="social-shape" points="260,40 480,260 260,480 40,260"/>
-            </g>
-            <g id="social-shape-2">
-              <polygon class="social-shape" points="260,120 430,420 90,420"/>
-            </g>
-            <g id="social-shape-3">
-              <polygon class="social-shape--line" points="260,0 520,260 260,520 0,260"/>
-            </g>
-          </svg>
+        <div class="charity-media">
+          <img src="img/charity.webp" alt="" loading="lazy" decoding="async" width="900" height="1125">
+          <a class="btn-primary charity-media__btn" href="https://bgvfund.org/" target="_blank" rel="noopener">Сайт BGV Charity Fund</a>
         </div>
       </div>
     </section>
@@ -2123,7 +2182,7 @@
         </div>
 
         <aside class="contacts__info" aria-label="Контактні дані">
-          <svg class="contacts__logo" viewBox="0 0 120 64" role="img" aria-label="BGV Development" focusable="false">
+          <svg class="contacts__logo" viewBox="0 0 339 40" role="img" aria-label="BGV Development" focusable="false">
             <use href="#bgv-logo"></use>
           </svg>
           <dl class="contacts__list">
@@ -2151,7 +2210,7 @@
     <div class="container-bgv">
       <div class="footer-top">
         <a class="footer-logo focus-ring" href="#top" aria-label="BGV Development — догори">
-          <svg class="footer-logo__svg" viewBox="0 0 120 64" aria-hidden="true" focusable="false">
+          <svg class="footer-logo__svg" viewBox="0 0 339 40" aria-hidden="true" focusable="false">
             <use href="#bgv-logo"></use>
           </svg>
         </a>
@@ -2178,8 +2237,8 @@
             <h2 class="footer-col__title">Комерційна нерухомість</h2>
             <ul class="footer-col__list">
               <li><a class="footer-link" href="https://www.circlehotel.com.ua/" target="_blank" rel="noopener">Апарт-готель Circle</a></li>
-              <li><a class="footer-link" href="https://zhyto.ua/" target="_blank" rel="noopener">ТРЦ ЖИТО, Боярка</a></li>
-              <li><a class="footer-link" href="#project-zhyto-zt">ТЦ ЖИТО, Житомир</a></li>
+              <li><a class="footer-link" href="https://zhyto.ua/boyarka" target="_blank" rel="noopener">ТРЦ ЖИТО, Боярка</a></li>
+              <li><a class="footer-link" href="https://www.instagram.com/zhyto.ua" target="_blank" rel="noopener">ТЦ ЖИТО, Житомир</a></li>
               <li><a class="footer-link" href="#project-tsum">ЦУМ Житомира</a></li>
             </ul>
           </div>
@@ -2192,6 +2251,20 @@
             </ul>
           </div>
         </nav>
+        <div class="socials">
+          <a class="social-link" href="https://www.facebook.com/profile.php?id=61575725922058" target="_blank" rel="noopener" aria-label="BGV Development у Facebook">
+            <svg class="social-link__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1z"/>
+            </svg>
+          </a>
+          <a class="social-link" href="https://www.instagram.com/bgvdevelopment" target="_blank" rel="noopener" aria-label="BGV Development в Instagram">
+            <svg class="social-link__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <rect x="3.5" y="3.5" width="17" height="17" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+        </div>
       </div>
 
       <div class="footer-bottom">
@@ -2811,9 +2884,9 @@
             stagger: { each: 0.45, repeat: -1 } });
 
         /* ---------- Social Investment: медленное вращение фигур ---------- */
-        gsap.to('#social-shape-1', { rotation: 360, svgOrigin: '260 260', duration: 90, ease: 'none', repeat: -1 });
-        gsap.to('#social-shape-2', { rotation: -360, svgOrigin: '260 300', duration: 70, ease: 'none', repeat: -1 });
-        gsap.to('#social-shape-3', { rotation: 360, svgOrigin: '260 260', duration: 120, ease: 'none', repeat: -1 });
+        if (document.getElementById('social-shape-1')) gsap.to('#social-shape-1', { rotation: 360, svgOrigin: '260 260', duration: 90, ease: 'none', repeat: -1 });
+        if (document.getElementById('social-shape-2')) gsap.to('#social-shape-2', { rotation: -360, svgOrigin: '260 300', duration: 70, ease: 'none', repeat: -1 });
+        if (document.getElementById('social-shape-3')) gsap.to('#social-shape-3', { rotation: 360, svgOrigin: '260 260', duration: 120, ease: 'none', repeat: -1 });
       }
     })();
   </script>
