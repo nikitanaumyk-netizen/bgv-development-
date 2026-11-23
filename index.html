@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>BGV Development — Строим будущее вместе с вами</title>
-  <meta name="description" content="Девелоперская компания BGV Development. Жилые комплексы в Киеве, Боярке, Житомире. Build Your Future.">
+  <title>BGV Development – Будівництво в Україні</title>
+  <meta name="description" content="Девелоперська компанія повного циклу BGV Development: Equides Villas, Boston Creative House, Ozon Concept House, ЖК «Манхеттен», ТЦ «Жито». Київ, Київщина, Житомир.">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="BGV Development">
-  <meta property="og:title" content="BGV Development — Строим будущее вместе с вами">
-  <meta property="og:description" content="Девелоперская компания BGV Development. Жилые комплексы в Киеве, Боярке, Житомире. Build Your Future.">
-  <meta property="og:locale" content="ru_UA">
+  <meta property="og:title" content="BGV Development – Будівництво в Україні">
+  <meta property="og:description" content="Девелоперська компанія повного циклу BGV Development: Equides Villas, Boston Creative House, Ozon Concept House, ЖК «Манхеттен», ТЦ «Жито». Київ, Київщина, Житомир.">
+  <meta property="og:locale" content="uk_UA">
   <!-- TODO: заменить на боевой домен и добавить og:image (PNG 1200×630) -->
-  <meta property="og:url" content="https://bgv-development-github-2-1.vercel.app/">
+  <meta property="og:url" content="https://bgv-development-site610v4.vercel.app/">
 
   <!-- Фавикон: инлайн SVG, буква B на фоне --color-logo -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23001A72'/%3E%3Ctext x='32' y='46' text-anchor='middle' font-family='Manrope,Arial,sans-serif' font-size='40' font-weight='800' fill='%23FFFFFF'%3EB%3C/text%3E%3C/svg%3E">
@@ -672,6 +672,9 @@
     .project-status--done { background: var(--color-blue-200); color: var(--color-logo); }
     .project-status--planned { border: 1px solid rgba(255, 255, 255, 0.7); color: var(--color-white); }
 
+    .project-card--5 .project-card__bg { background: linear-gradient(145deg, var(--color-logo) 0%, var(--color-main) 100%); }
+    .project-card--6 .project-card__bg { background: linear-gradient(225deg, var(--color-logo) 0%, var(--color-blue-400) 100%); }
+    .project-card__meta { margin-top: 8px; font-size: 14px; font-weight: 500; opacity: 0.85; }
     .project-card__city {
       font-size: 14px;
       font-weight: 500;
@@ -1370,28 +1373,29 @@
   <!-- СЕКЦИЯ: HEADER -->
   <header class="site-header" id="site-header">
     <div class="container-bgv site-header__inner">
-      <a class="header-logo focus-ring" href="#top" aria-label="BGV Development — на главную">
+      <a class="header-logo focus-ring" href="#top" aria-label="BGV Development — на головну">
         <svg class="header-logo__svg" viewBox="0 0 120 64" aria-hidden="true" focusable="false">
           <use href="#bgv-logo"></use>
         </svg>
       </a>
 
-      <nav class="main-nav" aria-label="Основная навигация">
+      <nav class="main-nav" aria-label="Основна навігація">
         <ul class="main-nav__list">
-          <li><a class="nav-link" href="#about">О компании</a></li>
-          <li><a class="nav-link" href="#projects">Проекты</a></li>
-          <li><a class="nav-link" href="#news">Новости</a></li>
-          <li><a class="nav-link" href="#contacts">Контакты</a></li>
+          <li><a class="nav-link" href="#about">Про компанію</a></li>
+          <li><a class="nav-link" href="#projects">Проєкти</a></li>
+          <li><a class="nav-link" href="#geography">Географія</a></li>
+          <li><a class="nav-link" href="#news">Новини</a></li>
+          <li><a class="nav-link" href="#contacts">Контакти</a></li>
         </ul>
       </nav>
 
       <div class="header-actions">
-        <div class="lang-switch" role="group" aria-label="Язык сайта">
+        <div class="lang-switch" role="group" aria-label="Мова сайту">
           <button class="lang-btn" type="button" data-lang="ua" aria-pressed="true">UA</button>
           <span class="lang-switch__sep" aria-hidden="true">|</span>
           <button class="lang-btn" type="button" data-lang="en" aria-pressed="false">EN</button>
         </div>
-        <button class="burger" id="burger-btn" type="button" aria-label="Открыть меню"
+        <button class="burger" id="burger-btn" type="button" aria-label="Відкрити меню"
                 aria-expanded="false" aria-controls="mobile-panel">
           <span class="burger__line"></span>
           <span class="burger__line"></span>
@@ -1403,26 +1407,27 @@
 
   <!-- СЕКЦИЯ: МОБИЛЬНОЕ МЕНЮ -->
   <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
-  <aside class="mobile-panel" id="mobile-panel" aria-label="Мобильное меню" aria-hidden="true">
+  <aside class="mobile-panel" id="mobile-panel" aria-label="Мобільне меню" aria-hidden="true">
     <div class="mobile-panel__top">
       <svg class="header-logo__svg" viewBox="0 0 120 64" aria-hidden="true" focusable="false">
         <use href="#bgv-logo"></use>
       </svg>
-      <button class="mobile-close" id="mobile-close" type="button" aria-label="Закрыть меню">
+      <button class="mobile-close" id="mobile-close" type="button" aria-label="Закрити меню">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
           <path d="M5 5l14 14M19 5L5 19"/>
         </svg>
       </button>
     </div>
-    <nav aria-label="Мобильная навигация">
+    <nav aria-label="Мобільна навігація">
       <ul class="mobile-nav__list">
-        <li><a class="mobile-link" href="#about">О компании</a></li>
-        <li><a class="mobile-link" href="#projects">Проекты</a></li>
-        <li><a class="mobile-link" href="#news">Новости</a></li>
-        <li><a class="mobile-link" href="#contacts">Контакты</a></li>
+        <li><a class="mobile-link" href="#about">Про компанію</a></li>
+        <li><a class="mobile-link" href="#projects">Проєкти</a></li>
+        <li><a class="mobile-link" href="#geography">Географія</a></li>
+        <li><a class="mobile-link" href="#news">Новини</a></li>
+        <li><a class="mobile-link" href="#contacts">Контакти</a></li>
       </ul>
     </nav>
-    <div class="lang-switch" role="group" aria-label="Язык сайта (мобильное меню)">
+    <div class="lang-switch" role="group" aria-label="Мова сайту (мобільне меню)">
       <button class="lang-btn" type="button" data-lang="ua" aria-pressed="true">UA</button>
       <span class="lang-switch__sep" aria-hidden="true">|</span>
       <button class="lang-btn" type="button" data-lang="en" aria-pressed="false">EN</button>
@@ -1433,7 +1438,6 @@
 
     <!-- СЕКЦИЯ: HERO -->
     <section class="hero" id="hero" aria-labelledby="hero-title">
-      <!-- Диагональные фигуры бренда -->
       <svg class="hero__shapes" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
         <g class="hero-shape" id="shape-1">
           <polygon points="-120,120 520,-60 300,560" fill="#FFFFFF" fill-opacity="0.12"/>
@@ -1448,11 +1452,11 @@
 
       <div class="container-bgv hero__content">
         <h1 class="hero__title hero-reveal" id="hero-title">Build Your Future</h1>
-        <p class="hero__subtitle hero-reveal">Девелоперская компания BGV Development. Строим будущее вместе с вами.</p>
-        <a class="btn-primary hero-reveal" href="#projects">Смотреть проекты</a>
+        <p class="hero__subtitle hero-reveal">BGV Development — девелопер повного циклу. Житлова, комерційна та заміська нерухомість в Україні.</p>
+        <a class="btn-primary hero-reveal" href="#projects">Дивитися проєкти</a>
       </div>
 
-      <a class="scroll-indicator" id="scroll-indicator" href="#about" aria-label="Прокрутить к разделу «О компании»">
+      <a class="scroll-indicator" id="scroll-indicator" href="#about" aria-label="Прокрутити до розділу «Про компанію»">
         <span class="scroll-indicator__track">
           <span class="scroll-indicator__dot" id="scroll-dot"></span>
         </span>
@@ -1461,35 +1465,34 @@
 
     <!-- СЕКЦИЯ: О КОМПАНИИ / ЦИФРЫ -->
     <section class="about" id="about" aria-labelledby="about-title">
-      <!-- Фирменная полоса параллельно срезу Hero -->
       <svg class="about__diag" viewBox="0 0 1440 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
         <polygon class="diag-stripe" points="0,130 1440,30 1440,42 0,142"/>
       </svg>
       <div class="container-bgv">
         <div class="about__head">
-          <h2 class="heading about__title" id="about-title">О компании</h2>
+          <h2 class="heading about__title" id="about-title">Про компанію</h2>
           <div>
-            <p class="about__text">BGV Development строит жилые комплексы, в которых удобно жить каждый день: продуманные планировки, надёжные материалы и честные сроки сдачи.</p>
-            <p class="about__text">Мы ведём проект на всех этапах — от выбора участка до передачи ключей — и отвечаем за результат перед каждой семьёй, которая выбрала наш дом.</p>
+            <p class="about__text">BGV Development — девелоперська компанія, заснована у 2024 році у складі інвестиційної групи BGV Group Management. Ми створюємо житлову, комерційну та заміську нерухомість і працюємо в повному циклі: від пошуку земельної ділянки до введення об’єкта в експлуатацію.</p>
+            <p class="about__text">Розвиваємося разом із сильними партнерами — SAGA Development у Києві та ArtHouse Group у Житомирі. BGV виступає інвестиційним гарантом і співінвестором, партнер відповідає за операційне управління та будівництво. З березня 2026 року компанія — повноправний член Конфедерації будівельників України.</p>
           </div>
         </div>
 
         <ul class="stats" id="stats">
           <li class="stat">
-            <span class="stat__num" data-target="15" data-suffix="+">15+</span>
-            <span class="stat__label">лет на рынке</span>
+            <span class="stat__num" data-target="2024" data-plain="true" data-suffix="">2024</span>
+            <span class="stat__label">рік заснування</span>
           </li>
           <li class="stat">
-            <span class="stat__num" data-target="500000" data-suffix="">500&nbsp;000</span>
-            <span class="stat__label">м² построено</span>
+            <span class="stat__num" data-target="2500" data-suffix="+">2&nbsp;500+</span>
+            <span class="stat__label">квартир у житлових проєктах</span>
           </li>
           <li class="stat">
-            <span class="stat__num" data-target="10000" data-suffix="+">10&nbsp;000+</span>
-            <span class="stat__label">счастливых семей</span>
+            <span class="stat__num" data-target="6" data-suffix="">6</span>
+            <span class="stat__label">проєктів у портфелі</span>
           </li>
           <li class="stat">
-            <span class="stat__num" data-target="3" data-suffix="">3</span>
-            <span class="stat__label">города присутствия</span>
+            <span class="stat__num" data-target="300" data-prefix="$" data-suffix=" млн">$300 млн</span>
+            <span class="stat__label">максимальна оцінка інвестицій у портфель</span>
           </li>
         </ul>
       </div>
@@ -1499,85 +1502,65 @@
     <section class="projects section-pad" id="projects" aria-labelledby="projects-title">
       <div class="container-bgv">
         <div class="projects__head">
-          <h2 class="heading section-title" id="projects-title">Наши проекты</h2>
-          <p class="section-lead">Жилые комплексы в Киеве, Киевской области и Житомире.</p>
+          <h2 class="heading section-title" id="projects-title">Наші проєкти</h2>
+          <p class="section-lead">Житлові комплекси, заміське містечко та торгові центри «Жито» у Києві, Київській області та Житомирі.</p>
         </div>
 
         <ul class="projects-grid">
-          <li class="project-item" id="project-boston">
+          <li class="project-item" id="project-equides">
             <article class="project-card project-card--1">
               <div class="project-card__bg" aria-hidden="true">
                 <svg class="project-card__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false">
-                  <polygon points="220,300 330,90 400,160 400,300" fill="#FFFFFF" fill-opacity="0.12"/>
-                  <polygon points="120,300 250,40 290,120 190,300" fill="#FFFFFF" fill-opacity="0.08"/>
+                  <path d="M0 210 C80 170 140 250 220 205 S340 170 400 200 V300 H0Z" fill="#FFFFFF" fill-opacity="0.1"/>
+                  <polygon points="250,200 300,150 350,200" fill="#FFFFFF" fill-opacity="0.12"/>
                   <polygon points="0,0 140,0 0,120" fill="#001A72" fill-opacity="0.18"/>
                 </svg>
               </div>
               <div class="project-card__shade" aria-hidden="true"></div>
               <div class="project-card__body">
-                <span class="project-status project-status--building">Строится</span>
+                <span class="project-status project-status--building">Власний проєкт</span>
                 <div>
-                  <p class="project-card__city">Киев</p>
-                  <h3 class="project-card__title">BOSTON Creative House</h3>
-                  <button class="btn-tour" type="button" data-project="BOSTON Creative House">
+                  <p class="project-card__city">Лісники, Київська область</p>
+                  <h3 class="project-card__title">Equides Villas</h3>
+                  <p class="project-card__meta">Котеджне містечко · вілли 80–139 м²</p>
+                  <button class="btn-tour" type="button" data-project="Equides Villas"
+                          data-desc="Заміське містечко преміум-формату в Лісниках (Обухівський район), близько 25 хвилин від центру Києва. Вілли площею від 80 до 139 м², кінний, гольф- та падел-клуби на території. Переможець European Property Awards 2025 у категорії Residential Development 20+ Units Ukraine.">
                     <svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>
-                    Смотреть 3D-тур
+                    Детальніше
                   </button>
                 </div>
               </div>
             </article>
           </li>
 
-          <li class="project-item" id="project-zhyto">
+          <li class="project-item" id="project-boston">
             <article class="project-card project-card--2">
               <div class="project-card__bg" aria-hidden="true">
                 <svg class="project-card__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false">
-                  <path d="M0 210 C80 170 140 250 220 205 S340 170 400 200 V300 H0Z" fill="#FFFFFF" fill-opacity="0.1"/>
-                  <path d="M0 240 C90 200 150 280 230 235 S350 205 400 230 V300 H0Z" fill="#FFFFFF" fill-opacity="0.08"/>
+                  <polygon points="220,300 330,90 400,160 400,300" fill="#FFFFFF" fill-opacity="0.12"/>
+                  <polygon points="120,300 250,40 290,120 190,300" fill="#FFFFFF" fill-opacity="0.08"/>
                   <polygon points="260,0 400,0 400,110" fill="#001A72" fill-opacity="0.16"/>
                 </svg>
               </div>
               <div class="project-card__shade" aria-hidden="true"></div>
               <div class="project-card__body">
-                <span class="project-status project-status--building">Строится</span>
+                <span class="project-status project-status--done">Перша вежа введена</span>
                 <div>
-                  <p class="project-card__city">Боярка</p>
-                  <h3 class="project-card__title">ЖИТО</h3>
-                  <button class="btn-tour" type="button" data-project="ЖИТО">
+                  <p class="project-card__city">Київ, Нова Оболонь</p>
+                  <h3 class="project-card__title">Boston Creative House</h3>
+                  <p class="project-card__meta">2 вежі по 25 поверхів · 644 квартири</p>
+                  <button class="btn-tour" type="button" data-project="Boston Creative House"
+                          data-desc="Спільний проєкт із SAGA Development (стратегічне партнерство з жовтня 2024 року). Дві 25-поверхові вежі на 644 квартири та 382 апартаменти Circle Hotel. Двір без машин і творчий формат житла в діловому районі Нової Оболоні.">
                     <svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>
-                    Смотреть 3D-тур
+                    Детальніше
                   </button>
                 </div>
               </div>
             </article>
           </li>
 
-          <li class="project-item" id="project-residence">
+          <li class="project-item" id="project-ozon">
             <article class="project-card project-card--3">
-              <div class="project-card__bg" aria-hidden="true">
-                <svg class="project-card__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false">
-                  <polygon points="200,20 330,150 200,280 70,150" fill="#FFFFFF" fill-opacity="0.1"/>
-                  <polygon points="300,60 400,160 300,260" fill="#FFFFFF" fill-opacity="0.08"/>
-                  <polygon points="0,300 0,160 120,300" fill="#001A72" fill-opacity="0.18"/>
-                </svg>
-              </div>
-              <div class="project-card__shade" aria-hidden="true"></div>
-              <div class="project-card__body">
-                <span class="project-status project-status--done">Сдан</span>
-                <div>
-                  <p class="project-card__city">Житомир</p>
-                  <h3 class="project-card__title">BGV Residence</h3>
-                  <button class="btn-tour" type="button" data-project="BGV Residence">
-                    <svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>
-                    Смотреть 3D-тур
-                  </button>
-                </div>
-              </div>
-            </article>
-          </li>
-
-          <li class="project-item" id="project-park">
-            <article class="project-card project-card--4">
               <div class="project-card__bg" aria-hidden="true">
                 <svg class="project-card__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false">
                   <circle cx="310" cy="90" r="70" fill="#FFFFFF" fill-opacity="0.08"/>
@@ -1587,13 +1570,93 @@
               </div>
               <div class="project-card__shade" aria-hidden="true"></div>
               <div class="project-card__body">
-                <span class="project-status project-status--planned">Планируется</span>
+                <span class="project-status project-status--planned">Підготовчий етап</span>
                 <div>
-                  <p class="project-card__city">Киев</p>
-                  <h3 class="project-card__title">BGV Park</h3>
-                  <button class="btn-tour" type="button" data-project="BGV Park">
+                  <p class="project-card__city">Київ</p>
+                  <h3 class="project-card__title">Ozon Concept House</h3>
+                  <p class="project-card__meta">4 корпуси · 1 088 квартир</p>
+                  <button class="btn-tour" type="button" data-project="Ozon Concept House"
+                          data-desc="Перезапуск житлового комплексу спільно з SAGA Development, оголошений у листопаді 2025 року. Чотири корпуси на 1 088 квартир. Проєкт на підготовчому етапі — залиште заявку, щоб першими отримати старт продажів.">
                     <svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>
-                    Смотреть 3D-тур
+                    Детальніше
+                  </button>
+                </div>
+              </div>
+            </article>
+          </li>
+
+          <li class="project-item" id="project-manhattan">
+            <article class="project-card project-card--4">
+              <div class="project-card__bg" aria-hidden="true">
+                <svg class="project-card__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false">
+                  <polygon points="200,20 330,150 200,280 70,150" fill="#FFFFFF" fill-opacity="0.1"/>
+                  <polygon points="300,60 400,160 300,260" fill="#FFFFFF" fill-opacity="0.08"/>
+                  <polygon points="0,300 0,160 120,300" fill="#001A72" fill-opacity="0.18"/>
+                </svg>
+              </div>
+              <div class="project-card__shade" aria-hidden="true"></div>
+              <div class="project-card__body">
+                <span class="project-status project-status--building">Старт 2026</span>
+                <div>
+                  <p class="project-card__city">Житомир</p>
+                  <h3 class="project-card__title">ЖК «Манхеттен»</h3>
+                  <p class="project-card__meta">3 корпуси · 774 квартири</p>
+                  <button class="btn-tour" type="button" data-project="ЖК «Манхеттен»"
+                          data-desc="Перший спільний проєкт із регіональним девелопером ArtHouse Group, стартував у квітні 2026 року. Три корпуси на 774 квартири. BGV — інвестиційний гарант і співінвестор на паритетних умовах, ArtHouse Group відповідає за проєктування та будівництво.">
+                    <svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>
+                    Детальніше
+                  </button>
+                </div>
+              </div>
+            </article>
+          </li>
+
+          <li class="project-item" id="project-zhyto-zt">
+            <article class="project-card project-card--5">
+              <div class="project-card__bg" aria-hidden="true">
+                <svg class="project-card__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false">
+                  <path d="M0 240 C90 200 150 280 230 235 S350 205 400 230 V300 H0Z" fill="#FFFFFF" fill-opacity="0.1"/>
+                  <rect x="230" y="120" width="120" height="90" fill="#FFFFFF" fill-opacity="0.08"/>
+                  <polygon points="0,0 140,0 0,120" fill="#001A72" fill-opacity="0.18"/>
+                </svg>
+              </div>
+              <div class="project-card__shade" aria-hidden="true"></div>
+              <div class="project-card__body">
+                <span class="project-status project-status--done">Відкрито</span>
+                <div>
+                  <p class="project-card__city">Житомир, вул. Отаманів Соколовських, 1м</p>
+                  <h3 class="project-card__title">ТЦ «Жито»</h3>
+                  <p class="project-card__meta">Перший ТЦ мережі · відкрито у квітні 2025</p>
+                  <button class="btn-tour" type="button" data-project="ТЦ «Жито», Житомир"
+                          data-desc="Перший торговий центр мережі «Жито», відкритий у квітні 2025 року. Формат регіонального ТЦ поруч із домом, який компанія масштабує в інших містах. Запрошуємо до співпраці орендарів.">
+                    <svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>
+                    Детальніше
+                  </button>
+                </div>
+              </div>
+            </article>
+          </li>
+
+          <li class="project-item" id="project-zhyto-boyarka">
+            <article class="project-card project-card--6">
+              <div class="project-card__bg" aria-hidden="true">
+                <svg class="project-card__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false">
+                  <polygon points="40,300 200,90 360,300" fill="#FFFFFF" fill-opacity="0.08"/>
+                  <polygon points="200,300 300,160 400,300" fill="#FFFFFF" fill-opacity="0.1"/>
+                  <polygon points="260,0 400,0 400,110" fill="#001A72" fill-opacity="0.16"/>
+                </svg>
+              </div>
+              <div class="project-card__shade" aria-hidden="true"></div>
+              <div class="project-card__body">
+                <span class="project-status project-status--planned">У розробці</span>
+                <div>
+                  <p class="project-card__city">Боярка, Київська область</p>
+                  <h3 class="project-card__title">ТРЦ «Жито»</h3>
+                  <p class="project-card__meta">24 000 м² · відкриття через 1,5–2 роки</p>
+                  <button class="btn-tour" type="button" data-project="ТРЦ «Жито», Боярка"
+                          data-desc="Другий торгово-розважальний центр під брендом «Жито» загальною площею близько 24 000 м². Будівництво оголошено в червні 2026 року, відкриття очікується за 1,5–2 роки. Відкрито прийом заявок від орендарів.">
+                    <svg class="btn-tour__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>
+                    Детальніше
                   </button>
                 </div>
               </div>
@@ -1607,29 +1670,29 @@
     <section class="geo section-pad" id="geography" aria-labelledby="geo-title">
       <div class="container-bgv geo__layout">
         <div>
-          <h2 class="heading section-title" id="geo-title">География проектов</h2>
-          <p class="section-lead geo__lead">Строим в Киеве, Киевской области и Житомире. Выберите город, чтобы увидеть проекты.</p>
+          <h2 class="heading section-title" id="geo-title">Географія проєктів</h2>
+          <p class="section-lead geo__lead">Київ, Київська область і Житомир. Оберіть локацію, щоб побачити проєкти.</p>
 
           <div class="geo-legend">
-            <span class="geo-legend__item"><span class="dot dot--active" aria-hidden="true"></span>Строится или сдан</span>
-            <span class="geo-legend__item"><span class="dot dot--planned" aria-hidden="true"></span>Планируется</span>
+            <span class="geo-legend__item"><span class="dot dot--active" aria-hidden="true"></span>Будується або відкрито</span>
+            <span class="geo-legend__item"><span class="dot dot--planned" aria-hidden="true"></span>У підготовці</span>
           </div>
 
           <div class="geo-cities">
             <button class="geo-city" type="button" data-city="kyiv" aria-expanded="false" aria-controls="map-tooltip">
-              <span class="geo-city__name">Киев</span><span class="geo-city__count">2 проекта</span>
+              <span class="geo-city__name">Київ</span><span class="geo-city__count">2 проєкти</span>
             </button>
             <button class="geo-city" type="button" data-city="boyarka" aria-expanded="false" aria-controls="map-tooltip">
-              <span class="geo-city__name">Боярка</span><span class="geo-city__count">1 проект</span>
+              <span class="geo-city__name">Київська область</span><span class="geo-city__count">2 проєкти</span>
             </button>
             <button class="geo-city" type="button" data-city="zhytomyr" aria-expanded="false" aria-controls="map-tooltip">
-              <span class="geo-city__name">Житомир</span><span class="geo-city__count">1 проект</span>
+              <span class="geo-city__name">Житомир</span><span class="geo-city__count">2 проєкти</span>
             </button>
           </div>
         </div>
 
         <div class="geo-map" id="geo-map">
-          <svg class="geo-map__svg" viewBox="0 0 940 633" role="img" aria-label="Упрощённая карта Украины с отмеченными городами: Киев, Боярка, Житомир" focusable="false">
+          <svg class="geo-map__svg" viewBox="0 0 940 633" role="img" aria-label="Спрощена карта України з позначеними локаціями: Київ, Київська область, Житомир" focusable="false">
             <defs>
               <pattern id="ua-hatch" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
                 <line x1="0" y1="0" x2="0" y2="16" stroke="#BEC8FF" stroke-opacity="0.4" stroke-width="1.5"/>
@@ -1637,26 +1700,25 @@
             </defs>
             <path class="ua-shape" d="M93,83C98,71 140,54 163,52C185,50 249,61 272,65C296,70 327,83 348,88C368,92 426,108 440,103C454,97 452,50 460,42C468,34 488,42 503,39C517,37 558,20 573,20C587,20 610,33 618,43C625,53 623,87 632,103C642,118 674,160 693,168C711,176 766,163 782,168C799,172 805,193 823,201C840,209 911,220 920,229C929,239 900,262 898,278C895,294 907,339 898,356C888,373 846,400 823,412C799,423 728,438 708,448C687,457 664,476 660,486C656,497 667,525 677,531C688,537 742,530 743,535C743,539 697,559 682,568C668,578 639,605 627,609C616,613 599,610 588,602C576,593 537,557 538,542C538,527 594,490 595,483C596,476 558,491 543,486C527,482 486,449 473,449C459,449 447,474 438,486C428,498 409,540 395,546C381,552 327,546 323,535C318,524 348,470 360,460C372,451 415,471 418,460C420,450 392,393 378,375C363,356 319,321 303,315C286,309 261,320 243,326C224,332 181,361 158,363C134,366 75,356 58,349C40,341 17,321 20,300C23,279 70,200 82,181C95,162 116,160 118,147C119,135 87,94 93,83Z"/>
             <path class="ua-hatch" d="M93,83C98,71 140,54 163,52C185,50 249,61 272,65C296,70 327,83 348,88C368,92 426,108 440,103C454,97 452,50 460,42C468,34 488,42 503,39C517,37 558,20 573,20C587,20 610,33 618,43C625,53 623,87 632,103C642,118 674,160 693,168C711,176 766,163 782,168C799,172 805,193 823,201C840,209 911,220 920,229C929,239 900,262 898,278C895,294 907,339 898,356C888,373 846,400 823,412C799,423 728,438 708,448C687,457 664,476 660,486C656,497 667,525 677,531C688,537 742,530 743,535C743,539 697,559 682,568C668,578 639,605 627,609C616,613 599,610 588,602C576,593 537,557 538,542C538,527 594,490 595,483C596,476 558,491 543,486C527,482 486,449 473,449C459,449 447,474 438,486C428,498 409,540 395,546C381,552 327,546 323,535C318,524 348,470 360,460C372,451 415,471 418,460C420,450 392,393 378,375C363,356 319,321 303,315C286,309 261,320 243,326C224,332 181,361 158,363C134,366 75,356 58,349C40,341 17,321 20,300C23,279 70,200 82,181C95,162 116,160 118,147C119,135 87,94 93,83Z"/>
-            <!-- Боярка рядом с Киевом: маркер вынесен, пунктир ведёт к реальной точке -->
             <path class="map-leader" d="M427,171 L423,238"/>
             <circle class="map-true-point" cx="427" cy="171" r="4"/>
           </svg>
 
-          <button class="map-marker map-marker--active map-marker--kyiv" type="button" data-city="kyiv" aria-label="Киев: 2 проекта" aria-expanded="false" aria-controls="map-tooltip">
+          <button class="map-marker map-marker--active map-marker--kyiv" type="button" data-city="kyiv" aria-label="Київ: 2 проєкти" aria-expanded="false" aria-controls="map-tooltip">
             <svg class="map-marker__svg" viewBox="0 0 44 44" aria-hidden="true" focusable="false">
               <circle class="map-marker__pulse" cx="22" cy="22" r="10"/>
               <circle class="map-marker__core" cx="22" cy="22" r="8"/>
             </svg>
-            <span class="map-marker__label" aria-hidden="true">Киев</span>
+            <span class="map-marker__label" aria-hidden="true">Київ</span>
           </button>
-          <button class="map-marker map-marker--active map-marker--boyarka" type="button" data-city="boyarka" aria-label="Боярка: 1 проект" aria-expanded="false" aria-controls="map-tooltip">
+          <button class="map-marker map-marker--active map-marker--boyarka" type="button" data-city="boyarka" aria-label="Київська область: 2 проєкти" aria-expanded="false" aria-controls="map-tooltip">
             <svg class="map-marker__svg" viewBox="0 0 44 44" aria-hidden="true" focusable="false">
               <circle class="map-marker__pulse" cx="22" cy="22" r="10"/>
               <circle class="map-marker__core" cx="22" cy="22" r="8"/>
             </svg>
-            <span class="map-marker__label" aria-hidden="true">Боярка</span>
+            <span class="map-marker__label" aria-hidden="true">Київщина</span>
           </button>
-          <button class="map-marker map-marker--active map-marker--zhytomyr" type="button" data-city="zhytomyr" aria-label="Житомир: 1 проект" aria-expanded="false" aria-controls="map-tooltip">
+          <button class="map-marker map-marker--active map-marker--zhytomyr" type="button" data-city="zhytomyr" aria-label="Житомир: 2 проєкти" aria-expanded="false" aria-controls="map-tooltip">
             <svg class="map-marker__svg" viewBox="0 0 44 44" aria-hidden="true" focusable="false">
               <circle class="map-marker__pulse" cx="22" cy="22" r="10"/>
               <circle class="map-marker__core" cx="22" cy="22" r="8"/>
@@ -1665,12 +1727,12 @@
           </button>
 
           <div class="map-tooltip" id="map-tooltip" role="region" aria-live="polite" aria-labelledby="map-tooltip-city" hidden>
-            <button class="map-tooltip__close" id="map-tooltip-close" type="button" aria-label="Закрыть подсказку">
+            <button class="map-tooltip__close" id="map-tooltip-close" type="button" aria-label="Закрити підказку">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
             </button>
-            <p class="map-tooltip__city" id="map-tooltip-city">Город</p>
+            <p class="map-tooltip__city" id="map-tooltip-city">Місто</p>
             <ul class="map-tooltip__list" id="map-tooltip-list"></ul>
-            <a class="btn-dark" id="map-tooltip-link" href="#projects">Подробнее</a>
+            <a class="btn-dark" id="map-tooltip-link" href="#projects">Детальніше</a>
           </div>
         </div>
       </div>
@@ -1679,42 +1741,15 @@
     <!-- СЕКЦИЯ: ПОЧЕМУ ВЫБИРАЮТ BGV -->
     <section class="why section-pad" id="why" aria-labelledby="why-title">
       <div class="container-bgv">
-        <h2 class="heading section-title why__title" id="why-title">Почему выбирают BGV</h2>
+        <h2 class="heading section-title why__title" id="why-title">Чому BGV Development</h2>
         <ul class="why-grid">
-          <li>
-            <article class="why-card">
-              <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M9 31v-6l4-9h22l4 9v6z"/><circle cx="16" cy="33" r="3"/><circle cx="32" cy="33" r="3"/><path d="M7 7l34 34"/>
-              </svg>
-              <h3 class="why-card__title">Двор без машин</h3>
-              <p class="why-card__text">В BOSTON Creative House машины остаются в паркинге, а двор отдан людям: детям, прогулкам и отдыху.</p>
-            </article>
-          </li>
-          <li>
-            <article class="why-card">
-              <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M24 44V12"/><path d="M24 14c0-4 2-7 5-9 0 4-2 7-5 9zM24 14c0-4-2-7-5-9 0 4 2 7 5 9z"/><path d="M24 24c0-4 3-7 7-8 0 4-3 7-7 8zM24 24c0-4-3-7-7-8 0 4 3 7 7 8z"/><path d="M24 34c0-4 3-7 7-8 0 4-3 7-7 8zM24 34c0-4-3-7-7-8 0 4 3 7 7 8z"/>
-              </svg>
-              <h3 class="why-card__title">Волны стиглого жита</h3>
-              <p class="why-card__text">Архитектура ЖИТО в Боярке вдохновлена полем спелой пшеницы: мягкие линии фасада и тёплые природные оттенки.</p>
-            </article>
-          </li>
           <li>
             <article class="why-card">
               <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M8 20h32v22H8z"/><path d="M6 20l4-12h28l4 12"/><path d="M20 42V31h8v11"/><path d="M13 26h4M31 26h4"/>
               </svg>
-              <h3 class="why-card__title">Собственная инфраструктура</h3>
-              <p class="why-card__text">Детские и спортивные площадки, коммерческие помещения на первых этажах — всё нужное рядом с домом.</p>
-            </article>
-          </li>
-          <li>
-            <article class="why-card">
-              <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M6 22L24 7l18 15"/><path d="M11 18v24h26V18"/><path d="M26 21l-6 9h7l-4 8"/>
-              </svg>
-              <h3 class="why-card__title">Энергоэффективные технологии</h3>
-              <p class="why-card__text">Утеплённые фасады, энергосберегающие окна и индивидуальные тепловые пункты снижают расходы на коммунальные услуги.</p>
+              <h3 class="why-card__title">Повний цикл девелопменту</h3>
+              <p class="why-card__text">Від пошуку та придбання земельної ділянки до концепції, будівництва та введення об’єкта в експлуатацію.</p>
             </article>
           </li>
           <li>
@@ -1722,30 +1757,58 @@
               <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M24 5l15 6v11c0 10-6.5 17-15 21-8.5-4-15-11-15-21V11z"/><path d="M17 24l5 5 9-10"/>
               </svg>
-              <h3 class="why-card__title">Закрытая территория 24/7</h3>
-              <p class="why-card__text">Контроль доступа, видеонаблюдение и круглосуточная охрана: двор остаётся безопасным для детей и жителей.</p>
+              <h3 class="why-card__title">Фінансова надійність</h3>
+              <p class="why-card__text">Компанія входить до інвестиційної групи BGV Group Management і виступає інвестиційним гарантом своїх проєктів.</p>
             </article>
           </li>
           <li>
             <article class="why-card">
               <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M6 8h36v32H6z"/><path d="M24 8v32M6 30h36"/><path d="M12 24l6-6M12 18l2-2"/>
+                <circle cx="17" cy="17" r="6"/><circle cx="31" cy="17" r="6"/><path d="M6 40c0-6 5-11 11-11s11 5 11 11M20 40c0-6 5-11 11-11s11 5 11 11"/>
               </svg>
-              <h3 class="why-card__title">Панорамные окна</h3>
-              <p class="why-card__text">Окна от пола до потолка дают больше дневного света и открывают вид на город и зелень.</p>
+              <h3 class="why-card__title">Сильні партнери</h3>
+              <p class="why-card__text">Спільні проєкти з SAGA Development у Києві та ArtHouse Group у Житомирі поєднують капітал BGV і досвід будівельників.</p>
+            </article>
+          </li>
+          <li>
+            <article class="why-card">
+              <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6 22L24 7l18 15"/><path d="M11 18v24h26V18"/><path d="M19 42V30h10v12"/>
+              </svg>
+              <h3 class="why-card__title">Житло, комерція, заміська нерухомість</h3>
+              <p class="why-card__text">Багатоквартирні комплекси, котеджне містечко Equides Villas і мережа торгових центрів «Жито».</p>
+            </article>
+          </li>
+          <li>
+            <article class="why-card">
+              <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="24" cy="18" r="11"/><path d="M17 27l-4 15 11-5 11 5-4-15"/>
+              </svg>
+              <h3 class="why-card__title">Міжнародне визнання</h3>
+              <p class="why-card__text">Equides Villas — переможець European Property Awards 2025 у категорії Residential Development 20+ Units Ukraine.</p>
+            </article>
+          </li>
+          <li>
+            <article class="why-card">
+              <svg class="why-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M10 6h28v36l-14-8-14 8z"/><path d="M18 20l5 5 8-9"/>
+              </svg>
+              <h3 class="why-card__title">Член КБУ</h3>
+              <p class="why-card__text">З 18 березня 2026 року BGV Development — повноправний член Конфедерації будівельників України.</p>
             </article>
           </li>
         </ul>
       </div>
     </section>
 
-    <!-- СЕКЦИЯ: SOCIAL INVESTMENT -->
-    <section class="social section-pad" id="social-investment" aria-labelledby="social-title">
+    <!-- СЕКЦИЯ: ПАРТНЁРСКАЯ МОДЕЛЬ -->
+    <section class="social section-pad" id="partnership" aria-labelledby="social-title">
       <div class="container-bgv social__layout">
         <div>
-          <h2 class="heading social__title" id="social-title">Social Investment</h2>
-          <p class="social__lead">BGV Development вкладывает не только в квадратные метры, но и в среду вокруг них. Мы благоустраиваем общественные пространства, поддерживаем местные сообщества и выбираем решения, которые снижают нагрузку на окружающую среду.</p>
-          <p class="social__lead">Для нас ESG — это ежедневная практика: прозрачные процессы, ответственное строительство и дома, в которых будет хорошо жить через десятилетия.</p>
+          <h2 class="heading social__title" id="social-title">Build Together</h2>
+          <p class="social__lead">Ми розвиваємо партнерську модель девелопменту. BGV Development забезпечує фінансування та гарантує інвестиції, а досвідчений партнер відповідає за проєктування, будівництво та операційне управління.</p>
+          <p class="social__lead">Шукаємо нових партнерів: девелоперів у регіонах, власників земельних ділянок, а також орендарів для торгових центрів «Жито». Залиште заявку — ми розглянемо вашу пропозицію.</p>
+          <a class="btn-primary" href="#contacts">Запропонувати співпрацю</a>
         </div>
         <div class="social__decor" aria-hidden="true">
           <svg class="social__decor-svg" viewBox="0 0 520 520" focusable="false">
@@ -1766,17 +1829,17 @@
     <!-- СЕКЦИЯ: НОВОСТИ -->
     <section class="news section-pad" id="news" aria-labelledby="news-title">
       <div class="container-bgv">
-        <h2 class="heading section-title news__head" id="news-title">Новости и события</h2>
+        <h2 class="heading section-title news__head" id="news-title">Новини компанії</h2>
 
         <ul class="news-grid">
           <li>
             <article class="news-card">
               <div class="news-card__media" aria-hidden="true"></div>
               <div class="news-card__body">
-                <time class="news-card__date" datetime="2026-09-15">15 сентября 2026</time>
-                <h3 class="news-card__title">BGV Development начал строительство нового ЖК в Боярке</h3>
-                <p class="news-card__text">На площадке ЖК ЖИТО стартовали подготовительные работы и устройство фундамента. Рассказываем о первых этапах и о том, как следить за ходом строительства.</p>
-                <a class="news-card__link" href="#news" aria-label="Читать далее: BGV Development начал строительство нового ЖК в Боярке">Читать далее <span aria-hidden="true">→</span></a>
+                <time class="news-card__date" datetime="2026-06-09">9 червня 2026</time>
+                <h3 class="news-card__title">BGV Development будує другий ТРЦ «Жито» — у Боярці</h3>
+                <p class="news-card__text">Новий торгово-розважальний центр площею близько 24 000 м² з’явиться в Київській області. Відкриття очікується за 1,5–2 роки.</p>
+                <a class="news-card__link" href="https://forbes.ua/news/bgv-development-butkevicha-budue-noviy-trts-na-kiivshchini-09062026-39490" target="_blank" rel="noopener" aria-label="Читати далі: BGV Development будує другий ТРЦ «Жито» (Forbes Україна, відкриється в новій вкладці)">Читати далі <span aria-hidden="true">→</span></a>
               </div>
             </article>
           </li>
@@ -1784,10 +1847,10 @@
             <article class="news-card">
               <div class="news-card__media news-card__media--2" aria-hidden="true"></div>
               <div class="news-card__body">
-                <time class="news-card__date" datetime="2026-08-28">28 августа 2026</time>
-                <h3 class="news-card__title">Boston Creative House получил награду за архитектуру</h3>
-                <p class="news-card__text">Жюри отметило двор без машин и выразительные фасады комплекса. Делимся, какие решения легли в основу проекта.</p>
-                <a class="news-card__link" href="#news" aria-label="Читать далее: Boston Creative House получил награду за архитектуру">Читать далее <span aria-hidden="true">→</span></a>
+                <time class="news-card__date" datetime="2026-04-17">17 квітня 2026</time>
+                <h3 class="news-card__title">Старт ЖК «Манхеттен» у Житомирі спільно з ArtHouse Group</h3>
+                <p class="news-card__text">774 квартири у трьох корпусах. Перший проєкт BGV Development у партнерстві з регіональним девелопером.</p>
+                <a class="news-card__link" href="https://forbes.ua/company/budemo-povnotsinnim-developerom-bgv-development-gennadiya-butkevicha-zakhodit-u-partnerstva-z-regionalnimi-zabudovnikami-yaka-yogo-strategiya-17042026-38046" target="_blank" rel="noopener" aria-label="Читати далі: старт ЖК «Манхеттен» (Forbes Україна, відкриється в новій вкладці)">Читати далі <span aria-hidden="true">→</span></a>
               </div>
             </article>
           </li>
@@ -1795,24 +1858,19 @@
             <article class="news-card">
               <div class="news-card__media news-card__media--3" aria-hidden="true"></div>
               <div class="news-card__body">
-                <time class="news-card__date" datetime="2026-07-10">10 июля 2026</time>
-                <h3 class="news-card__title">BGV Development инвестирует в социальные проекты Киева</h3>
-                <p class="news-card__text">Компания направит средства на благоустройство общественных пространств и поддержку местных инициатив. Рассказываем, какие проекты уже в работе.</p>
-                <a class="news-card__link" href="#news" aria-label="Читать далее: BGV Development инвестирует в социальные проекты Киева">Читать далее <span aria-hidden="true">→</span></a>
+                <time class="news-card__date" datetime="2026-03-18">18 березня 2026</time>
+                <h3 class="news-card__title">BGV Development — повноправний член Конфедерації будівельників України</h3>
+                <p class="news-card__text">Рішення ухвалили на розширеному засіданні Ради директорів КБУ.</p>
+                <a class="news-card__link" href="https://kbu.org.ua/en/news/bgv-development-is-a-full-member-of-the-cbu" target="_blank" rel="noopener" aria-label="Читати далі: BGV Development — член КБУ (сайт КБУ, відкриється в новій вкладці)">Читати далі <span aria-hidden="true">→</span></a>
               </div>
             </article>
           </li>
         </ul>
-
-        <div class="news__actions">
-          <a class="btn-outline" href="#news">Все новости</a>
-        </div>
       </div>
     </section>
 
     <!-- СЕКЦИЯ: КОНТАКТЫ -->
     <section class="contacts section-pad" id="contacts" aria-labelledby="contacts-title">
-      <!-- Диагональ как у Hero: белая «Новости» уходит вниз слева, под ней фирменная полоса -->
       <svg class="divider-diag" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
         <polygon points="0,0 1440,0 0,100" fill="#FFFFFF"/>
       </svg>
@@ -1822,13 +1880,13 @@
 
       <div class="container-bgv contacts__layout">
         <div>
-          <h2 class="heading section-title" id="contacts-title">Контакты</h2>
-          <p class="section-lead contacts__lead">Оставьте заявку — менеджер отдела продаж перезвонит и ответит на вопросы о проектах.</p>
+          <h2 class="heading section-title" id="contacts-title">Контакти</h2>
+          <p class="section-lead contacts__lead">Залиште заявку — менеджер зв’яжеться з вами та відповість на запитання про проєкти, оренду в ТЦ «Жито» чи партнерство.</p>
 
           <!-- TODO: подключить отправку (API / CRM). Сейчас форма только проверяет поля и показывает сообщение. -->
           <form class="contact-form" id="contact-form" novalidate>
             <div class="field">
-              <label class="field__label" for="cf-name">Имя <span class="field__req" aria-hidden="true">*</span></label>
+              <label class="field__label" for="cf-name">Ім’я <span class="field__req" aria-hidden="true">*</span></label>
               <input class="field__input" id="cf-name" name="name" type="text" autocomplete="name" required aria-describedby="cf-name-error">
               <p class="field__error" id="cf-name-error" hidden></p>
             </div>
@@ -1843,12 +1901,12 @@
               <p class="field__error" id="cf-email-error" hidden></p>
             </div>
             <div class="field field--wide">
-              <label class="field__label" for="cf-message">Сообщение</label>
+              <label class="field__label" for="cf-message">Повідомлення</label>
               <textarea class="field__input field__input--area" id="cf-message" name="message" rows="4"></textarea>
             </div>
             <div class="contact-form__footer">
-              <button class="btn-dark" type="submit">Отправить</button>
-              <p class="form-note">Поля со звёздочкой обязательны.</p>
+              <button class="btn-dark" type="submit">Надіслати</button>
+              <p class="form-note">Поля із зірочкою обов’язкові.</p>
             </div>
           </form>
 
@@ -1856,19 +1914,20 @@
             <svg class="form-success__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle cx="20" cy="20" r="18"/><path d="M12 20.5l5.5 5.5L28 15"/>
             </svg>
-            <p class="form-success__text">Спасибо! Мы свяжемся с вами в течение 24 часов.</p>
-            <button class="btn-outline" id="form-again" type="button">Отправить ещё одну заявку</button>
+            <p class="form-success__text">Дякуємо! Ми зв’яжемося з вами найближчим часом.</p>
+            <button class="btn-outline" id="form-again" type="button">Надіслати ще одну заявку</button>
           </div>
         </div>
 
-        <aside class="contacts__info" aria-label="Контактные данные">
+        <aside class="contacts__info" aria-label="Контактні дані">
           <svg class="contacts__logo" viewBox="0 0 120 64" role="img" aria-label="BGV Development" focusable="false">
             <use href="#bgv-logo"></use>
           </svg>
+          <!-- TODO: проверить адрес, телефон и email у компании перед запуском -->
           <dl class="contacts__list">
             <div>
-              <dt class="contacts__term">Адрес</dt>
-              <dd class="contacts__value">Киев, ул. Николая Михновского, 6</dd>
+              <dt class="contacts__term">Адреса</dt>
+              <dd class="contacts__value">Київ, вул. Миколи Міхновського, 6</dd>
             </div>
             <div>
               <dt class="contacts__term">Телефон</dt>
@@ -1889,47 +1948,49 @@
   <footer class="site-footer" id="site-footer">
     <div class="container-bgv">
       <div class="footer-top">
-        <a class="footer-logo focus-ring" href="#top" aria-label="BGV Development — наверх">
+        <a class="footer-logo focus-ring" href="#top" aria-label="BGV Development — догори">
           <svg class="footer-logo__svg" viewBox="0 0 120 64" aria-hidden="true" focusable="false">
             <use href="#bgv-logo"></use>
           </svg>
         </a>
 
-        <nav class="footer-cols" aria-label="Навигация в подвале">
+        <nav class="footer-cols" aria-label="Навігація у футері">
           <div>
-            <h2 class="footer-col__title">О компании</h2>
-            <!-- TODO: заменить на реальные URL при появлении страниц -->
+            <h2 class="footer-col__title">Компанія</h2>
             <ul class="footer-col__list">
-              <li><a class="footer-link" href="#">История</a></li>
-              <li><a class="footer-link" href="#">Команда</a></li>
-              <li><a class="footer-link" href="#">Вакансии</a></li>
+              <li><a class="footer-link" href="#about">Про нас</a></li>
+              <li><a class="footer-link" href="#why">Переваги</a></li>
+              <li><a class="footer-link" href="#partnership">Партнерство</a></li>
             </ul>
           </div>
           <div>
-            <h2 class="footer-col__title">Проекты</h2>
+            <h2 class="footer-col__title">Житло</h2>
             <ul class="footer-col__list">
-              <li><a class="footer-link" href="#projects">Строятся</a></li>
-              <li><a class="footer-link" href="#projects">Сданные</a></li>
-              <li><a class="footer-link" href="#projects">Коммерция</a></li>
+              <li><a class="footer-link" href="#project-equides">Equides Villas</a></li>
+              <li><a class="footer-link" href="#project-boston">Boston Creative House</a></li>
+              <li><a class="footer-link" href="#project-ozon">Ozon Concept House</a></li>
+              <li><a class="footer-link" href="#project-manhattan">ЖК «Манхеттен»</a></li>
             </ul>
           </div>
           <div>
-            <h2 class="footer-col__title">Новости</h2>
+            <h2 class="footer-col__title">Комерція</h2>
             <ul class="footer-col__list">
-              <li><a class="footer-link" href="#news">Новости компании</a></li>
-              <li><a class="footer-link" href="#news">Ход строительства</a></li>
+              <li><a class="footer-link" href="#project-zhyto-zt">ТЦ «Жито», Житомир</a></li>
+              <li><a class="footer-link" href="#project-zhyto-boyarka">ТРЦ «Жито», Боярка</a></li>
+              <li><a class="footer-link" href="#contacts">Оренда площ</a></li>
             </ul>
           </div>
           <div>
-            <h2 class="footer-col__title">Контакты</h2>
+            <h2 class="footer-col__title">Контакти</h2>
             <ul class="footer-col__list">
-              <li><a class="footer-link" href="#contacts">Отдел продаж</a></li>
-              <li><a class="footer-link" href="#contacts">Офис компании</a></li>
-              <li><a class="footer-link" href="#contacts">Написать нам</a></li>
+              <li><a class="footer-link" href="#contacts">Відділ продажу</a></li>
+              <li><a class="footer-link" href="#news">Новини</a></li>
+              <li><a class="footer-link" href="#contacts">Написати нам</a></li>
             </ul>
           </div>
         </nav>
 
+        <!-- TODO: вставить реальные ссылки на соцсети компании -->
         <div class="socials">
           <a class="social-link" href="#" aria-label="Facebook">
             <svg class="social-link__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -1952,25 +2013,25 @@
       </div>
 
       <div class="footer-bottom">
-        <p>© <span id="copyright-year">2024</span> BGV Development. Все права защищены.</p>
+        <p>© <span id="copyright-year">2026</span> BGV Development. Усі права захищені.</p>
         <div class="footer-legal">
-          <a class="footer-link" href="#">Политика конфиденциальности</a>
-          <a class="footer-link" href="#">Условия использования</a>
+          <a class="footer-link" href="#">Політика конфіденційності</a>
+          <a class="footer-link" href="#">Умови використання</a>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- МОДАЛЬНОЕ ОКНО: 3D-ТУР -->
+  <!-- МОДАЛЬНОЕ ОКНО: КАРТОЧКА ПРОЕКТА -->
   <dialog class="tour-modal" id="tour-modal" aria-labelledby="tour-modal-title">
     <div class="tour-modal__inner">
-      <button class="tour-modal__close" type="button" data-close-modal aria-label="Закрыть окно">
+      <button class="tour-modal__close" type="button" data-close-modal aria-label="Закрити вікно">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
       </button>
-      <p class="tour-modal__project" id="tour-modal-project"></p>
-      <h2 class="heading tour-modal__title" id="tour-modal-title">3D-тур</h2>
-      <p class="tour-modal__text">3D-тур скоро будет доступен.</p>
-      <button class="btn-dark" type="button" data-close-modal>Понятно</button>
+      <p class="tour-modal__project">Проєкт BGV Development</p>
+      <h2 class="heading tour-modal__title" id="tour-modal-title">Проєкт</h2>
+      <p class="tour-modal__text" id="tour-modal-text"></p>
+      <a class="btn-dark" href="#contacts" data-close-modal>Залишити заявку</a>
     </div>
   </dialog>
 
@@ -2049,12 +2110,14 @@
 
       /* ---------- ИТЕРАЦИЯ 2: модальное окно 3D-тура ---------- */
       var modal = document.getElementById('tour-modal');
-      var modalProject = document.getElementById('tour-modal-project');
+      var modalTitle = document.getElementById('tour-modal-title');
+      var modalText = document.getElementById('tour-modal-text');
       var modalTrigger = null;
       document.querySelectorAll('.btn-tour').forEach(function (btn) {
         btn.addEventListener('click', function () {
           modalTrigger = btn;
-          modalProject.textContent = btn.getAttribute('data-project') || '';
+          modalTitle.textContent = btn.getAttribute('data-project') || '';
+          modalText.textContent = btn.getAttribute('data-desc') || '';
           modal.showModal();
           document.body.classList.add('is-locked');
           document.documentElement.classList.add('cursor-native');
@@ -2079,8 +2142,12 @@
         });
         setTimeout(finish, 400); /* страховка, если animationend не придёт */
       }
+      var modalGoTo = null;
       modal.querySelectorAll('[data-close-modal]').forEach(function (btn) {
-        btn.addEventListener('click', closeModal);
+        btn.addEventListener('click', function (e) {
+          if (btn.tagName === 'A') { e.preventDefault(); modalGoTo = btn.getAttribute('href'); }
+          closeModal();
+        });
       });
       modal.addEventListener('click', function (e) {
         if (e.target === modal) closeModal(); /* клик вне окна (по подложке) */
@@ -2093,25 +2160,41 @@
         modal.classList.remove('is-closing');
         document.body.classList.remove('is-locked');
         document.documentElement.classList.remove('cursor-native');
+        if (modalGoTo) {
+          var target = document.querySelector(modalGoTo);
+          modalGoTo = null;
+          if (target) {
+            target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
+            var nameInput = document.getElementById('cf-name');
+            if (nameInput) setTimeout(function () { nameInput.focus({ preventScroll: true }); }, 600);
+          }
+          return;
+        }
         if (modalTrigger) modalTrigger.focus();
       });
 
       /* ---------- ИТЕРАЦИЯ 2: карта и подсказки ---------- */
       var mapData = {
         kyiv: {
-          city: 'Киев', link: '#projects',
+          city: 'Київ', link: '#project-boston',
           projects: [
-            { name: 'BOSTON Creative House', status: 'Строится', type: 'active' },
-            { name: 'BGV Park', status: 'Планируется', type: 'planned' }
+            { name: 'Boston Creative House', status: 'Перша вежа введена', type: 'active' },
+            { name: 'Ozon Concept House', status: 'Підготовчий етап', type: 'planned' }
           ]
         },
         boyarka: {
-          city: 'Боярка', link: '#project-zhyto',
-          projects: [{ name: 'ЖИТО', status: 'Строится', type: 'active' }]
+          city: 'Київська область', link: '#project-equides',
+          projects: [
+            { name: 'Equides Villas, Лісники', status: 'Котеджне містечко', type: 'active' },
+            { name: 'ТРЦ «Жито», Боярка', status: 'У розробці', type: 'planned' }
+          ]
         },
         zhytomyr: {
-          city: 'Житомир', link: '#project-residence',
-          projects: [{ name: 'BGV Residence', status: 'Сдан', type: 'active' }]
+          city: 'Житомир', link: '#project-manhattan',
+          projects: [
+            { name: 'ЖК «Манхеттен»', status: 'Старт 2026', type: 'active' },
+            { name: 'ТЦ «Жито»', status: 'Відкрито', type: 'active' }
+          ]
         }
       };
       var geoMap = document.getElementById('geo-map');
@@ -2293,20 +2376,20 @@
       var validators = {
         'cf-name': function (v) {
           v = v.trim();
-          if (!v) return 'Введите имя';
-          if (v.length < 2) return 'Имя должно содержать минимум 2 символа';
+          if (!v) return 'Введіть ім’я';
+          if (v.length < 2) return 'Ім’я має містити щонайменше 2 символи';
           return '';
         },
         'cf-phone': function (v) {
           var d = phoneDigits(v);
-          if (d.length <= 1) return 'Введите номер телефона';
-          if (d.length !== 10) return 'Введите номер полностью: +38 (0XX) XXX-XX-XX';
+          if (d.length <= 1) return 'Введіть номер телефону';
+          if (d.length !== 10) return 'Введіть номер повністю: +38 (0XX) XXX-XX-XX';
           return '';
         },
         'cf-email': function (v) {
           v = v.trim();
-          if (!v) return 'Введите email';
-          if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return 'Проверьте email, например: name@example.com';
+          if (!v) return 'Введіть email';
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return 'Перевірте email, наприклад: name@example.com';
           return '';
         }
       };
@@ -2411,18 +2494,21 @@
       nums.forEach(function (el) {
         var target = parseFloat(el.getAttribute('data-target')) || 0;
         var suffix = el.getAttribute('data-suffix') || '';
-        var finalText = formatNum(target) + suffix;
+        var prefix = el.getAttribute('data-prefix') || '';
+        var plain = el.getAttribute('data-plain') === 'true';
+        var fmt = function (n) { return prefix + (plain ? String(Math.round(n)) : formatNum(n)) + suffix; };
+        var finalText = fmt(target);
 
         if (!hasST || reduceMotion) { el.textContent = finalText; return; }
 
-        var counter = { val: 0 };
-        el.textContent = '0' + suffix;
+        var counter = { val: plain ? target - 20 : 0 };
+        el.textContent = fmt(plain ? target - 20 : 0);
         gsap.to(counter, {
           val: target,
           duration: 2,
           ease: 'power2.out',
           scrollTrigger: { trigger: '#stats', start: 'top 85%', once: true },
-          onUpdate: function () { el.textContent = formatNum(counter.val) + suffix; },
+          onUpdate: function () { el.textContent = fmt(counter.val); },
           onComplete: function () { el.textContent = finalText; }
         });
       });
