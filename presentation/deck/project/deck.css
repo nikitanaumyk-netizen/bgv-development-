@@ -161,3 +161,52 @@ p { font-size: 32px; line-height: 1.45; }
 /* ---------- slide 8: render strip ---------- */
 .strip4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
 .strip4 img { width: 100%; height: 170px; object-fit: cover; }
+
+/* ---------- v2: slide 3 ---------- */
+.veil-top-dark { position: absolute; left: 0; top: 0; width: 1920px; height: 620px; background: linear-gradient(180deg, rgba(18,19,22,0.85) 0%, rgba(18,19,22,0.55) 55%, rgba(18,19,22,0) 100%); }
+.veil-bottom-dark { position: absolute; left: 0; top: 640px; width: 1920px; height: 440px; background: linear-gradient(0deg, rgba(18,19,22,0.85) 0%, rgba(18,19,22,0.5) 60%, rgba(18,19,22,0) 100%); }
+.title-xl { font-size: 64px; font-weight: 800; line-height: 1.1; letter-spacing: -1px; color: var(--white); }
+.tiles4 { position: absolute; left: 128px; bottom: 96px; width: 1664px; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 24px; }
+.tile { background: rgba(18,19,22,0.55); border-top: 3px solid var(--blue200); padding: 24px 28px 28px; }
+.tile p { font-size: 32px; font-weight: 600; line-height: 1.3; color: var(--white); }
+
+/* ---------- v2: slide 5 ---------- */
+.panel5 { padding: 112px 128px 112px 96px; display: flex; flex-direction: column; justify-content: center; background: var(--gray); }
+.cards6 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.card6 { background: var(--white); border-left: 5px solid var(--blue); padding: 22px 28px; box-shadow: 0 6px 18px rgba(0,26,114,0.08); }
+.card6 p { font-size: 32px; font-weight: 600; line-height: 1.3; color: var(--dark); }
+
+/* ---------- v2: slide 7 ---------- */
+.band7 { width: 1920px; height: 520px; object-fit: cover; }
+.veil7 { position: absolute; left: 0; top: 200px; width: 1920px; height: 320px; background: linear-gradient(0deg, rgba(18,19,22,0.85) 0%, rgba(18,19,22,0.4) 60%, rgba(18,19,22,0) 100%); }
+.title7 { position: absolute; left: 128px; top: 410px; width: 1664px; font-size: 64px; font-weight: 800; line-height: 1.1; letter-spacing: -1px; color: var(--white); }
+.timeline { display: flex; padding: 64px 128px 0; }
+.tl-col { flex: 1; display: flex; flex-direction: column; }
+.tl-head { display: flex; align-items: center; }
+.dot { width: 72px; height: 72px; border-radius: 36px; border: 3px solid var(--blue); background: var(--white); display: flex; align-items: center; justify-content: center; box-sizing: border-box; }
+.dot p { font-size: 32px; font-weight: 800; color: var(--blue); line-height: 1; }
+.dot-final { background: var(--blue); }
+.dot-final p { color: var(--white); }
+.seg { flex: 1; height: 0; border-top: 3px solid var(--blue200); margin: 0 20px; }
+.tl-col h3 { margin-top: 28px; color: var(--dark); }
+.tl-col .txt { font-size: 32px; line-height: 1.35; color: var(--muted); margin-top: 6px; padding-right: 40px; }
+.tl-final h3 { color: var(--blue); }
+
+/* ---------- v2: slide 8 ---------- */
+.duo2 { display: grid; grid-template-columns: 1fr 120px 1fr; }
+.pcard { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.24); }
+.pcard img { width: 100%; height: 240px; object-fit: cover; }
+.pcard-body { padding: 28px 40px 32px; }
+.pcard .role-name { font-size: 56px; font-weight: 800; line-height: 1.1; color: var(--white); }
+.pcard .role-desc { font-size: 32px; line-height: 1.4; color: var(--blue200); margin-top: 12px; }
+.final2 { background: var(--white); padding: 32px 48px; }
+.final2 h2 { color: var(--logo); text-align: center; }
+/* slide 7 sizing */
+.band7 { height: 580px; }
+.veil7 { top: 220px; height: 360px; }
+.title7 { top: 462px; }
+.timeline { padding: 80px 128px 0; }
+.dot { width: 92px; height: 92px; border-radius: 46px; }
+.dot p { font-size: 36px; }
+.tl-col h3 { font-size: 40px; margin-top: 32px; }
+.tl-col .txt { font-size: 32px; margin-top: 10px; }
