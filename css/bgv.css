@@ -2431,3 +2431,23 @@ a.swiper-tabs__item:hover { opacity: .9; }
 /* Меню на внутренних страницах (светлый фон) */
 body:not(.home) .main-navigation .menu-item a { color: #001a72; font-weight: 500; }
 @media (max-width: 767px) { body:not(.home) main { padding-top: 120px; } }
+
+/* Активная вкладка проектов — по адресу ссылки (устойчиво к конвертации в WordPress) */
+.projects-content:not(:has(.ptab:target)) a[href="#cat-res"],
+.projects-content:has(#cat-res:target) a[href="#cat-res"],
+.projects-content:has(#cat-com:target) a[href="#cat-com"],
+.projects-content:has(#cat-soc:target) a[href="#cat-soc"] {
+  background: #fff !important; color: #001a72 !important;
+}
+.projects-content:not(:has(.ptab:target)) a[href="#cat-res"]::before,
+.projects-content:has(#cat-res:target) a[href="#cat-res"]::before,
+.projects-content:has(#cat-com:target) a[href="#cat-com"]::before,
+.projects-content:has(#cat-soc:target) a[href="#cat-soc"]::before {
+  content: ''; display: inline-block; flex-shrink: 0; width: 15px; height: 20px; margin-right: 16px; vertical-align: middle;
+  background: #4057cb; clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+a[href^="#cat-"] { display: flex !important; align-items: center; text-align: left !important; }
+
+/* Меню тёмное на внутренних страницах (и в WordPress-версии) */
+body:not(.home) .main-navigation .menu-item a,
+body:not(.home) .wp-block-navigation-item__content { color: #001a72 !important; }
