@@ -147,3 +147,6 @@ p { font-size: 32px; line-height: 1.45; }
 .syn p { font-size: 32px; font-weight: 700; color: var(--blue200); }
 .final { background: var(--white); padding: 40px 48px; }
 .final h2 { color: var(--logo); text-align: center; }
+
+/* logo zone on photo (slide 1) */
+.veil-logo { position: absolute; left: 0; top: 0; width: 1920px; height: 420px; background: linear-gradient(180deg, rgba(18,19,22,0.6) 0%, rgba(18,19,22,0.25) 55%, rgba(18,19,22,0) 100%); }
