@@ -4,7 +4,7 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'BGV_VER', '1.0.1' );
+define( 'BGV_VER', '1.0.2' );
 
 require get_template_directory() . '/inc/fields.php';
 if ( file_exists( get_template_directory() . '/inc/migrate.php' ) ) {
@@ -190,3 +190,27 @@ function bgv_menu( $id ) {
 	}
 	echo '</ul>';
 }
+
+/* ---------- Перенаправлення зі старих адрес (bgv-development.com.ua) ---------- */
+add_action( 'template_redirect', function () {
+	if ( ! is_404() ) { return; }
+	$path = rawurldecode( strtok( $_SERVER['REQUEST_URI'] ?? '', '?' ) );
+	$path = '/' . trim( $path, '/' ) . '/';
+	$map  = array(
+		'/поліський-напівмарафон-спорт-що-обєд/' => '/poliskyi-napivmarafon-sport-shcho-obiednuie/',
+		'/sitemap_index.xml/'                     => '/sitemap.xml',
+		'/post-sitemap.xml/'                      => '/sitemap.xml',
+		'/page-sitemap.xml/'                      => '/sitemap.xml',
+	);
+	if ( isset( $map[ $path ] ) ) {
+		wp_safe_redirect( home_url( $map[ $path ] ), 301 );
+		exit;
+	}
+} );
+
+/* ---------- Іконка сайту ---------- */
+add_action( 'wp_head', function () {
+	if ( has_site_icon() ) { return; }
+	$u = get_template_directory_uri() . '/assets/favicon.png';
+	echo '<link rel="icon" type="image/png" href="' . esc_url( $u ) . '">' . "\n" . '<link rel="apple-touch-icon" href="' . esc_url( $u ) . '">' . "\n";
+}, 2 );
