@@ -4,7 +4,7 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'BGV_VER', '1.0.8' );
+define( 'BGV_VER', '1.0.9' );
 
 require get_template_directory() . '/inc/fields.php';
 if ( file_exists( get_template_directory() . '/inc/migrate.php' ) ) {
@@ -301,6 +301,10 @@ add_action( 'admin_init', function () {
 function bgv_seo_title_desc() {
 	$title = wp_get_document_title();
 	$desc  = '';
+	if ( ! empty( $GLOBALS['bgv_project'] ) ) {
+		$pr = $GLOBALS['bgv_project'];
+		return array( $pr['title'] . ' – ' . get_bloginfo( 'name' ), wp_trim_words( wp_strip_all_tags( (string) ( $pr['description'] ?? '' ) ), 26, '…' ) );
+	}
 	if ( is_front_page() ) {
 		$id = bgv_front_id();
 	} elseif ( is_home() ) {
