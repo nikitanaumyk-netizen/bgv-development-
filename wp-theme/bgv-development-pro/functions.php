@@ -4,7 +4,7 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'BGV_VER', '1.0.2' );
+define( 'BGV_VER', '1.0.3' );
 
 require get_template_directory() . '/inc/fields.php';
 if ( file_exists( get_template_directory() . '/inc/migrate.php' ) ) {
@@ -123,17 +123,66 @@ add_action( 'admin_post_bgv_contact', 'bgv_handle_contact' );
 
 /* ---------- Зручність адмінки ---------- */
 // Головна сторінка редагується тільки полями (без блочного редактора).
+function bgv_is_special_page( $id ) {
+	$id = (int) $id;
+	return $id && ( $id === bgv_front_id() || $id === (int) get_option( 'page_for_posts' ) );
+}
 add_filter( 'use_block_editor_for_post', function ( $use, $post ) {
-	return ( $post && (int) $post->ID === bgv_front_id() ) ? false : $use;
+	return ( $post && bgv_is_special_page( $post->ID ) ) ? false : $use;
 }, 10, 2 );
 add_action( 'add_meta_boxes_page', function ( $post ) {
-	if ( (int) $post->ID === bgv_front_id() ) { remove_post_type_support( 'page', 'editor' ); }
+	if ( bgv_is_special_page( $post->ID ) ) { remove_post_type_support( 'page', 'editor' ); }
 } );
 add_action( 'admin_init', function () {
-	if ( isset( $_GET['post'] ) && (int) $_GET['post'] === bgv_front_id() ) {
+	if ( isset( $_GET['post'] ) && bgv_is_special_page( (int) $_GET['post'] ) ) {
 		remove_post_type_support( 'page', 'editor' );
 	}
 } );
+
+// Сторінка «Акції та новини»: замість порожнього редактора — список усіх новин.
+add_action( 'add_meta_boxes_page', function ( $post ) {
+	if ( (int) $post->ID !== (int) get_option( 'page_for_posts' ) ) { return; }
+	add_meta_box( 'bgv_news_list', 'Новини на сторінці «Акції та новини»', 'bgv_render_news_box', 'page', 'normal', 'high' );
+} );
+function bgv_render_news_box() {
+	$q = new WP_Query( array( 'post_type' => 'post', 'post_status' => array( 'publish', 'draft', 'pending', 'future', 'private' ), 'posts_per_page' => -1, 'orderby' => 'date', 'order' => 'DESC', 'no_found_rows' => true ) );
+	$statuses = array( 'publish' => 'Опубліковано', 'draft' => 'Чернетка', 'pending' => 'На розгляді', 'future' => 'Заплановано', 'private' => 'Приватна' );
+	?>
+	<div class="bgv-news-box">
+		<p class="bgv-news-intro">Ця сторінка показує всі новини автоматично — найновіші зверху. Щоб змінити список, додайте або відредагуйте новину нижче. Заголовок сторінки — поле «Назва» вгорі.</p>
+		<p>
+			<a class="button button-primary button-hero" href="<?php echo esc_url( admin_url( 'post-new.php' ) ); ?>">+ Додати новину</a>
+			<a class="button button-hero" href="<?php echo esc_url( get_permalink( get_option( 'page_for_posts' ) ) ); ?>" target="_blank">Переглянути сторінку на сайті</a>
+		</p>
+		<p><strong>Усього новин: <?php echo (int) $q->post_count; ?></strong></p>
+		<table class="widefat striped bgv-news-table">
+			<thead><tr><th style="width:96px">Фото</th><th>Заголовок</th><th style="width:110px">Дата</th><th style="width:120px">Статус</th><th style="width:210px">Дії</th></tr></thead>
+			<tbody>
+			<?php while ( $q->have_posts() ) : $q->the_post(); $id = get_the_ID(); ?>
+				<tr>
+					<td><?php if ( has_post_thumbnail( $id ) ) { echo get_the_post_thumbnail( $id, array( 80, 60 ), array( 'style' => 'width:80px;height:60px;object-fit:cover;border-radius:4px' ) ); } else { echo '<span style="color:#999">немає</span>'; } ?></td>
+					<td><a href="<?php echo esc_url( get_edit_post_link( $id ) ); ?>" style="font-weight:600;font-size:14px"><?php echo esc_html( get_the_title() ); ?></a></td>
+					<td><?php echo esc_html( get_the_date( 'd.m.Y' ) ); ?></td>
+					<td><?php echo esc_html( $statuses[ get_post_status() ] ?? get_post_status() ); ?></td>
+					<td>
+						<a class="button button-small" href="<?php echo esc_url( get_edit_post_link( $id ) ); ?>">Редагувати</a>
+						<a class="button button-small" href="<?php echo esc_url( get_permalink( $id ) ); ?>" target="_blank">Переглянути</a>
+					</td>
+				</tr>
+			<?php endwhile; wp_reset_postdata(); ?>
+			</tbody>
+		</table>
+		<p style="margin-top:12px"><a href="<?php echo esc_url( admin_url( 'edit.php' ) ); ?>">Відкрити розділ «Новини» (пошук, кошик, масові дії) →</a></p>
+	</div>
+	<?php
+}
+
+// Пояснення у списку сторінок.
+add_filter( 'display_post_states', function ( $states, $post ) {
+	if ( (int) $post->ID === bgv_front_id() ) { $states['bgv'] = 'редагується полями'; }
+	if ( (int) $post->ID === (int) get_option( 'page_for_posts' ) ) { $states['bgv'] = 'список новин'; }
+	return $states;
+}, 10, 2 );
 
 // Пункт меню «Головна сторінка» для швидкого доступу.
 add_action( 'admin_menu', function () {
