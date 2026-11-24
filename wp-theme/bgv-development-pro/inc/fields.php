@@ -147,7 +147,11 @@ add_action( 'acf/init', function () {
 		'position' => 'acf_after_title',
 		'style'    => 'default',
 		'hide_on_screen' => array( 'the_content', 'excerpt', 'discussion', 'comments', 'trackbacks', 'custom_fields', 'format', 'featured_image', 'tags', 'send-trackbacks', 'author', 'categories' ),
-		'fields'   => array(
+		'fields'   => bgv_news_fields(),
+	) );
+} );
+function bgv_news_fields() {
+	$f = array(
 			bgv_tab( 'news_main', 'Основне' ),
 			array( 'key' => 'field_bgv_news_hint', 'label' => '', 'name' => '', 'type' => 'message', 'message' => 'Заголовок новини — поле «Назва» вгорі. Дата публікації — у блоці «Опублікувати» праворуч (посилання «Редагувати» біля дати). Після змін натисніть <b>«Опублікувати»</b> або <b>«Оновити»</b> праворуч.' ),
 			bgv_f( 'news_cover', 'Обкладинка (фото на картці та вгорі новини)', 'image', bgv_img( array( 'required' => 1 ) ) ),
@@ -156,12 +160,14 @@ add_action( 'acf/init', function () {
 			bgv_f( 'news_body', 'Текст', 'wysiwyg', array( 'tabs' => 'visual', 'toolbar' => 'full', 'media_upload' => 1, 'instructions' => 'Щоб вставити фото в текст — кнопка «Додати медіафайл».' ) ),
 			bgv_tab( 'news_photos', 'Фотогалерея' ),
 			bgv_f( 'news_gallery', 'Фото під текстом (необов’язково)', 'gallery', array( 'return_format' => 'id', 'preview_size' => 'medium', 'library' => 'all' ) ),
-			bgv_tab( 'news_seo', 'SEO' ),
-			array( 'key' => 'field_bgv_news_seo_title', 'name' => 'jetpack_seo_html_title', 'label' => 'Заголовок для Google', 'type' => 'text', 'instructions' => 'Необов’язково. Якщо порожньо — використовується назва новини.' ),
-			array( 'key' => 'field_bgv_news_seo_desc', 'name' => 'advanced_seo_description', 'label' => 'Опис для Google', 'type' => 'textarea', 'rows' => 3, 'instructions' => 'До 160 символів.' ),
-		),
-	) );
-} );
+	);
+	if ( ! defined( 'WPSEO_VERSION' ) ) { // без Yoast — прості SEO-поля Jetpack
+		$f[] = bgv_tab( 'news_seo', 'SEO' );
+		$f[] = array( 'key' => 'field_bgv_news_seo_title', 'name' => 'jetpack_seo_html_title', 'label' => 'Заголовок для Google', 'type' => 'text' );
+		$f[] = array( 'key' => 'field_bgv_news_seo_desc', 'name' => 'advanced_seo_description', 'label' => 'Опис для Google', 'type' => 'textarea', 'rows' => 3 );
+	}
+	return $f;
+}
 
 // Поля показують наявні дані новини (текст, обкладинку, опис).
 add_filter( 'acf/load_value/key=field_bgv_news_body', function ( $v, $post_id ) {

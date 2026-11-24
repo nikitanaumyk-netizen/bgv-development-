@@ -4,7 +4,7 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'BGV_VER', '1.0.4' );
+define( 'BGV_VER', '1.0.8' );
 
 require get_template_directory() . '/inc/fields.php';
 if ( file_exists( get_template_directory() . '/inc/migrate.php' ) ) {
@@ -81,9 +81,13 @@ add_action( 'template_redirect', function () {
 	}
 	$GLOBALS['bgv_project'] = $project;
 	status_header( 200 );
-	add_filter( 'pre_get_document_title', function () use ( $project ) {
-		return $project['title'] . ' – ' . get_bloginfo( 'name' );
-	} );
+	$ptitle = $project['title'] . ' – ' . get_bloginfo( 'name' );
+	$pdesc  = wp_trim_words( wp_strip_all_tags( (string) ( $project['description'] ?? '' ) ), 26, '…' );
+	$purl   = bgv_project_url( sanitize_title( $slug ) );
+	add_filter( 'pre_get_document_title', function () use ( $ptitle ) { return $ptitle; }, 99 );
+	foreach ( array( 'wpseo_title', 'wpseo_opengraph_title' ) as $hook ) { add_filter( $hook, function () use ( $ptitle ) { return $ptitle; }, 99 ); }
+	foreach ( array( 'wpseo_metadesc', 'wpseo_opengraph_desc' ) as $hook ) { add_filter( $hook, function () use ( $pdesc ) { return $pdesc; }, 99 ); }
+	foreach ( array( 'wpseo_canonical', 'wpseo_opengraph_url' ) as $hook ) { add_filter( $hook, function () use ( $purl ) { return $purl; }, 99 ); }
 	include get_template_directory() . '/templates/project.php';
 	exit;
 } );
@@ -269,3 +273,60 @@ add_action( 'wp_head', function () {
 add_filter( 'use_block_editor_for_post_type', function ( $use, $type ) {
 	return 'post' === $type ? false : $use;
 }, 10, 2 );
+
+/* ---------- Yoast SEO: одноразове перенесення SEO-даних ---------- */
+add_action( 'admin_init', function () {
+	if ( ! defined( 'WPSEO_VERSION' ) || get_option( 'bgv_yoast_synced' ) ) { return; }
+	update_option( 'bgv_yoast_synced', 1, false );
+	$ids = get_posts( array( 'post_type' => array( 'post', 'page' ), 'post_status' => 'any', 'numberposts' => -1, 'fields' => 'ids' ) );
+	$front = bgv_front_id();
+	foreach ( $ids as $id ) {
+		$t = get_post_meta( $id, 'jetpack_seo_html_title', true );
+		$d = get_post_meta( $id, 'advanced_seo_description', true );
+		if ( (int) $id === $front ) {
+			$t = 'BGV Development – Будівництво в Україні';
+			$d = $d ? $d : get_option( 'advanced_seo_front_page_description' );
+			if ( ! get_post_meta( $id, '_yoast_wpseo_focuskw', true ) ) { update_post_meta( $id, '_yoast_wpseo_focuskw', 'bgv development' ); }
+		}
+		$changed = false;
+		if ( $t && ! get_post_meta( $id, '_yoast_wpseo_title', true ) ) { update_post_meta( $id, '_yoast_wpseo_title', $t ); $changed = true; }
+		if ( $d && ! get_post_meta( $id, '_yoast_wpseo_metadesc', true ) ) { update_post_meta( $id, '_yoast_wpseo_metadesc', $d ); $changed = true; }
+		if ( $changed ) { do_action( 'wp_insert_post', $id, get_post( $id ), true ); } // оновити індекс Yoast
+	}
+} );
+
+/* ---------- Гарантовані <title> і meta description ----------
+ * Якщо SEO-плагін з якоїсь причини нічого не вивів (наприклад, у режимі превʼю),
+ * тема сама додає заголовок і опис із даних Yoast / Jetpack. */
+function bgv_seo_title_desc() {
+	$title = wp_get_document_title();
+	$desc  = '';
+	if ( is_front_page() ) {
+		$id = bgv_front_id();
+	} elseif ( is_home() ) {
+		$id = (int) get_option( 'page_for_posts' );
+	} elseif ( is_singular() ) {
+		$id = get_queried_object_id();
+	} else {
+		$id = 0;
+	}
+	if ( $id ) {
+		$t = get_post_meta( $id, '_yoast_wpseo_title', true ) ?: get_post_meta( $id, 'jetpack_seo_html_title', true );
+		if ( $t && false === strpos( $t, '%%' ) ) { $title = $t; }
+		$desc = get_post_meta( $id, '_yoast_wpseo_metadesc', true ) ?: get_post_meta( $id, 'advanced_seo_description', true );
+		if ( ! $desc && is_singular( 'post' ) ) { $desc = wp_trim_words( wp_strip_all_tags( get_post_field( 'post_content', $id ) ), 28, '…' ); }
+	}
+	if ( ! $desc && is_front_page() ) { $desc = get_option( 'advanced_seo_front_page_description' ); }
+	if ( is_front_page() && ( ! $title || $title === get_bloginfo( 'name' ) ) ) { $title = 'BGV Development – Будівництво в Україні'; }
+	return array( $title, $desc );
+}
+add_action( 'wp_head', function () { ob_start(); }, -1000 );
+add_action( 'wp_head', function () {
+	$head = ob_get_clean();
+	if ( false === stripos( $head, '<title' ) || false === stripos( $head, 'name="description"' ) ) {
+		list( $t, $d ) = bgv_seo_title_desc();
+		if ( false === stripos( $head, '<title' ) ) { $head = '<title>' . esc_html( $t ) . "</title>\n" . $head; }
+		if ( $d && false === stripos( $head, 'name="description"' ) ) { $head = '<meta name="description" content="' . esc_attr( $d ) . "\">\n" . $head; }
+	}
+	echo $head; // phpcs:ignore
+}, 10000 );
