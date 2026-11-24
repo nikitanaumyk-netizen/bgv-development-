@@ -15,7 +15,7 @@ get_header();
 							<p class="blog-list__meta-item"><?php echo esc_html( get_the_date( 'd.m.Y' ) ); ?></p>
 						</div>
 						<div class="blog-list__item-title"><p class="post-title"><?php the_title(); ?></p></div>
-						<div class="blog-list__item-subtitle"><p class="post-subtitle"><?php echo esc_html( wp_trim_words( wp_strip_all_tags( get_the_content() ), 22, '...' ) ); ?></p></div>
+						<div class="blog-list__item-subtitle"><p class="post-subtitle"><?php echo esc_html( ( has_excerpt() ? get_the_excerpt() : wp_trim_words( wp_strip_all_tags( get_the_content() ), 22, '...' ) ) ); ?></p></div>
 					</div>
 				</a>
 			<?php endwhile; ?>

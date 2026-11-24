@@ -136,3 +136,55 @@ add_action( 'acf/init', function () {
 		),
 	) );
 } );
+
+/* ---------- Новина: прості поля замість блочного редактора ---------- */
+add_action( 'acf/init', function () {
+	if ( ! function_exists( 'acf_add_local_field_group' ) ) { return; }
+	acf_add_local_field_group( array(
+		'key'      => 'group_bgv_news',
+		'title'    => 'Новина',
+		'location' => array( array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'post' ) ) ),
+		'position' => 'acf_after_title',
+		'style'    => 'default',
+		'hide_on_screen' => array( 'the_content', 'excerpt', 'discussion', 'comments', 'trackbacks', 'custom_fields', 'format', 'featured_image', 'tags', 'send-trackbacks', 'author', 'categories' ),
+		'fields'   => array(
+			bgv_tab( 'news_main', 'Основне' ),
+			array( 'key' => 'field_bgv_news_hint', 'label' => '', 'name' => '', 'type' => 'message', 'message' => 'Заголовок новини — поле «Назва» вгорі. Дата публікації — у блоці «Опублікувати» праворуч (посилання «Редагувати» біля дати). Після змін натисніть <b>«Опублікувати»</b> або <b>«Оновити»</b> праворуч.' ),
+			bgv_f( 'news_cover', 'Обкладинка (фото на картці та вгорі новини)', 'image', bgv_img( array( 'required' => 1 ) ) ),
+			bgv_f( 'news_excerpt', 'Короткий опис (показується у списку новин)', 'textarea', array( 'rows' => 3, 'instructions' => 'Необов’язково. Якщо порожньо — візьметься початок тексту.' ) ),
+			bgv_tab( 'news_text', 'Текст новини' ),
+			bgv_f( 'news_body', 'Текст', 'wysiwyg', array( 'tabs' => 'visual', 'toolbar' => 'full', 'media_upload' => 1, 'instructions' => 'Щоб вставити фото в текст — кнопка «Додати медіафайл».' ) ),
+			bgv_tab( 'news_photos', 'Фотогалерея' ),
+			bgv_f( 'news_gallery', 'Фото під текстом (необов’язково)', 'gallery', array( 'return_format' => 'id', 'preview_size' => 'medium', 'library' => 'all' ) ),
+			bgv_tab( 'news_seo', 'SEO' ),
+			array( 'key' => 'field_bgv_news_seo_title', 'name' => 'jetpack_seo_html_title', 'label' => 'Заголовок для Google', 'type' => 'text', 'instructions' => 'Необов’язково. Якщо порожньо — використовується назва новини.' ),
+			array( 'key' => 'field_bgv_news_seo_desc', 'name' => 'advanced_seo_description', 'label' => 'Опис для Google', 'type' => 'textarea', 'rows' => 3, 'instructions' => 'До 160 символів.' ),
+		),
+	) );
+} );
+
+// Поля показують наявні дані новини (текст, обкладинку, опис).
+add_filter( 'acf/load_value/key=field_bgv_news_body', function ( $v, $post_id ) {
+	return ( '' === (string) $v && is_numeric( $post_id ) ) ? get_post_field( 'post_content', $post_id ) : $v;
+}, 10, 2 );
+add_filter( 'acf/load_value/key=field_bgv_news_cover', function ( $v, $post_id ) {
+	return ( ! $v && is_numeric( $post_id ) ) ? get_post_thumbnail_id( $post_id ) : $v;
+}, 10, 2 );
+add_filter( 'acf/load_value/key=field_bgv_news_excerpt', function ( $v, $post_id ) {
+	return ( '' === (string) $v && is_numeric( $post_id ) ) ? get_post_field( 'post_excerpt', $post_id ) : $v;
+}, 10, 2 );
+
+// Після збереження — переносимо поля у стандартні дані запису.
+add_action( 'acf/save_post', function ( $post_id ) {
+	if ( ! is_numeric( $post_id ) || 'post' !== get_post_type( $post_id ) || wp_is_post_revision( $post_id ) ) { return; }
+	$cover = (int) get_field( 'news_cover', $post_id, false );
+	if ( $cover ) { set_post_thumbnail( $post_id, $cover ); } else { delete_post_thumbnail( $post_id ); }
+	$data = array( 'ID' => (int) $post_id );
+	$body = get_field( 'news_body', $post_id, false );
+	if ( null !== $body ) { $data['post_content'] = $body; }
+	$data['post_excerpt'] = (string) get_field( 'news_excerpt', $post_id, false );
+	$cat = get_term_by( 'slug', 'novyny', 'category' );
+	if ( $cat ) { wp_set_post_categories( $post_id, array( $cat->term_id ) ); }
+	remove_action( 'acf/save_post', __FUNCTION__ );
+	wp_update_post( wp_slash( $data ) );
+}, 20 );

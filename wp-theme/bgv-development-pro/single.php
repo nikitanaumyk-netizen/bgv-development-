@@ -10,7 +10,15 @@ while ( have_posts() ) : the_post();
 			<?php if ( has_post_thumbnail() ) { the_post_thumbnail( 'full', array( 'class' => 'post-page__image' ) ); } ?>
 			<div class="post-page__content-container">
 				<h1 class="post-page__title"><?php the_title(); ?></h1>
-				<div class="post-page__content"><?php the_content(); ?></div>
+				<div class="post-page__content"><?php the_content(); ?>
+					<?php $gal = function_exists( 'get_field' ) ? get_field( 'news_gallery' ) : array(); if ( $gal ) : ?>
+						<div class="bgv-news-gallery">
+							<?php foreach ( (array) $gal as $gid ) : ?>
+								<a href="<?php echo esc_url( wp_get_attachment_image_url( $gid, 'full' ) ); ?>" target="_blank"><?php echo wp_get_attachment_image( $gid, 'medium_large', false, array( 'loading' => 'lazy' ) ); ?></a>
+							<?php endforeach; ?>
+						</div>
+					<?php endif; ?>
+				</div>
 			</div>
 		</div>
 		<div class="post-page__sidebar">

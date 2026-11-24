@@ -2451,3 +2451,5 @@ a[href^="#cat-"] { display: flex !important; align-items: center; text-align: le
 /* Меню тёмное на внутренних страницах (и в WordPress-версии) */
 body:not(.home) .main-navigation .menu-item a,
 body:not(.home) .wp-block-navigation-item__content { color: #001a72 !important; }
+.bgv-news-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-top: 24px; }
+.bgv-news-gallery img { width: 100%; height: 180px; object-fit: cover; display: block; }

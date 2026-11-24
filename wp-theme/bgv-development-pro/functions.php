@@ -4,7 +4,7 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'BGV_VER', '1.0.3' );
+define( 'BGV_VER', '1.0.4' );
 
 require get_template_directory() . '/inc/fields.php';
 if ( file_exists( get_template_directory() . '/inc/migrate.php' ) ) {
@@ -128,6 +128,7 @@ function bgv_is_special_page( $id ) {
 	return $id && ( $id === bgv_front_id() || $id === (int) get_option( 'page_for_posts' ) );
 }
 add_filter( 'use_block_editor_for_post', function ( $use, $post ) {
+	if ( $post && 'post' === $post->post_type ) { return false; }
 	return ( $post && bgv_is_special_page( $post->ID ) ) ? false : $use;
 }, 10, 2 );
 add_action( 'add_meta_boxes_page', function ( $post ) {
@@ -263,3 +264,8 @@ add_action( 'wp_head', function () {
 	$u = get_template_directory_uri() . '/assets/favicon.png';
 	echo '<link rel="icon" type="image/png" href="' . esc_url( $u ) . '">' . "\n" . '<link rel="apple-touch-icon" href="' . esc_url( $u ) . '">' . "\n";
 }, 2 );
+
+// Новини редагуються полями (без блочного редактора).
+add_filter( 'use_block_editor_for_post_type', function ( $use, $type ) {
+	return 'post' === $type ? false : $use;
+}, 10, 2 );
