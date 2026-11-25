@@ -334,4 +334,35 @@
 	items.forEach(function (el) { el.classList.add('bgv-rv'); rio.observe(el); });
 	// Страховка: якщо щось не потрапило в поле зору (друк, якорі) — показати через 4 с.
 	setTimeout(function () { items.forEach(function (el) { if (el.getBoundingClientRect().top < window.innerHeight) { el.classList.add('is-in'); } }); }, 4000);
+
+	// Фото з’являються плавно зліва направо (окрім першого екрана).
+	var photoSel = [
+		'.bgv-about__img', '.bgv-adv2__card', '.bgv-card__img', '.bgv-ach2__card', '.bgv-aw3__img', 'div.news-image',
+		'.philantropy-side-img', '.blog-list__item-image', '.estate-popup__gallery-main', '.estate-popup__gallery-items > a',
+		'.post-page img', '.about-image-wrapp'
+	].join(',');
+	var photos = $$(photoSel).filter(function (el) { return !el.closest('.bgv-hero') && !el.closest('.bgv-modal'); });
+	// Спостерігаємо за батьківським блоком: повністю «зрізане» фото браузер вважає невидимим.
+	var holders = [];
+	var showPhoto = function (el) {
+		var sib = el.parentNode ? Array.prototype.indexOf.call(el.parentNode.children, el) : 0;
+		var card = el.closest('.bgv-card, .bgv-aw3__list > li, .swiper-slide');
+		if (card && card.parentNode) { sib = Array.prototype.indexOf.call(card.parentNode.children, card); }
+		el.style.transitionDelay = (Math.min(sib, 5) * 120) + 'ms';
+		el.classList.add('is-in');
+	};
+	var pio = new IntersectionObserver(function (en) {
+		en.forEach(function (x) {
+			if (!x.isIntersecting) { return; }
+			pio.unobserve(x.target);
+			(x.target._bgvPhotos || []).forEach(showPhoto);
+		});
+	}, { threshold: .1, rootMargin: '0px 0px -5% 0px' });
+	photos.forEach(function (el) {
+		el.classList.add('bgv-ph');
+		var h = el.closest('.news-content') || el.parentElement || el; // новини — горизонтальна стрічка
+		if (!h._bgvPhotos) { h._bgvPhotos = []; holders.push(h); pio.observe(h); }
+		h._bgvPhotos.push(el);
+	});
+	setTimeout(function () { photos.forEach(function (el) { var r = el.getBoundingClientRect(); if (r.top < window.innerHeight && r.bottom > 0) { el.classList.add('is-in'); } }); }, 4000);
 })();
