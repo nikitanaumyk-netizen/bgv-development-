@@ -17,7 +17,7 @@ $bgv_video = bgv_file_url( bgv_opt( 'hero_video' ) );
 $bgv_title = bgv_opt( 'hero_title' );
 $bgv_n     = count( $bgv_slides );
 ?>
-<section class="bgv-hero bgv-hero--v5" aria-label="<?php echo esc_attr( wp_strip_all_tags( $bgv_title ) ); ?>">
+<section class="bgv-hero bgv-hero--v5" id="projects-hero" aria-label="<?php echo esc_attr( wp_strip_all_tags( $bgv_title ) ); ?>">
 	<div class="bgv-hero__media">
 		<?php if ( $bgv_video ) : ?>
 			<video class="bgv-hero__video" src="<?php echo esc_url( $bgv_video ); ?>"<?php echo $bgv_slides ? ' poster="' . esc_url( $bgv_slides[0]['img'] ) . '"' : ''; ?> autoplay muted loop playsinline preload="metadata"></video>
@@ -28,15 +28,10 @@ $bgv_n     = count( $bgv_slides );
 			</div>
 		<?php endforeach; ?>
 	</div>
-	<svg class="bgv-hero__shapes" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
-		<g class="bgv-shape bgv-shape--1"><polygon points="-120,120 520,-60 300,560" fill="#FFFFFF" fill-opacity="0.12"/></g>
-		<g class="bgv-shape bgv-shape--2"><polygon points="1080,140 1360,420 1080,700 800,420" fill="#BEC8FF" fill-opacity="0.14"/></g>
-		<g class="bgv-shape bgv-shape--3"><polygon points="980,980 1560,520 1560,1020" fill="#FFFFFF" fill-opacity="0.1"/></g>
-	</svg>
 	<div class="container bgv-hero__in">
 		<div class="bgv-hero__text">
 			<?php if ( bgv_opt( 'hero_subtitle' ) ) : ?><p class="bgv-hero__kicker"><?php echo esc_html( bgv_opt( 'hero_subtitle' ) ); ?></p><?php endif; ?>
-			<h1 class="bgv-hero__title"><?php echo esc_html( $bgv_title ); ?></h1>
+			<h2 class="bgv-hero__title"><?php echo esc_html( $bgv_title ); ?></h2>
 			<?php if ( bgv_opt( 'hero_description' ) ) : ?><p class="bgv-hero__desc"><?php echo esc_html( bgv_opt( 'hero_description' ) ); ?></p><?php endif; ?>
 			<div class="bgv-hero__cta">
 				<button class="bgv-btn" type="button" data-bgv-open="bgv-quiz"><?php bgv_e( 'Підібрати об’єкт' ); ?></button>
@@ -71,5 +66,4 @@ $bgv_n     = count( $bgv_slides );
 		</div>
 	<?php endif; ?>
 	<a class="bgv-hero__scroll" href="#about"><?php bgv_e( 'Гортайте вниз' ); ?></a>
-	<a class="bgv-scroll-ind" href="#about" aria-label="<?php bgv_e( 'Гортайте вниз' ); ?>"><span class="bgv-scroll-ind__track"><span class="bgv-scroll-ind__dot"></span></span></a>
 </section>

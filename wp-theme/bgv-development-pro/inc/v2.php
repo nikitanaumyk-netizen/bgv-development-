@@ -27,7 +27,7 @@ function bgv_t( $s ) {
 	static $d = null;
 	if ( null === $d ) {
 		$d = array(
-			'Про нас' => 'About', 'Про компанію' => 'About the company', 'Наші переваги' => 'Our advantages', 'Відкрити проєкт' => 'Open project', 'Гортайте вниз' => 'Scroll down', 'Нагорода' => 'Award', 'Медіа' => 'Media', 'Членство' => 'Membership', 'Ключові переваги' => 'Key advantages', 'Цифри' => 'Key figures', 'Переваги' => 'Advantages',
+			'Про нас' => 'About', 'Про компанію' => 'About the company', 'Наші переваги' => 'Our advantages', 'Відкрити проєкт' => 'Open project', 'Дивитися проєкти' => 'View projects', 'Гортайте вниз' => 'Scroll down', 'Нагорода' => 'Award', 'Медіа' => 'Media', 'Членство' => 'Membership', 'Ключові переваги' => 'Key advantages', 'Цифри' => 'Key figures', 'Переваги' => 'Advantages',
 			'Досягнення' => 'Achievements', 'Нагороди' => 'Awards', 'Завантажити презентацію' => 'Download presentation',
 			'Проєкти' => 'Projects', 'Усі проєкти' => 'All projects', 'Інвесторам' => 'Investors', 'Прес-центр' => 'Press centre',
 			'Контакти' => 'Contacts', 'Підібрати об’єкт' => 'Find a property', 'Замовити дзвінок' => 'Request a call',
@@ -95,6 +95,10 @@ function bgv_file_url( $id ) {
 add_action( 'wp_enqueue_scripts', function () {
 	$u = get_template_directory_uri() . '/assets/';
 	wp_enqueue_script( 'bgv', $u . 'bgv.js', array(), BGV_VER, true );
+	if ( is_front_page() ) {
+		wp_enqueue_script( 'gsap', $u . 'gsap/gsap.min.js', array(), '3.12.5', true );
+		wp_enqueue_script( 'bgv-intro', $u . 'intro.js', array( 'gsap' ), BGV_VER, true );
+	}
 	wp_localize_script( 'bgv', 'BGV', array(
 		'ajax' => admin_url( 'admin-post.php' ),
 		'ok'   => bgv_t( 'Дякуємо! Ми зв’яжемося з вами найближчим часом.' ),

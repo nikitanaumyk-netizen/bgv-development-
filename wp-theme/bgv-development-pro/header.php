@@ -11,14 +11,13 @@ $bgv_en    = bgv_en_page_id();
 <body <?php body_class( 'bgv2' ); ?>>
 <?php wp_body_open(); ?>
 <?php if ( is_front_page() ) : ?>
-<div class="bgv-intro" aria-hidden="true">
-	<svg class="bgv-intro__logo" viewBox="0 0 120 64" role="img" aria-label="BGV Development">
+<div class="preloader bgv-preloader" id="preloader" aria-hidden="true">
+	<svg class="preloader__logo" id="preloader-logo" viewBox="0 0 120 64" role="img" aria-label="BGV Development">
 		<rect x="21" y="2" width="78" height="40" fill="none" stroke="currentColor" stroke-width="2.5"/>
 		<text x="60" y="31" text-anchor="middle" font-family="Qanelas, Manrope, Arial, sans-serif" font-size="26" font-weight="700" fill="currentColor">BGV</text>
 		<text x="60" y="60" text-anchor="middle" font-family="Qanelas, Manrope, Arial, sans-serif" font-size="10" font-weight="700" letter-spacing="-0.3" fill="currentColor">DEVELOPMENT</text>
 	</svg>
 </div>
-<script>document.documentElement.classList.add('bgv-intro-lock');setTimeout(function(){document.documentElement.classList.remove('bgv-intro-lock');},2900);</script>
 <?php endif; ?>
 <div id="page" class="site">
 	<header id="masthead" class="site-header bgv-header">

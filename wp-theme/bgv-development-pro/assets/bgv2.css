@@ -758,60 +758,45 @@ html:not(.past-hero) .bgv-fab { opacity: 0; transform: translateY(16px); pointer
 .bgv-anim .bgv-adv2__card.bgv-rv.bgv-ph, .bgv-anim .bgv-ach2__card.bgv-rv.bgv-ph { transition: opacity 1.6s ease-out, transform 1.4s cubic-bezier(.22, .61, .36, 1), clip-path 2.2s cubic-bezier(.22, .61, .36, 1), -webkit-clip-path 2.2s cubic-bezier(.22, .61, .36, 1) !important; }
 .bgv-anim .bgv-rv { transform: translateY(18px); transition: opacity 1.3s ease-out, transform 1.3s cubic-bezier(.22, .61, .36, 1); }
 
-/* ==========================================================
-   Заставка при вході на сайт (як у прикладі): синій екран → логотип →
-   екран їде вгору → тексти першого екрана з’являються по черзі. Чистий CSS.
-   ========================================================== */
-.bgv-intro { position: fixed; inset: 0; z-index: 100001; display: flex; align-items: center; justify-content: center; background: var(--bgv-navy, #001A72); pointer-events: none; will-change: transform; animation: bgvIntroOut .9s cubic-bezier(.76, 0, .24, 1) 2s forwards; }
-.bgv-intro__logo { width: clamp(150px, 18vw, 220px); height: auto; opacity: 0; transform: scale(.82); animation: bgvIntroLogo .9s cubic-bezier(.22, 1, .36, 1) .15s forwards; }
-@keyframes bgvIntroLogo { to { opacity: 1; transform: scale(1); } }
-@keyframes bgvIntroOut { to { transform: translateY(-100%); visibility: hidden; } }
-.home .bgv-hero__kicker, .home .bgv-hero__title, .home .bgv-hero__desc, .home .bgv-hero__lead, .home .bgv-hero__cta, .home .bgv-hero__panel {
-	opacity: 0; transform: translateY(60px); animation: bgvIntroUp 1s cubic-bezier(.22, 1, .36, 1) forwards;
-}
-.home .bgv-hero__kicker { animation-delay: 2.55s; }
-.home .bgv-hero__title { animation-delay: 2.7s; }
-.home .bgv-hero__desc, .home .bgv-hero__lead { animation-delay: 3s; }
-.home .bgv-hero__cta { animation-delay: 3.3s; }
-.home .bgv-hero__panel { animation-delay: 3.5s; }
-@keyframes bgvIntroUp { to { opacity: 1; transform: none; } }
-.home .bgv-hero__slide.is-active img { animation-delay: 2.4s; }
-@media (prefers-reduced-motion: reduce) {
-	.bgv-intro { animation-duration: .3s; animation-delay: .4s; }
-	.home .bgv-hero__kicker, .home .bgv-hero__title, .home .bgv-hero__desc, .home .bgv-hero__lead, .home .bgv-hero__cta, .home .bgv-hero__panel { animation-duration: .3s; animation-delay: .7s; }
-}
 
 /* ==========================================================
-   v2.8.1 — заставка ідентично референсу
+   v2.9 — заставка і перший екран ІДЕНТИЧНО референсу
    ========================================================== */
-html.bgv-intro-lock, html.bgv-intro-lock body { overflow: hidden; }
-.bgv-intro { background: #001A72; color: #fff; animation: bgvIntroOut .9s cubic-bezier(.87, 0, .13, 1) 2s forwards; }
-.bgv-intro__logo { width: clamp(160px, 22vw, 240px); height: auto; overflow: visible; opacity: 0; transform: scale(.82); animation: bgvIntroLogo .9s cubic-bezier(.33, 1, .68, 1) 0s forwards; }
-/* тексти: y 60 → 0, по черзі з кроком 0,3 с, старт трохи раніше кінця заставки */
-.home .bgv-hero__kicker, .home .bgv-hero__title, .home .bgv-hero__desc, .home .bgv-hero__lead, .home .bgv-hero__cta, .home .bgv-hero__panel { animation: bgvIntroUp 1s cubic-bezier(.33, 1, .68, 1) forwards; }
-.home .bgv-hero__kicker { animation-delay: 2.55s; }
-.home .bgv-hero__title { animation-delay: 2.55s; }
-.home .bgv-hero__desc, .home .bgv-hero__lead { animation-delay: 2.85s; }
-.home .bgv-hero__cta { animation-delay: 3.15s; }
-.home .bgv-hero__panel { animation-delay: 3.35s; }
+:root { --bgv-ease: cubic-bezier(0.22, 1, 0.36, 1); --bgv-diag: clamp(40px, 8vw, 120px); }
+/* ПРЕЛОАДЕР */
+.bgv-preloader { will-change: transform; position: fixed; inset: 0; z-index: 100001; display: flex; align-items: center; justify-content: center; background: #001A72; color: #fff; }
+.bgv-preloader .preloader__logo { width: clamp(160px, 22vw, 240px); height: auto; overflow: visible; }
+.bgv-preloader.is-hidden { transform: translateY(-100%); transition: transform 0.9s var(--bgv-ease); }
+html.bgv-locked, html.bgv-locked body { overflow: hidden; }
 
-/* Діагональні фігури бренду — повільний нескінченний рух */
-.bgv-hero__shapes { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-.bgv-shape { transform-box: fill-box; transform-origin: 50% 50%; }
-.bgv-shape--1 { animation: bgvShape1 16s ease-in-out infinite alternate; }
-.bgv-shape--2 { animation: bgvShape2 19s ease-in-out infinite alternate; }
-.bgv-shape--3 { animation: bgvShape3 22s ease-in-out infinite alternate; }
-@keyframes bgvShape1 { to { transform: translate(60px, 40px) rotate(6deg); } }
-@keyframes bgvShape2 { to { transform: translate(-50px, 60px) rotate(-10deg); } }
-@keyframes bgvShape3 { to { transform: translate(-70px, -40px) rotate(5deg); } }
-.bgv-hero--v5 .bgv-hero__in { z-index: 2; }
-
-/* Індикатор прокрутки з точкою, що біжить вниз */
-.bgv-scroll-ind { position: absolute; left: 50%; bottom: 150px; z-index: 3; transform: translateX(-50%); opacity: 0; animation: bgvFade .6s ease 3.6s forwards; }
-.bgv-scroll-ind__track { position: relative; display: block; width: 1px; height: 60px; background: rgba(255, 255, 255, .35); }
-.bgv-scroll-ind__dot { position: absolute; top: 0; left: 50%; width: 7px; height: 7px; margin-left: -3.5px; border-radius: 50%; background: #fff; animation: bgvDot 2.1s ease-in-out infinite; }
-@keyframes bgvDot { 0% { transform: translateY(0); opacity: 0; } 14% { opacity: 1; } 71% { transform: translateY(53px); opacity: 1; } 86%, 100% { transform: translateY(53px); opacity: 0; } }
-@keyframes bgvFade { to { opacity: 1; } }
-.bgv-hero__scroll { display: none; }
-@media (max-width: 1180px) { .bgv-scroll-ind { display: none; } }
-@media (prefers-reduced-motion: reduce) { .bgv-shape, .bgv-scroll-ind__dot { animation: none; } }
+/* ПЕРШИЙ ЕКРАН */
+.bgv-ihero { position: relative; z-index: 2; height: 100vh; height: 100svh; min-height: 560px; overflow: hidden; color: #fff; background: #001A72;
+	clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--bgv-diag)), 0 100%); }
+.bgv-ihero::before { content: ''; position: absolute; top: 0; left: 0; width: 200%; height: 200%;
+	background: linear-gradient(125deg, #001A72 0%, #253C92 25%, #001A72 50%, #253C92 75%, #001A72 100%);
+	animation: bgvHeroGradient 16s ease-in-out infinite alternate; will-change: transform; }
+@keyframes bgvHeroGradient { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, -50%, 0); } }
+.bgv-ihero__shapes { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.bgv-ihero__content { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding-top: 80px; padding-bottom: clamp(80px, 12vh, 140px); }
+.bgv-ihero__title { margin: 0; font-size: clamp(48px, 9vw, 120px); font-weight: 700; line-height: 1.1 !important; letter-spacing: -0.035em; color: #fff; }
+.bgv-ihero__subtitle { margin: clamp(20px, 3vh, 32px) 0 0; max-width: 34ch; font-size: clamp(17px, 1.6vw, 20px); line-height: 1.5; color: #fff; opacity: .8; }
+.bgv-ihero__btn { display: inline-flex; align-items: center; justify-content: center; margin-top: clamp(28px, 4.5vh, 48px); min-height: 56px; padding: 0 36px; border-radius: 999px; background: #fff; color: #001A72 !important; font-size: 16px; font-weight: 700; text-decoration: none; transition: background-color .3s ease, transform .3s ease; }
+.bgv-ihero__btn:hover { background: #BEC8FF; }
+.bgv-ihero__btn:active { transform: scale(.98); }
+.bgv-ihero__scroll { position: absolute; z-index: 2; left: 50%; bottom: calc(var(--bgv-diag) + 28px); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 10px; color: #fff; }
+.bgv-ihero__track { position: relative; display: block; width: 1px; height: 60px; background: rgba(255, 255, 255, .35); }
+.bgv-ihero__dot { position: absolute; top: 0; left: 50%; width: 7px; height: 7px; margin-left: -3.5px; border-radius: 50%; background: #fff; }
+/* слайдер проєктів одразу під діагоналлю */
+.bgv-ihero + .bgv-hero { margin-top: calc(-1 * var(--bgv-diag)); }
+.bgv-ihero + .bgv-hero .bgv-hero__text { padding-top: calc(var(--bgv-diag) + 120px); }
+/* шапка поверх першого екрана прозора на всіх ширинах */
+@media (max-width: 1180px) {
+	.home.bgv2 .site-header.bgv-header { position: fixed; left: 0; right: 0; top: 0; background: transparent; }
+	.home.bgv2 .site-header.bgv-header.is-scrolled { background: rgba(0, 26, 114, .96); }
+	.home .bgv-header .logo-dark { display: none !important; }
+	.home .bgv-header .logo-light { display: block !important; width: 58px; height: auto; }
+	.home .bgv-burger span { background: #fff; }
+	.home .bgv-header__cta { background: transparent; border-color: rgba(255, 255, 255, .8); }
+	.bgv-ihero + .bgv-hero .bgv-hero__text { padding-top: calc(var(--bgv-diag) + 60px); }
+}
+@media (prefers-reduced-motion: reduce) { .bgv-ihero::before { animation: none; } }
