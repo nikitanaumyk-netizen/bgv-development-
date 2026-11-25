@@ -436,7 +436,7 @@ add_action( 'wp_footer', function () {
 		<div class="mnav__foot">
 			<button class="bgv-btn" type="button" data-bgv-open="bgv-quiz"><?php bgv_e( 'Підібрати об’єкт' ); ?></button>
 			<button class="bgv-btn bgv-btn--mline" type="button" data-bgv-open="bgv-form" data-bgv-title="<?php bgv_e( 'Замовити дзвінок' ); ?>"><?php bgv_e( 'Замовити дзвінок' ); ?></button>
-			<?php if ( $phone ) : ?><a class="mnav__phone" href="<?php echo esc_attr( bgv_tel( $phone ) ); ?>"><?php echo esc_html( $phone ); ?></a><?php endif; ?>
+			<?php if ( $phone ) : ?><a class="bgv-btn bgv-btn--mline mnav__phone" href="<?php echo esc_attr( bgv_tel( $phone ) ); ?>"><?php echo esc_html( $phone ); ?></a><?php endif; ?>
 		</div>
 	</div>
 	<?php
