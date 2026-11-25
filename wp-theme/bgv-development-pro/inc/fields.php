@@ -36,6 +36,10 @@ function bgv_project_fields( $p ) {
 				bgv_sub( $p . '_feat', 'text', 'Текст' ),
 			),
 		) ),
+		bgv_sub( $p, 'status', 'Статус (бейдж на картці та карті)', 'select', array( 'choices' => array( '' => '— не показувати —', 'building' => 'Будується', 'done' => 'Здано / реалізовано', 'concept' => 'Проєктування / концепція' ), 'default_value' => '', 'allow_null' => 0, 'ui' => 0 ) ),
+		bgv_sub( $p, 'lat', 'Карта: широта (напр. 50.4501)', 'text', array( 'instructions' => 'Щоб отримати координати: Google Maps → правий клік по точці → натиснути на цифри (скопіюються). Перше число — широта, друге — довгота. Якщо порожньо — проєкт не показується на карті.', 'wrapper' => array( 'width' => 50 ) ) ),
+		bgv_sub( $p, 'lng', 'Карта: довгота (напр. 30.5234)', 'text', array( 'wrapper' => array( 'width' => 50 ) ) ),
+		bgv_sub( $p, 'presentation', 'Презентація об’єкта (PDF)', 'file', array( 'return_format' => 'id', 'library' => 'all', 'mime_types' => 'pdf', 'instructions' => 'Необов’язково. Відвідувач отримає файл після того, як залишить телефон або email (заявка прийде вам).' ) ),
 		bgv_sub( $p, 'website_link', 'Посилання «Перейти на сайт»', 'text', array( 'instructions' => 'Повна адреса з https://. Якщо порожньо — кнопки не буде.' ) ),
 		bgv_sub( $p, 'agent_name', 'Менеджер: ім’я' ),
 		bgv_sub( $p, 'agent_position', 'Менеджер: посада' ),
@@ -55,6 +59,11 @@ add_action( 'acf/init', function () {
 		'style'    => 'default',
 		'hide_on_screen' => array( 'the_content' ),
 		'fields'   => array(
+			bgv_tab( 'header', 'Шапка та заявки' ),
+			bgv_f( 'header_phone', 'Телефон у шапці', 'text', array( 'instructions' => 'Напр. +38 (044) 277 14 14. Якщо порожньо — береться телефон з «Підвалу».' ) ),
+			bgv_f( 'presentation_pdf', 'Презентація компанії (PDF)', 'file', array( 'return_format' => 'id', 'library' => 'all', 'mime_types' => 'pdf', 'instructions' => 'Пункт «Завантажити презентацію» у меню «Про нас». Файл видається після того, як відвідувач залишить телефон/email. Якщо файл не завантажено — пункт меню прихований.' ) ),
+			array( 'key' => 'field_bgv_leads_msg', 'label' => '', 'name' => '', 'type' => 'message', 'message' => 'Усі заявки з сайту (форма, «Підібрати об’єкт», «Стати партнером», презентації, плаваюча кнопка) зберігаються в меню ліворуч <b>«Заявки»</b> і надсилаються на email з вкладки «Контакти».' ),
+
 			bgv_tab( 'hero', 'Перший екран' ),
 			bgv_f( 'hero_description', 'Опис компанії', 'textarea', array( 'rows' => 4 ) ),
 			bgv_f( 'hero_subtitle', 'Слоган (над заголовком)' ),
@@ -63,6 +72,22 @@ add_action( 'acf/init', function () {
 			bgv_f( 'hero_image_2', 'Фото 2 (комп’ютер)', 'image', bgv_img() ),
 			bgv_f( 'hero_mob_1', 'Фото 1 (телефон)', 'image', bgv_img() ),
 			bgv_f( 'hero_mob_2', 'Фото 2 (телефон)', 'image', bgv_img() ),
+			bgv_f( 'hero_lead', 'Підзаголовок під описом', 'text' ),
+			bgv_f( 'hero_video', 'Відео замість Фото 1 (MP4, необов’язково)', 'file', array( 'return_format' => 'id', 'library' => 'all', 'mime_types' => 'mp4,webm', 'instructions' => 'Коротке відео/рендер без звуку, до 10–15 МБ. Показується в тій самій фігурі, що й Фото 1; Фото 1 стає заставкою, поки відео вантажиться.' ) ),
+
+			bgv_tab( 'map', 'Карта об’єктів' ),
+			bgv_f( 'map_title', 'Заголовок розділу' ),
+			array( 'key' => 'field_bgv_map_msg', 'label' => '', 'name' => '', 'type' => 'message', 'message' => 'Піни на карті беруться з проєктів (вкладка «Проєкти»): поля <b>«Карта: широта / довгота»</b> і <b>«Статус»</b>. Проєкт без координат на карті не показується.' ),
+
+			bgv_tab( 'adv', 'Переваги' ),
+			bgv_f( 'adv_title', 'Заголовок розділу' ),
+			bgv_f( 'advantages', 'Ключові переваги', 'repeater', array(
+				'layout' => 'table', 'button_label' => 'Додати перевагу',
+				'sub_fields' => array(
+					bgv_sub( 'advantages', 'title', 'Назва' ),
+					bgv_sub( 'advantages', 'text', 'Пояснення' ),
+				),
+			) ),
 
 			bgv_tab( 'about', 'Про нас' ),
 			bgv_f( 'about_image', 'Фото', 'image', bgv_img() ),
@@ -88,8 +113,44 @@ add_action( 'acf/init', function () {
 			bgv_f( 'tab_wellbeing_estate', 'Назва вкладки 3' ),
 			bgv_f( 'wellbeing_estate', 'Спортивні, рекреаційні та благодійні проєкти', 'repeater', array( 'layout' => 'block', 'collapsed' => 'field_bgv_wellbeing_estate_title', 'button_label' => 'Додати проєкт', 'sub_fields' => bgv_project_fields( 'wellbeing_estate' ) ) ),
 
+			bgv_tab( 'ach', 'Досягнення' ),
+			bgv_f( 'ach_title', 'Заголовок розділу' ),
+			bgv_f( 'achievements', 'Готовність об’єктів (кругові діаграми)', 'repeater', array(
+				'layout' => 'table', 'button_label' => 'Додати об’єкт', 'instructions' => 'Якщо список порожній — розділ на сайті не показується.',
+				'sub_fields' => array(
+					bgv_sub( 'achievements', 'name', 'Об’єкт' ),
+					bgv_sub( 'achievements', 'percent', 'Готовність, %', 'number', array( 'min' => 0, 'max' => 100 ) ),
+					bgv_sub( 'achievements', 'label', 'Підпис під %', 'text', array( 'placeholder' => 'збудовано' ) ),
+				),
+			) ),
+
+			bgv_tab( 'awards', 'Нагороди' ),
+			bgv_f( 'awards_heading', 'Заголовок розділу' ),
+			bgv_f( 'awards_text', 'Вступний текст', 'textarea', array( 'rows' => 2 ) ),
+			bgv_f( 'awards', 'Нагороди та членство', 'repeater', array(
+				'layout' => 'table', 'button_label' => 'Додати нагороду', 'instructions' => 'Логотип необов’язковий. Якщо список порожній — розділ не показується.',
+				'sub_fields' => array(
+					bgv_sub( 'awards', 'image', 'Логотип', 'image', bgv_img( array( 'preview_size' => 'thumbnail' ) ) ),
+					bgv_sub( 'awards', 'title', 'Назва нагороди' ),
+					bgv_sub( 'awards', 'note', 'За що / рік' ),
+					bgv_sub( 'awards', 'link', 'Посилання (новина), необов’язково' ),
+				),
+			) ),
+
+			bgv_tab( 'inv', 'Інвесторам' ),
+			bgv_f( 'inv_title', 'Заголовок' ),
+			bgv_f( 'inv_text', 'Опис', 'textarea', array( 'rows' => 4 ) ),
+			bgv_f( 'inv_items', 'Можливості співпраці', 'repeater', array(
+				'layout' => 'table', 'button_label' => 'Додати пункт',
+				'sub_fields' => array(
+					bgv_sub( 'inv_items', 'title', 'Назва' ),
+					bgv_sub( 'inv_items', 'text', 'Опис', 'textarea', array( 'rows' => 2 ) ),
+				),
+			) ),
+			bgv_f( 'inv_button', 'Текст кнопки' ),
+
 			bgv_tab( 'news', 'Новини' ),
-			array( 'key' => 'field_bgv_news_msg', 'label' => '', 'name' => '', 'type' => 'message', 'message' => 'Новини додаються в меню ліворуч: <b>Новини → Додати новину</b>. На головній автоматично показуються 10 останніх.' ),
+			array( 'key' => 'field_bgv_news_msg', 'label' => '', 'name' => '', 'type' => 'message', 'message' => 'Новини додаються в меню ліворуч: <b>Новини → Додати новину</b>. На головній автоматично показуються 10 останніх. Рубрика (Новини / Акції / ЗМІ про нас / Хід будівництва) обирається в самій новині.' ),
 			bgv_f( 'news_title', 'Заголовок розділу' ),
 			bgv_f( 'news_link', 'Текст посилання на всі новини' ),
 
@@ -132,7 +193,13 @@ add_action( 'acf/init', function () {
 			bgv_f( 'footer_address', 'Адреса', 'textarea', array( 'rows' => 2 ) ),
 			bgv_f( 'facebook', 'Facebook (посилання)' ),
 			bgv_f( 'instagram', 'Instagram (посилання)' ),
+			bgv_f( 'linkedin', 'LinkedIn (посилання)' ),
+			bgv_f( 'youtube', 'YouTube (посилання)' ),
+			bgv_f( 'telegram', 'Telegram (посилання)' ),
+			bgv_f( 'tiktok', 'TikTok (посилання)' ),
 			bgv_f( 'copyright', 'Копірайт' ),
+			bgv_f( 'privacy_page', 'Сторінка «Політика конфіденційності»', 'post_object', array( 'post_type' => array( 'page' ), 'return_format' => 'id', 'allow_null' => 1, 'ui' => 1, 'instructions' => 'Посилання в підвалі зʼявиться, коли сторінку буде опубліковано.' ) ),
+			bgv_f( 'terms_page', 'Сторінка «Умови користування»', 'post_object', array( 'post_type' => array( 'page' ), 'return_format' => 'id', 'allow_null' => 1, 'ui' => 1 ) ),
 		),
 	) );
 } );
@@ -155,6 +222,7 @@ function bgv_news_fields() {
 			bgv_tab( 'news_main', 'Основне' ),
 			array( 'key' => 'field_bgv_news_hint', 'label' => '', 'name' => '', 'type' => 'message', 'message' => 'Заголовок новини — поле «Назва» вгорі. Дата публікації — у блоці «Опублікувати» праворуч (посилання «Редагувати» біля дати). Після змін натисніть <b>«Опублікувати»</b> або <b>«Оновити»</b> праворуч.' ),
 			bgv_f( 'news_cover', 'Обкладинка (фото на картці та вгорі новини)', 'image', bgv_img( array( 'required' => 1 ) ) ),
+			bgv_f( 'news_category', 'Рубрика', 'taxonomy', array( 'taxonomy' => 'category', 'field_type' => 'select', 'return_format' => 'id', 'add_term' => 0, 'save_terms' => 0, 'load_terms' => 1, 'allow_null' => 0, 'instructions' => 'Новини, Акції, ЗМІ про нас або Хід будівництва — по ній працюють фільтри на сайті.' ) ),
 			bgv_f( 'news_excerpt', 'Короткий опис (показується у списку новин)', 'textarea', array( 'rows' => 3, 'instructions' => 'Необов’язково. Якщо порожньо — візьметься початок тексту.' ) ),
 			bgv_tab( 'news_text', 'Текст новини' ),
 			bgv_f( 'news_body', 'Текст', 'wysiwyg', array( 'tabs' => 'visual', 'toolbar' => 'full', 'media_upload' => 1, 'instructions' => 'Щоб вставити фото в текст — кнопка «Додати медіафайл».' ) ),
@@ -189,7 +257,9 @@ add_action( 'acf/save_post', function ( $post_id ) {
 	$body = get_field( 'news_body', $post_id, false );
 	if ( null !== $body ) { $data['post_content'] = $body; }
 	$data['post_excerpt'] = (string) get_field( 'news_excerpt', $post_id, false );
-	$cat = get_term_by( 'slug', 'novyny', 'category' );
+	$cid = (int) get_field( 'news_category', $post_id, false );
+	$cat = $cid ? get_term( $cid, 'category' ) : null;
+	if ( ! $cat || is_wp_error( $cat ) || 'uncategorized' === $cat->slug ) { $cat = get_term_by( 'slug', 'novyny', 'category' ); }
 	if ( $cat ) { wp_set_post_categories( $post_id, array( $cat->term_id ) ); }
 	remove_action( 'acf/save_post', __FUNCTION__ );
 	wp_update_post( wp_slash( $data ) );

@@ -4,9 +4,12 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'BGV_VER', '1.1.3' );
+define( 'BGV_VER', '2.0.2' );
 
 require get_template_directory() . '/inc/fields.php';
+require get_template_directory() . '/inc/v2.php';
+if ( file_exists( get_template_directory() . '/inc/bgv-api.php' ) ) { require get_template_directory() . '/inc/bgv-api.php'; }
+if ( file_exists( get_template_directory() . '/inc/migrate-v2.php' ) ) { require get_template_directory() . '/inc/migrate-v2.php'; }
 if ( file_exists( get_template_directory() . '/inc/migrate.php' ) ) {
 	require get_template_directory() . '/inc/migrate.php';
 }
@@ -20,6 +23,7 @@ add_action( 'after_setup_theme', function () {
 
 add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_style( 'bgv', get_template_directory_uri() . '/assets/bgv.css', array(), BGV_VER );
+	wp_enqueue_style( 'bgv2', get_template_directory_uri() . '/assets/bgv2.css', array( 'bgv' ), BGV_VER );
 } );
 
 /* ---------- Допоміжні функції ---------- */
@@ -122,8 +126,9 @@ function bgv_handle_contact() {
 	wp_safe_redirect( add_query_arg( 'sent', $ok ? 'ok' : 'error', $back ) . '#contact-us' );
 	exit;
 }
-add_action( 'admin_post_nopriv_bgv_contact', 'bgv_handle_contact' );
-add_action( 'admin_post_bgv_contact', 'bgv_handle_contact' );
+// Старі форми (з кешованих сторінок) теж ідуть у загальний обробник заявок.
+add_action( 'admin_post_nopriv_bgv_contact', 'bgv_handle_lead' );
+add_action( 'admin_post_bgv_contact', 'bgv_handle_lead' );
 
 /* ---------- Зручність адмінки ---------- */
 // Головна сторінка редагується тільки полями (без блочного редактора).
@@ -231,20 +236,6 @@ function bgv_chevron() {
 	return '<svg fill="none" height="24" viewBox="0 0 12 24" width="12" xmlns="http://www.w3.org/2000/svg"><path d="M2.45199 6.57999L3.51299 5.51999L9.29199 11.297C9.38514 11.3896 9.45907 11.4996 9.50952 11.6209C9.55997 11.7421 9.58594 11.8722 9.58594 12.0035C9.58594 12.1348 9.55997 12.2648 9.50952 12.3861C9.45907 12.5073 9.38514 12.6174 9.29199 12.71L3.51299 18.49L2.45299 17.43L7.87699 12.005L2.45199 6.57999Z" fill="#4057CB"></path></svg>';
 }
 
-function bgv_menu( $id ) {
-	$home = home_url( '/' );
-	$items = array(
-		array( $home . '#our-projects', 'Наші проєкти' ),
-		array( $home . '#news', 'Акції та новини' ),
-		array( $home . '#contact-us', 'Контакти' ),
-	);
-	echo '<ul id="' . esc_attr( $id ) . '" class="menu">';
-	foreach ( $items as $it ) {
-		echo '<li class="menu-item"><a href="' . esc_url( $it[0] ) . '">' . esc_html( $it[1] ) . '</a></li>';
-	}
-	echo '</ul>';
-}
-
 /* ---------- Перенаправлення зі старих адрес (bgv-development.com.ua) ---------- */
 add_action( 'template_redirect', function () {
 	if ( ! is_404() ) { return; }
@@ -253,6 +244,7 @@ add_action( 'template_redirect', function () {
 	$map  = array(
 		'/поліський-напівмарафон-спорт-що-обєд/' => '/poliskyi-napivmarafon-sport-shcho-obiednuie/',
 		'/sitemap_index.xml/'                     => '/sitemap.xml',
+		'/proekt/https-www-manhattan-zt-ua/'      => '/proekt/manhattan-zhytomyr/',
 		'/post-sitemap.xml/'                      => '/sitemap.xml',
 		'/page-sitemap.xml/'                      => '/sitemap.xml',
 	);

@@ -1,15 +1,17 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 get_header();
-$bgv_tabs = array(
-	'real_estate'       => array( 'cat-res', bgv_opt( 'tab_real_estate' ) ),
-	'commercial_estate' => array( 'cat-com', bgv_opt( 'tab_commercial_estate' ) ),
-	'wellbeing_estate'  => array( 'cat-soc', bgv_opt( 'tab_wellbeing_estate' ) ),
-);
 ?>
 <section class="hero">
 	<div class="container">
-		<p class="hero-description"><?php echo esc_html( bgv_opt( 'hero_description' ) ); ?></p>
+		<div class="hero-description">
+			<p><?php echo esc_html( bgv_opt( 'hero_description' ) ); ?></p>
+			<?php if ( bgv_opt( 'hero_lead' ) ) : ?><p class="hero-lead"><?php echo esc_html( bgv_opt( 'hero_lead' ) ); ?></p><?php endif; ?>
+			<div class="hero-cta">
+				<button class="bgv-btn" type="button" data-bgv-open="bgv-quiz"><?php bgv_e( 'Підібрати об’єкт за 3 кроки' ); ?></button>
+				<a class="bgv-btn bgv-btn--ghost" href="#our-projects"><?php bgv_e( 'Наші проєкти' ); ?></a>
+			</div>
+		</div>
 		<p class="hero-sub-title"><?php echo esc_html( bgv_opt( 'hero_subtitle' ) ); ?></p>
 		<h1 class="hero-title"><?php echo esc_html( bgv_opt( 'hero_title' ) ); ?></h1>
 	</div>
@@ -20,8 +22,13 @@ $bgv_tabs = array(
 		array( 'hero_mob_1', 'hero-bg hero-bg-1 not-for-tab' ),
 		array( 'hero_mob_2', 'hero-bg hero-bg-2 not-for-tab' ),
 	);
+	$bgv_video = bgv_file_url( bgv_opt( 'hero_video' ) );
 	foreach ( $bgv_hero as $h ) {
 		$u = bgv_img_url( bgv_opt( $h[0] ) );
+		if ( $u && $bgv_video && 'hero_image_1' === $h[0] ) {
+			echo '<video class="' . esc_attr( $h[1] ) . ' hero-video" src="' . esc_url( $bgv_video ) . '" poster="' . esc_url( $u ) . '" autoplay muted loop playsinline preload="metadata"></video>';
+			continue;
+		}
 		if ( $u ) {
 			echo '<img src="' . esc_url( $u ) . '" class="' . esc_attr( $h[1] ) . '" alt="" fetchpriority="high">';
 		}
@@ -29,9 +36,44 @@ $bgv_tabs = array(
 	?>
 </section>
 
+<?php get_template_part( 'parts/map' ); ?>
+
+<?php $bgv_stats = bgv_opt( 'stats' ); if ( $bgv_stats ) : ?>
+<section class="bgv-stats" id="stats">
+	<div class="container">
+		<h2 class="vh"><?php bgv_e( 'Цифри' ); ?></h2>
+		<ul class="bgv-stats__list">
+			<?php foreach ( $bgv_stats as $s ) : ?>
+				<li class="bgv-stats__item">
+					<p class="bgv-stats__num"><?php echo esc_html( $s['number'] ); ?></p>
+					<p class="bgv-stats__label"><?php echo esc_html( $s['label'] ); ?></p>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+</section>
+<?php endif; ?>
+
+<?php $bgv_adv = bgv_opt( 'advantages' ); if ( $bgv_adv ) : ?>
+<section class="bgv-adv" id="advantages">
+	<div class="container">
+		<h2 class="section-title"><?php echo esc_html( bgv_opt( 'adv_title' ) ?: bgv_t( 'Переваги' ) ); ?></h2>
+		<ol class="bgv-adv__list">
+			<?php foreach ( $bgv_adv as $i => $a ) : if ( empty( $a['title'] ) ) { continue; } ?>
+				<li class="bgv-adv__item">
+					<span class="bgv-adv__n"><?php echo esc_html( sprintf( '%02d', $i + 1 ) ); ?></span>
+					<p class="bgv-adv__t"><?php echo esc_html( $a['title'] ); ?></p>
+					<?php if ( ! empty( $a['text'] ) ) : ?><p class="bgv-adv__d"><?php echo esc_html( $a['text'] ); ?></p><?php endif; ?>
+				</li>
+			<?php endforeach; ?>
+		</ol>
+	</div>
+</section>
+<?php endif; ?>
+
 <section class="about" id="about">
 	<div class="container">
-		<h2 class="vh">Про нас</h2>
+		<h2 class="vh"><?php bgv_e( 'Про нас' ); ?></h2>
 		<div class="about-content">
 			<div class="about-image-wrapp">
 				<?php if ( bgv_img_url( bgv_opt( 'about_image' ) ) ) : ?>
@@ -46,78 +88,17 @@ $bgv_tabs = array(
 	</div>
 </section>
 
-<?php $bgv_stats = bgv_opt( 'stats' ); if ( $bgv_stats ) : ?>
-<section class="statistics">
-	<div class="container">
-		<h2 class="vh">Статистика</h2>
-		<ul class="statistics-list">
-			<?php foreach ( $bgv_stats as $s ) : ?>
-				<li class="statistics-item">
-					<?php if ( bgv_img_url( $s['icon'] ) ) : ?><img src="<?php echo esc_url( bgv_img_url( $s['icon'] ) ); ?>" class="statistics-icon" alt=""><?php endif; ?>
-					<p class="statistics-text"><span class="styled-text"><?php echo esc_html( $s['number'] ); ?></span> <?php echo esc_html( $s['label'] ); ?></p>
-				</li>
-			<?php endforeach; ?>
-		</ul>
-	</div>
-</section>
-<?php endif; ?>
+<?php get_template_part( 'parts/projects' ); ?>
 
-<section class="projects" id="our-projects">
-	<div class="container">
-		<h2 class="section-title"><?php echo esc_html( bgv_opt( 'projects_title' ) ); ?></h2>
-		<div class="projects-content">
-			<div class="swiper-tabs">
-				<?php foreach ( $bgv_tabs as $g => $t ) : ?>
-					<a href="#<?php echo esc_attr( $t[0] ); ?>" class="swiper-tabs__item cursor tab-<?php echo esc_attr( $t[0] ); ?>"><?php echo esc_html( $t[1] ); ?></a>
-				<?php endforeach; ?>
-			</div>
-			<div class="swiper-container projects-type-slider">
-				<div class="swiper-wrapper">
-					<?php foreach ( $bgv_tabs as $g => $t ) : $rows = bgv_opt( $g ); ?>
-						<div class="swiper-slide ptab" id="<?php echo esc_attr( $t[0] ); ?>">
-							<div class="swiper-container projects-slider">
-								<div class="swiper-wrapper">
-									<?php if ( is_array( $rows ) ) : foreach ( $rows as $i => $p ) : $url = bgv_project_url( bgv_project_slug( $p, $g, $i ) ); ?>
-										<div class="swiper-slide">
-											<div class="project-card">
-												<a class="project-image-link" href="<?php echo esc_url( $url ); ?>" aria-label="Картка проєкту">
-													<div class="project-image">
-														<img src="<?php echo esc_url( bgv_img_url( $p['image'], 'large' ) ); ?>" class="project-image" alt="<?php echo esc_attr( $p['title'] ); ?>" loading="lazy">
-														<?php if ( ! empty( $p['card_info'] ) ) : ?>
-															<div class="project-additional-info">
-																<?php foreach ( $p['card_info'] as $ci ) : if ( '' === trim( (string) $ci['text'] ) ) { continue; } ?>
-																	<div class="project-end-date"><p class="project-end-date-text"><?php echo esc_html( $ci['text'] ); ?></p></div>
-																<?php endforeach; ?>
-															</div>
-														<?php endif; ?>
-													</div>
-												</a>
-												<div class="project-info">
-													<h3 class="project-title"><?php echo esc_html( $p['title'] ); ?></h3>
-													<div class="project-actions">
-														<?php if ( ! empty( $p['website_link'] ) ) : ?>
-															<a class="project-link" href="<?php echo esc_url( $p['website_link'] ); ?>" target="_blank" rel="noopener">Перейти на сайт</a>
-														<?php endif; ?>
-														<a class="project-link project-link--blue cursor" href="<?php echo esc_url( $url ); ?>">Картка проєкту</a>
-													</div>
-												</div>
-											</div>
-										</div>
-									<?php endforeach; endif; ?>
-								</div>
-							</div>
-						</div>
-					<?php endforeach; ?>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
+<?php get_template_part( 'parts/achievements' ); ?>
+
+<?php get_template_part( 'parts/investors' ); ?>
 
 <section class="news" id="news">
 	<div class="container">
 		<div class="news-header">
 			<h2 class="section-title"><?php echo esc_html( bgv_opt( 'news_title' ) ); ?></h2>
+			<?php bgv_news_chips( true ); ?>
 			<a class="news-link cursor" href="<?php echo esc_url( get_permalink( get_option( 'page_for_posts' ) ) ); ?>"><?php echo esc_html( bgv_opt( 'news_link' ) ); ?> <?php echo bgv_chevron(); // phpcs:ignore ?></a>
 		</div>
 		<div class="news-content">
@@ -129,7 +110,7 @@ $bgv_tabs = array(
 						$bgv_news->the_post();
 						$cats = get_the_category();
 						?>
-						<div class="swiper-slide">
+						<div class="swiper-slide" data-cat="<?php echo esc_attr( $cats ? $cats[0]->slug : '' ); ?>">
 							<a class="news-card cursor" href="<?php the_permalink(); ?>">
 								<div class="news-image"><?php if ( has_post_thumbnail() ) { the_post_thumbnail( 'large', array( 'class' => 'news-image', 'loading' => 'lazy' ) ); } ?></div>
 								<div class="news-info">
@@ -203,15 +184,14 @@ $bgv_tabs = array(
 			<?php elseif ( 'error' === $bgv_sent ) : ?>
 				<p class="contact-form-text bgv-form-err">Не вдалося надіслати заявку. Перевірте поля або напишіть нам на <?php echo esc_html( bgv_opt( 'footer_email' ) ); ?>.</p>
 			<?php endif; ?>
-			<form class="contact-form-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
-				<input type="hidden" name="action" value="bgv_contact">
-				<?php wp_nonce_field( 'bgv_contact', 'bgv_nonce' ); ?>
-				<input type="text" name="website" value="" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
-				<input class="contact-form-input" name="name" type="text" placeholder="Ваші ПІБ" required minlength="3">
-				<input class="contact-form-input" name="phone" type="tel" placeholder="Ваш номер мобільного" required pattern="[+0-9()\s-]{10,20}">
-				<input class="contact-form-input" name="email" type="email" placeholder="Ваша електронна адреса" required>
-				<textarea class="contact-form-input contact-form-textarea" name="message" rows="2" placeholder="Опишіть коротко питання, з яким ви бажаєте звернутися до нашої компанії?"></textarea>
-				<button class="contact-form-submit project-link project-link--blue" type="submit">Надіслати</button>
+			<form class="contact-form-form bgv-ajax" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+				<?php bgv_lead_hidden( 'contact' ); ?>
+				<input class="contact-form-input" name="name" type="text" placeholder="<?php bgv_e( 'Ваші ПІБ' ); ?>" required minlength="3">
+				<input class="contact-form-input" name="phone" type="tel" placeholder="<?php bgv_e( 'Ваш номер мобільного' ); ?>" required pattern="[+0-9()\s-]{10,20}">
+				<input class="contact-form-input" name="email" type="email" placeholder="<?php bgv_e( 'Ваша електронна адреса' ); ?>">
+				<textarea class="contact-form-input contact-form-textarea" name="message" rows="2" placeholder="<?php bgv_e( 'Опишіть коротко питання, з яким ви бажаєте звернутися до нашої компанії?' ); ?>"></textarea>
+				<button class="contact-form-submit project-link project-link--blue" type="submit"><?php bgv_e( 'Надіслати' ); ?></button>
+					<p class="bgv-form-msg" aria-live="polite"></p>
 			</form>
 		</div>
 	</div>

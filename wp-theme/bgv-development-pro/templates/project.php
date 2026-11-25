@@ -36,7 +36,7 @@ get_header();
 					</div>
 					<?php if ( ! empty( $p['description'] ) ) : ?>
 						<div class="estate-popup__description">
-							<p class="estate-popup__description-title">Опис</p>
+							<p class="estate-popup__description-title"><?php bgv_e( 'Опис' ); ?></p>
 							<div class="estate-popup__description-text"><?php echo wp_kses_post( $p['description'] ); ?></div>
 						</div>
 					<?php endif; ?>
@@ -61,14 +61,19 @@ get_header();
 							</div>
 						<?php endif; ?>
 					</div>
+					<?php if ( ! empty( $p['status'] ) ) : ?><p class="bgv-badge bgv-badge--inline st-<?php echo esc_attr( $p['status'] ); ?>"><?php echo esc_html( bgv_status_label( $p['status'] ) ); ?></p><?php endif; ?>
 					<?php if ( ! empty( $p['website_link'] ) ) : ?>
-						<a class="estate-popup__button" href="<?php echo esc_url( $p['website_link'] ); ?>" target="_blank" rel="noopener"><p class="estate-popup__button-text">Перейти на сайт</p></a>
+						<a class="estate-popup__button" href="<?php echo esc_url( $p['website_link'] ); ?>" target="_blank" rel="noopener"><p class="estate-popup__button-text"><?php bgv_e( 'Перейти на сайт' ); ?></p></a>
 					<?php endif; ?>
+					<?php if ( bgv_file_url( $p['presentation'] ?? 0 ) ) : ?>
+						<a class="estate-popup__button bgv-pres-btn" href="#bgv-pres" data-bgv-pres="<?php echo esc_attr( sanitize_title( get_query_var( 'bgv_project' ) ) ); ?>" data-bgv-title="<?php echo esc_attr( $p['title'] ); ?>"><p class="estate-popup__button-text"><?php bgv_e( 'Презентація об’єкта' ); ?> (PDF)</p></a>
+					<?php endif; ?>
+					<button class="estate-popup__button bgv-pres-btn" type="button" data-bgv-open="bgv-form" data-bgv-title="<?php echo esc_attr( $p['title'] ); ?>" data-bgv-object="<?php echo esc_attr( $p['title'] ); ?>"><p class="estate-popup__button-text"><?php bgv_e( 'Замовити дзвінок' ); ?></p></button>
 					<?php if ( ! empty( $p['agent_name'] ) || ! empty( $p['agent_phone'] ) || ! empty( $p['agent_email'] ) ) : ?>
 						<div class="estate-popup__agent">
 							<?php if ( bgv_img_url( $p['agent_image'] ) ) : ?><img class="estate-popup__agent-photo" src="<?php echo esc_url( bgv_img_url( $p['agent_image'], 'thumbnail' ) ); ?>" alt="<?php echo esc_attr( $p['agent_name'] ); ?>"><?php endif; ?>
 							<div class="estate-popup__agent-info">
-								<p class="estate-popup__agent-name"><?php echo esc_html( $p['agent_name'] ?: 'Відділ продажу' ); ?></p>
+								<p class="estate-popup__agent-name"><?php echo esc_html( $p['agent_name'] ?: bgv_t( 'Відділ продажу' ) ); ?></p>
 								<p class="estate-popup__agent-position"><?php echo esc_html( $p['agent_position'] ); ?></p>
 								<?php if ( ! empty( $p['agent_phone'] ) ) : ?>
 									<a class="estate-popup__agent-phone-container" href="tel:<?php echo esc_attr( preg_replace( '/[^+0-9]/', '', $p['agent_phone'] ) ); ?>"><img src="<?php echo esc_url( $dir . 'icon-phone.svg' ); ?>" alt=""><p class="estate-popup__phone-text"><?php echo esc_html( $p['agent_phone'] ); ?></p></a>
@@ -80,7 +85,7 @@ get_header();
 						</div>
 					<?php endif; ?>
 				</div>
-				<a class="estate-popup__exit" href="<?php echo esc_url( home_url( '/#our-projects' ) ); ?>" aria-label="Закрити"><img src="<?php echo esc_url( $dir . 'icon-close.svg' ); ?>" alt=""></a>
+				<a class="estate-popup__exit" href="<?php echo esc_url( bgv_home( '/' ) . '#our-projects' ); ?>" aria-label="Закрити"><img src="<?php echo esc_url( $dir . 'icon-close.svg' ); ?>" alt=""></a>
 			</div>
 		</div>
 	</div>

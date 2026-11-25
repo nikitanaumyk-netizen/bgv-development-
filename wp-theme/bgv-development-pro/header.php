@@ -1,23 +1,37 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?><!doctype html>
-<html <?php language_attributes(); ?>>
+<?php if ( ! defined( 'ABSPATH' ) ) { exit; }
+$bgv_phone = bgv_phone();
+$bgv_en    = bgv_en_page_id();
+?><!doctype html>
+<html <?php echo 'en' === bgv_lang() ? 'lang="en-US"' : get_language_attributes(); // phpcs:ignore ?>>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<?php wp_head(); ?>
 </head>
-<body <?php body_class(); ?>>
+<body <?php body_class( 'bgv2' ); ?>>
 <?php wp_body_open(); ?>
 <div id="page" class="site">
-	<header id="masthead" class="site-header">
-		<div class="container">
+	<header id="masthead" class="site-header bgv-header">
+		<div class="container bgv-header__in">
 			<div class="site-branding">
-				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="custom-logo-link" rel="home">
-					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/logo.svg' ); ?>" class="custom-logo" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
+				<a href="<?php echo esc_url( bgv_home( '/' ) ); ?>" class="custom-logo-link" rel="home">
+					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/logo.svg' ); ?>" class="custom-logo" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" width="170" height="20">
 				</a>
 			</div>
-			<nav id="site-navigation" class="main-navigation">
+			<nav id="site-navigation" class="main-navigation bgv-nav" aria-label="<?php bgv_e( 'Меню' ); ?>">
 				<?php bgv_menu( 'primary-menu' ); ?>
+				<div class="bgv-nav__extra">
+					<?php if ( $bgv_phone ) : ?><a class="bgv-phone" href="<?php echo esc_attr( bgv_tel( $bgv_phone ) ); ?>"><?php echo esc_html( $bgv_phone ); ?></a><?php endif; ?>
+					<?php if ( $bgv_en ) : ?>
+						<div class="bgv-lang">
+							<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="<?php echo 'uk' === bgv_lang() ? 'is-active' : ''; ?>" hreflang="uk">UA</a>
+							<a href="<?php echo esc_url( get_permalink( $bgv_en ) ); ?>" class="<?php echo 'en' === bgv_lang() ? 'is-active' : ''; ?>" hreflang="en">EN</a>
+						</div>
+					<?php endif; ?>
+				</div>
 			</nav>
+			<button class="bgv-btn bgv-header__cta" type="button" data-bgv-open="bgv-quiz"><?php bgv_e( 'Підібрати об’єкт' ); ?></button>
+			<button class="bgv-burger" type="button" aria-label="<?php bgv_e( 'Меню' ); ?>" aria-expanded="false" aria-controls="site-navigation"><span></span><span></span><span></span></button>
 		</div>
 	</header>
 	<main>
