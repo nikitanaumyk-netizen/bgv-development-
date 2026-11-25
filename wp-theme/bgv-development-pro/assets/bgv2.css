@@ -800,3 +800,7 @@ html.bgv-locked, html.bgv-locked body { overflow: hidden; }
 	.bgv-ihero + .bgv-hero .bgv-hero__text { padding-top: calc(var(--bgv-diag) + 60px); }
 }
 @media (prefers-reduced-motion: reduce) { .bgv-ihero::before { animation: none; } }
+/* Заставка не перекриває панель WordPress, віджети Google тощо */
+.bgv-preloader { z-index: 9990; will-change: transform, clip-path; }
+.admin-bar .bgv-preloader { top: 32px; }
+@media (max-width: 782px) { .admin-bar .bgv-preloader { top: 46px; } }

@@ -27,12 +27,23 @@
 		.fromTo('#preloader-logo',
 			{ opacity: 0, scale: 0.82 },
 			{ opacity: 1, scale: 1, duration: reduceMotion ? 0.2 : 0.9, ease: 'power3.out' })
-		.to(preloader, {
-			yPercent: -100,
-			duration: reduceMotion ? 0.3 : 0.9,
-			ease: 'power4.inOut',
-			delay: reduceMotion ? 0.2 : 1.1
+		/* Логотип іде першим — вгору і вбік */
+		.to('#preloader-logo', {
+			y: -40, x: 40, opacity: 0,
+			duration: reduceMotion ? 0.2 : 0.6,
+			ease: 'power3.in',
+			delay: reduceMotion ? 0.2 : 0.9
 		})
+		/* Екран відкривається по діагоналі: нижній край скошений, полотно іде вгору і вбік */
+		.fromTo(preloader,
+			{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', xPercent: 0, yPercent: 0 },
+			{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)', xPercent: 18, yPercent: -12,
+				duration: reduceMotion ? 0.3 : 1.25, ease: 'power4.inOut',
+				keyframes: reduceMotion ? undefined : {
+					clipPath: ['polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', 'polygon(0% 0%, 100% 0%, 100% 70%, 0% 100%)', 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 35%)', 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)'],
+					easeEach: 'none'
+				}
+			}, '-=0.25')
 		.add(function () {
 			preloader.style.display = 'none';
 			html.classList.remove('bgv-locked');
@@ -43,7 +54,7 @@
 			duration: 1,
 			ease: 'power3.out',
 			stagger: 0.3
-		}, '-=0.35')
+		}, '-=0.55')
 		.to(indicator, { opacity: 1, duration: 0.6 }, '-=0.3');
 
 	if (!reduceMotion) {

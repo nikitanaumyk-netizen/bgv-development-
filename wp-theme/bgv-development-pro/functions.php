@@ -4,7 +4,7 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'BGV_VER', '2.9.0' );
+define( 'BGV_VER', '2.9.1' );
 
 require get_template_directory() . '/inc/fields.php';
 require get_template_directory() . '/inc/v2.php';
