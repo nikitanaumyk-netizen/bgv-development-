@@ -14,7 +14,7 @@ $bgv_items = array_filter( (array) bgv_opt( 'inv_items' ), function ( $a ) { ret
 	<?php endif; ?>
 	<div class="container bgv-inv__in">
 		<div class="bgv-inv__text">
-			<p class="bgv-inv__kicker"><?php bgv_e( 'Інвесторам' ); ?></p>
+			<p class="bgv-inv__kicker"><?php echo esc_html( bgv_opt( 'inv_kicker' ) ?: bgv_t( 'Інвесторам' ) ); ?></p>
 			<h2 class="bgv-inv__title"><?php echo esc_html( bgv_opt( 'inv_title' ) ); ?></h2>
 			<?php if ( bgv_opt( 'inv_text' ) ) : ?><p class="bgv-inv__desc"><?php echo nl2br( esc_html( bgv_opt( 'inv_text' ) ) ); ?></p><?php endif; ?>
 			<button class="bgv-btn bgv-btn--light" type="button" data-bgv-open="bgv-form" data-bgv-type="partner" data-bgv-title="<?php echo esc_attr( bgv_opt( 'inv_button' ) ?: bgv_t( 'Стати партнером' ) ); ?>"><?php echo esc_html( bgv_opt( 'inv_button' ) ?: bgv_t( 'Стати партнером' ) ); ?></button>

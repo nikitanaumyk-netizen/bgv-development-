@@ -17,7 +17,7 @@ $bgv_proj_img = function ( $name ) {
 <section class="bgv-ach2" id="achievements">
 	<div class="container">
 		<div class="bgv-sec-head">
-			<p class="bgv-kicker"><?php bgv_e( 'Готовність об’єктів' ); ?></p>
+			<p class="bgv-kicker"><?php echo esc_html( bgv_opt( 'ach_kicker' ) ?: bgv_t( 'Готовність об’єктів' ) ); ?></p>
 			<h2 class="section-title"><?php echo esc_html( bgv_opt( 'ach_title' ) ?: bgv_t( 'Досягнення' ) ); ?></h2>
 		</div>
 		<ul class="bgv-ach2__list">
@@ -57,7 +57,7 @@ if ( ! $bgv_aw_bgs && bgv_img_url( bgv_opt( 'awards_bg' ) ) ) { $bgv_aw_bgs[] = 
 	<?php endif; ?>
 	<div class="container">
 		<div class="bgv-sec-head">
-			<p class="bgv-kicker"><?php bgv_e( 'Нагороди' ); ?></p>
+			<p class="bgv-kicker"><?php echo esc_html( bgv_opt( 'awards_kicker' ) ?: bgv_t( 'Нагороди' ) ); ?></p>
 			<h2 class="bgv-aw3__title"><span class="bgv-aw3__mask"><span><?php echo esc_html( bgv_opt( 'awards_heading' ) ?: bgv_t( 'Нагороди' ) ); ?></span></span></h2>
 			<?php if ( bgv_opt( 'awards_text' ) ) : ?><p class="bgv-sec-head__text"><?php echo esc_html( bgv_opt( 'awards_text' ) ); ?></p><?php endif; ?>
 		</div>
