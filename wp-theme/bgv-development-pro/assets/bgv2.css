@@ -1026,3 +1026,7 @@ html.mnav-open, html.mnav-open body { overflow: hidden; }
 @media (max-width: 767px) { .bgv-awx .bgv-aw3__list > li { transform: translate3d(0, 60px, 0) rotateX(-24deg); transform-origin: 50% 100%; } }
 @media (prefers-reduced-motion: reduce) { .bgv-awx * { transition: none !important; animation: none !important; } }
 .bgv-aw3--bg::before { background: linear-gradient(180deg, rgba(0, 26, 114, .82) 0%, rgba(0, 26, 114, .55) 45%, rgba(0, 26, 114, .85) 100%); }
+/* «Нагороди»: слайди фону зі зміною і повільним наближенням */
+.bgv-aw3__bg { background: #001A72; }
+.bgv-aw3__slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transform: scale(1.15); transition: opacity 1.6s ease, transform 9s var(--ease-out); }
+.bgv-aw3__slide.is-active { opacity: 1; transform: scale(1.02); }

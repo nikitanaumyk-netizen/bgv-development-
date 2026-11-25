@@ -38,9 +38,23 @@ $bgv_proj_img = function ( $name ) {
 </section>
 <?php endif; ?>
 <?php if ( $bgv_aw ) : ?>
-<?php $bgv_aw_bg = bgv_img_url( bgv_opt( 'awards_bg' ), 'full' ); ?>
-<section class="bgv-aw3<?php echo $bgv_aw_bg ? ' bgv-aw3--bg' : ''; ?>" id="awards">
-	<?php if ( $bgv_aw_bg ) : ?><div class="bgv-aw3__bg" style="background-image:url('<?php echo esc_url( $bgv_aw_bg ); ?>')" aria-hidden="true"></div><?php endif; ?>
+<?php
+// Фон: фото з карток нагород (міняються по черзі, як на першому екрані); якщо їх немає — рендер з поля «Фон розділу».
+$bgv_aw_bgs = array();
+foreach ( $bgv_aw as $a ) {
+	$ph = ! empty( $a['photo'] ) ? (int) $a['photo'] : 0;
+	if ( ! $ph && ! empty( $a['link'] ) ) { $pid = url_to_postid( $a['link'] ); $ph = $pid ? (int) get_post_thumbnail_id( $pid ) : 0; }
+	$u = bgv_img_url( $ph, 'full' );
+	if ( $u && ! in_array( $u, $bgv_aw_bgs, true ) ) { $bgv_aw_bgs[] = $u; }
+}
+if ( ! $bgv_aw_bgs && bgv_img_url( bgv_opt( 'awards_bg' ) ) ) { $bgv_aw_bgs[] = bgv_img_url( bgv_opt( 'awards_bg' ), 'full' ); }
+?>
+<section class="bgv-aw3<?php echo $bgv_aw_bgs ? ' bgv-aw3--bg' : ''; ?>" id="awards">
+	<?php if ( $bgv_aw_bgs ) : ?>
+		<div class="bgv-aw3__bg" aria-hidden="true">
+			<?php foreach ( $bgv_aw_bgs as $i => $u ) : ?><div class="bgv-aw3__slide<?php echo 0 === $i ? ' is-active' : ''; ?>" style="background-image:url('<?php echo esc_url( $u ); ?>')"></div><?php endforeach; ?>
+		</div>
+	<?php endif; ?>
 	<div class="container">
 		<div class="bgv-sec-head">
 			<p class="bgv-kicker"><?php bgv_e( 'Нагороди' ); ?></p>

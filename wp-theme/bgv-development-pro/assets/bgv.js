@@ -281,6 +281,14 @@
 		}, { threshold: .25 });
 		showSecs.forEach(function (sec) { sio.observe(sec); });
 	}
+	/* «Нагороди»: фон із фото, що змінюються (як на першому екрані) */
+	(function () {
+		var sl = $$('#awards .bgv-aw3__slide'), i = 0;
+		if (sl.length < 2 || still) { return; }
+		setInterval(function () {
+			sl[i].classList.remove('is-active'); i = (i + 1) % sl.length; sl[i].classList.add('is-active');
+		}, 6000);
+	})();
 	/* «Нагороди»: власна поява — рендер виходить із розмиття, заголовок з-під маски, картки влітають у 3D з бліком */
 	var aw = document.getElementById('awards');
 	if (aw && !still && 'IntersectionObserver' in window) {
