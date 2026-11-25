@@ -7,9 +7,36 @@ get_header();
 
 <section class="bgv-about" id="about">
 	<div class="container bgv-about__in">
-		<div class="bgv-about__img">
-			<?php if ( bgv_img_url( bgv_opt( 'about_image' ) ) ) : ?>
-				<img src="<?php echo esc_url( bgv_img_url( bgv_opt( 'about_image' ), 'large' ) ); ?>" alt="<?php echo esc_attr( bgv_opt( 'about_title' ) ?: bgv_t( 'Про нас' ) ); ?>" loading="lazy">
+		<?php
+		// Слайдер «Про нас»: перше — фото розділу, далі ТЦ «ЖИТО» Житомир, потім інші проєкти.
+		$bgv_as = array(); $bgv_seen = array();
+		$bgv_add = function ( $img, $cap, $url ) use ( &$bgv_as, &$bgv_seen ) {
+			$img = (int) $img; if ( ! $img || isset( $bgv_seen[ $img ] ) || ! bgv_img_url( $img ) ) { return; }
+			$bgv_seen[ $img ] = 1; $bgv_as[] = array( 'img' => $img, 'cap' => $cap, 'url' => $url );
+		};
+		$bgv_projects = bgv_all_projects();
+		$bgv_first_cap = '';
+		foreach ( $bgv_projects as $p ) { if ( (int) $p['image'] === (int) bgv_opt( 'about_image' ) || false !== mb_stripos( $p['title'], 'BOSTON' ) ) { $bgv_first_cap = $p; break; } }
+		$bgv_add( bgv_opt( 'about_image' ), $bgv_first_cap ? $bgv_first_cap['title'] : '', $bgv_first_cap ? $bgv_first_cap['_url'] : '' );
+		foreach ( $bgv_projects as $p ) { if ( false !== mb_stripos( $p['title'], 'ЖИТО, Житомир' ) ) { $bgv_add( $p['image'], $p['title'], $p['_url'] ); } }
+		foreach ( $bgv_projects as $p ) { if ( $bgv_first_cap && $p['title'] === $bgv_first_cap['title'] ) { continue; } $bgv_add( $p['image'], $p['title'], $p['_url'] ); }
+		?>
+		<div class="bgv-about__img bgv-aslider" data-aslider>
+			<?php foreach ( $bgv_as as $i => $sl ) : ?>
+				<div class="bgv-aslide<?php echo 0 === $i ? ' is-active' : ''; ?>" data-cap="<?php echo esc_attr( $sl['cap'] ); ?>" data-link="<?php echo esc_url( $sl['url'] ); ?>">
+					<img src="<?php echo esc_url( bgv_img_url( $sl['img'], 'large' ) ); ?>" alt="<?php echo esc_attr( $sl['cap'] ); ?>" loading="lazy">
+				</div>
+			<?php endforeach; ?>
+			<?php if ( count( $bgv_as ) > 1 ) : ?>
+				<div class="bgv-aslider__bar">
+					<a class="bgv-aslider__cap" href="<?php echo esc_url( $bgv_as[0]['url'] ?: '#our-projects' ); ?>"><?php echo esc_html( $bgv_as[0]['cap'] ); ?></a>
+					<div class="bgv-aslider__nav">
+						<button type="button" class="bgv-aslider__arrow" data-dir="-1" aria-label="Попереднє фото">&larr;</button>
+						<span class="bgv-aslider__count"><b>01</b> / <?php echo esc_html( sprintf( '%02d', count( $bgv_as ) ) ); ?></span>
+						<button type="button" class="bgv-aslider__arrow" data-dir="1" aria-label="Наступне фото">&rarr;</button>
+					</div>
+					<div class="bgv-aslider__progress"><span></span></div>
+				</div>
 			<?php endif; ?>
 		</div>
 		<div class="bgv-about__body">

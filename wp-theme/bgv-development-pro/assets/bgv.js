@@ -236,6 +236,26 @@
 		start();
 	}
 
+	/* ---- Слайдер «Про нас» ---- */
+	$$('[data-aslider]').forEach(function (box) {
+		var sl = $$('.bgv-aslide', box), cap = $('.bgv-aslider__cap', box), cnt = $('.bgv-aslider__count b', box), prog = $('.bgv-aslider__progress span', box), i = 0, t, DUR = 5000;
+		if (sl.length < 2) { return; }
+		var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+		var go = function (n) {
+			i = (n + sl.length) % sl.length;
+			sl.forEach(function (s, k) { s.classList.toggle('is-active', k === i); });
+			if (cap) { cap.textContent = sl[i].getAttribute('data-cap'); cap.setAttribute('href', sl[i].getAttribute('data-link') || '#our-projects'); }
+			if (cnt) { cnt.textContent = pad(i + 1); }
+			if (prog) { prog.style.transition = 'none'; prog.style.width = '0'; void prog.offsetWidth; prog.style.transition = 'width ' + DUR + 'ms linear'; prog.style.width = '100%'; }
+		};
+		var run = function () { clearInterval(t); t = setInterval(function () { go(i + 1); }, DUR); };
+		$$('.bgv-aslider__arrow', box).forEach(function (a) { a.addEventListener('click', function () { go(i + (+a.getAttribute('data-dir'))); run(); }); });
+		var x0 = null;
+		box.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+		box.addEventListener('touchend', function (e) { if (x0 === null) { return; } var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) { go(i + (dx < 0 ? 1 : -1)); run(); } x0 = null; });
+		go(0); run();
+	});
+
 	/* ---- Слайдер «Соціальна відповідальність» ---- */
 	$$('[data-slider]').forEach(function (box) {
 		var sl = $$('.bgv-soc-slide', box), dt = $$('.bgv-soc-dots button', box), i = 0, t;
