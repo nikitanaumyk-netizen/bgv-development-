@@ -4,7 +4,7 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'BGV_VER', '2.12.2' );
+define( 'BGV_VER', '2.13.0' );
 
 require get_template_directory() . '/inc/fields.php';
 require get_template_directory() . '/inc/v2.php';
@@ -19,6 +19,7 @@ require get_template_directory() . '/inc/setup-v28.php';
 require get_template_directory() . '/inc/setup-v29.php';
 require get_template_directory() . '/inc/setup-v30.php';
 require get_template_directory() . '/inc/setup-v32.php';
+require get_template_directory() . '/inc/setup-v33.php';
 if ( file_exists( get_template_directory() . '/inc/bgv-api.php' ) ) { require get_template_directory() . '/inc/bgv-api.php'; }
 if ( file_exists( get_template_directory() . '/inc/migrate-v2.php' ) ) { require get_template_directory() . '/inc/migrate-v2.php'; }
 if ( file_exists( get_template_directory() . '/inc/migrate.php' ) ) {

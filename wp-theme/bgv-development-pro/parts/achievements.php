@@ -38,11 +38,13 @@ $bgv_proj_img = function ( $name ) {
 </section>
 <?php endif; ?>
 <?php if ( $bgv_aw ) : ?>
-<section class="bgv-aw3" id="awards">
+<?php $bgv_aw_bg = bgv_img_url( bgv_opt( 'awards_bg' ), 'full' ); ?>
+<section class="bgv-aw3<?php echo $bgv_aw_bg ? ' bgv-aw3--bg' : ''; ?>" id="awards">
+	<?php if ( $bgv_aw_bg ) : ?><div class="bgv-aw3__bg" style="background-image:url('<?php echo esc_url( $bgv_aw_bg ); ?>')" aria-hidden="true"></div><?php endif; ?>
 	<div class="container">
 		<div class="bgv-sec-head">
 			<p class="bgv-kicker"><?php bgv_e( 'Нагороди' ); ?></p>
-			<h2 class="bgv-aw3__title"><?php echo esc_html( bgv_opt( 'awards_heading' ) ?: bgv_t( 'Нагороди' ) ); ?></h2>
+			<h2 class="bgv-aw3__title"><span class="bgv-aw3__mask"><span><?php echo esc_html( bgv_opt( 'awards_heading' ) ?: bgv_t( 'Нагороди' ) ); ?></span></span></h2>
 			<?php if ( bgv_opt( 'awards_text' ) ) : ?><p class="bgv-sec-head__text"><?php echo esc_html( bgv_opt( 'awards_text' ) ); ?></p><?php endif; ?>
 		</div>
 		<ul class="bgv-aw3__list">

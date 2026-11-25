@@ -132,6 +132,7 @@ add_action( 'acf/init', function () {
 			bgv_tab( 'awards', 'Нагороди' ),
 			bgv_f( 'awards_heading', 'Заголовок розділу' ),
 			bgv_f( 'awards_text', 'Вступний текст', 'textarea', array( 'rows' => 2 ) ),
+			bgv_f( 'awards_bg', 'Фон розділу (рендер)', 'image', bgv_img() ),
 			bgv_f( 'awards', 'Нагороди та членство', 'repeater', array(
 				'layout' => 'block', 'button_label' => 'Додати нагороду', 'instructions' => 'Якщо «Фото картки» порожнє — береться фото з новини за посиланням. Якщо список порожній — розділ не показується.',
 				'sub_fields' => array(

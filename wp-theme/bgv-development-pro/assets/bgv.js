@@ -257,7 +257,7 @@
 	/* ---- Анімації: поява тексту та «набігання» цифр ---- */
 	var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	/* «Досягнення» і «Нагороди»: поява як на першому екрані — шторки, заголовок по літерах, картки по черзі */
-	var showSecs = $$('#advantages, #achievements, #awards');
+	var showSecs = $$('#advantages, #achievements');
 	if (!still && 'IntersectionObserver' in window) {
 		showSecs.forEach(function (sec) {
 			sec.classList.add('bgv-show');
@@ -280,6 +280,16 @@
 			en.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('is-played'); sio.unobserve(x.target); } });
 		}, { threshold: .25 });
 		showSecs.forEach(function (sec) { sio.observe(sec); });
+	}
+	/* «Нагороди»: власна поява — рендер виходить із розмиття, заголовок з-під маски, картки влітають у 3D з бліком */
+	var aw = document.getElementById('awards');
+	if (aw && !still && 'IntersectionObserver' in window) {
+		aw.classList.add('bgv-awx');
+		$$('.bgv-aw3__list > li', aw).forEach(function (c, i) { c.style.setProperty('--ai', i); });
+		var aio = new IntersectionObserver(function (en) {
+			en.forEach(function (x) { if (x.isIntersecting) { aw.classList.add('is-played'); aio.disconnect(); } });
+		}, { threshold: .2 });
+		aio.observe(aw);
 	}
 	if (!('IntersectionObserver' in window) || still) { return; }
 

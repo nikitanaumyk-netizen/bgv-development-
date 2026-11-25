@@ -985,3 +985,44 @@ html.mnav-open, html.mnav-open body { overflow: hidden; }
 .bgv-show .bgv-adv2__card { opacity: 0; transform: translate3d(0, 50px, 0); clip-path: inset(0 100% 0 0); }
 .bgv-show.is-played .bgv-adv2__card { opacity: 1; transform: none; clip-path: inset(0 0 0 0); transition: opacity 1s var(--ease-out) calc(1.3s + var(--si, 0) * .18s), transform 1.3s var(--ease-out) calc(1.3s + var(--si, 0) * .18s), clip-path 1.4s var(--ease-io) calc(1.3s + var(--si, 0) * .18s) !important; }
 @media (max-width: 1180px) { .bgv-hero--v5 .bgv-hero__cta { grid-template-columns: auto; justify-content: start; } }
+
+/* ==========================================================
+   v2.13 — «Нагороди»: окрема анімація появи на тлі рендера
+   ========================================================== */
+.bgv-aw3--bg { position: relative; overflow: hidden; background: #001A72; }
+.bgv-aw3__bg { position: absolute; inset: -4%; background-size: cover; background-position: center; z-index: 0; }
+.bgv-aw3--bg::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(0, 26, 114, .88) 0%, rgba(0, 26, 114, .72) 45%, rgba(0, 26, 114, .9) 100%); }
+.bgv-aw3--bg > .container { position: relative; z-index: 2; }
+.bgv-aw3--bg .bgv-aw3__title { color: #fff; }
+.bgv-aw3--bg .bgv-kicker { color: #BEC8FF; }
+.bgv-aw3--bg .bgv-kicker::before { background: #BEC8FF; }
+.bgv-aw3--bg .bgv-sec-head__text { color: rgba(255, 255, 255, .8); }
+.bgv-aw3__mask { display: block; overflow: hidden; padding-bottom: .08em; }
+.bgv-aw3__mask > span { display: block; }
+.bgv-aw3__img { overflow: hidden; }
+.bgv-aw3__img::after { content: ''; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%; z-index: 2; background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .45), transparent); transform: skewX(-17deg); pointer-events: none; opacity: 0; }
+
+/* стартовий стан */
+.bgv-awx .bgv-aw3__bg { transform: scale(1.25); filter: blur(14px); opacity: .4; }
+.bgv-awx .bgv-kicker { opacity: 0; transform: translate3d(-30px, 0, 0); }
+.bgv-awx .bgv-aw3__mask > span { transform: translate3d(0, 105%, 0); }
+.bgv-awx .bgv-sec-head__text { opacity: 0; }
+.bgv-awx .bgv-aw3__list { perspective: 1400px; }
+.bgv-awx .bgv-aw3__list > li { opacity: 0; transform: translate3d(120px, 40px, 0) rotateY(-38deg) rotateX(6deg); transform-origin: 0% 50%; }
+.bgv-awx .bgv-aw3__plate { transform: translate3d(-105%, 0, 0); }
+.bgv-awx .bgv-aw3__body > * { opacity: 0; transform: translate3d(0, 16px, 0); }
+
+/* поява */
+.bgv-awx.is-played .bgv-aw3__bg { transform: scale(1); filter: blur(0); opacity: 1; transition: transform 2.6s var(--ease-out), filter 1.6s var(--ease-out), opacity 1.2s ease; }
+.bgv-awx.is-played .bgv-kicker { opacity: 1; transform: none; transition: opacity .9s var(--ease-out) .3s, transform 1s var(--ease-out) .3s; }
+.bgv-awx.is-played .bgv-aw3__mask > span { transform: none; transition: transform 1.3s var(--ease-io) .45s; }
+.bgv-awx.is-played .bgv-sec-head__text { opacity: 1; transition: opacity 1s ease .9s; }
+.bgv-awx.is-played .bgv-aw3__list > li { opacity: 1; transform: none; transition: opacity .9s var(--ease-out) calc(.9s + var(--ai, 0) * .22s), transform 1.5s var(--ease-out) calc(.9s + var(--ai, 0) * .22s); }
+.bgv-awx.is-played .bgv-aw3__plate { transform: none; transition: transform .9s var(--ease-io) calc(1.6s + var(--ai, 0) * .22s); }
+.bgv-awx.is-played .bgv-aw3__body > * { opacity: 1; transform: none; transition: opacity .7s var(--ease-out) calc(1.8s + var(--ai, 0) * .22s), transform .8s var(--ease-out) calc(1.8s + var(--ai, 0) * .22s); }
+.bgv-awx.is-played .bgv-aw3__img::after { animation: bgvShine 1.3s var(--ease-io) calc(2.1s + var(--ai, 0) * .22s) 1 both; }
+.bgv-aw3__list > li:nth-child(1) .bgv-aw3__img::after { --ai: 0; }
+@keyframes bgvShine { 0% { left: -60%; opacity: 0; } 15% { opacity: 1; } 100% { left: 130%; opacity: 0; } }
+@media (max-width: 767px) { .bgv-awx .bgv-aw3__list > li { transform: translate3d(0, 60px, 0) rotateX(-24deg); transform-origin: 50% 100%; } }
+@media (prefers-reduced-motion: reduce) { .bgv-awx * { transition: none !important; animation: none !important; } }
+.bgv-aw3--bg::before { background: linear-gradient(180deg, rgba(0, 26, 114, .82) 0%, rgba(0, 26, 114, .55) 45%, rgba(0, 26, 114, .85) 100%); }
