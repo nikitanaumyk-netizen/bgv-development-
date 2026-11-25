@@ -2,7 +2,6 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 get_header();
 ?>
-<?php get_template_part( 'parts/intro-hero' ); ?>
 <?php get_template_part( 'parts/hero' ); ?>
 
 

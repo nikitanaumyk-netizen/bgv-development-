@@ -10,15 +10,6 @@ $bgv_en    = bgv_en_page_id();
 </head>
 <body <?php body_class( 'bgv2' ); ?>>
 <?php wp_body_open(); ?>
-<?php if ( is_front_page() ) : ?>
-<div class="preloader bgv-preloader" id="preloader" aria-hidden="true">
-	<svg class="preloader__logo" id="preloader-logo" viewBox="0 0 120 64" role="img" aria-label="BGV Development">
-		<rect x="21" y="2" width="78" height="40" fill="none" stroke="currentColor" stroke-width="2.5"/>
-		<text x="60" y="31" text-anchor="middle" font-family="Qanelas, Manrope, Arial, sans-serif" font-size="26" font-weight="700" fill="currentColor">BGV</text>
-		<text x="60" y="60" text-anchor="middle" font-family="Qanelas, Manrope, Arial, sans-serif" font-size="10" font-weight="700" letter-spacing="-0.3" fill="currentColor">DEVELOPMENT</text>
-	</svg>
-</div>
-<?php endif; ?>
 <div id="page" class="site">
 	<header id="masthead" class="site-header bgv-header">
 		<div class="container bgv-header__in">

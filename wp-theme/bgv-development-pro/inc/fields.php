@@ -61,12 +61,7 @@ add_action( 'acf/init', function () {
 			bgv_f( 'header_phone', 'Телефон у шапці', 'text', array( 'instructions' => 'Напр. +38 (044) 277 14 14. Якщо порожньо — береться телефон з «Підвалу».' ) ),
 			array( 'key' => 'field_bgv_leads_msg', 'label' => '', 'name' => '', 'type' => 'message', 'message' => 'Усі заявки з сайту (форма, «Підібрати об’єкт», «Стати партнером», презентації, плаваюча кнопка) зберігаються в меню ліворуч <b>«Заявки»</b> і надсилаються на email з вкладки «Контакти».' ),
 
-			bgv_tab( 'intro', 'Заставка (перший екран)' ),
-			bgv_f( 'intro_title', 'Великий заголовок', 'text', array( 'placeholder' => 'Build Your Future' ) ),
-			bgv_f( 'intro_text', 'Текст під заголовком', 'textarea', array( 'rows' => 2, 'placeholder' => 'Девелоперська компанія BGV Development. Створюємо простір для життя, бізнесу та майбутнього.' ) ),
-			bgv_f( 'intro_button', 'Текст кнопки', 'text', array( 'placeholder' => 'Дивитися проєкти' ) ),
-
-			bgv_tab( 'hero', 'Слайдер проєктів' ),
+			bgv_tab( 'hero', 'Перший екран' ),
 			bgv_f( 'hero_subtitle', 'Надзаголовок (маленький текст над заголовком)' ),
 			bgv_f( 'hero_title', 'Головний заголовок (H1)', 'textarea', array( 'rows' => 2, 'new_lines' => '' ) ),
 			bgv_f( 'hero_lead', 'Підзаголовок під заголовком' ),

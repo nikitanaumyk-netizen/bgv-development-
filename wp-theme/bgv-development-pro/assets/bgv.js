@@ -28,7 +28,7 @@
 
 	/* ---- Шапка: тінь при прокрутці, бургер, підменю ---- */
 	var header = $('.bgv-header');
-	var heroEl = document.querySelector('.bgv-ihero') || document.querySelector('.bgv-hero');
+	var heroEl = document.querySelector('.bgv-hero');
 	var onScroll = function () { if (header) { header.classList.toggle('is-scrolled', window.scrollY > 10); } html.classList.toggle('past-hero', !heroEl || window.scrollY > heroEl.offsetHeight * 0.6); };
 	window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
 	var burger = $('.bgv-burger');
@@ -314,7 +314,7 @@
 
 	// Поява тексту і карток під час прокрутки (знизу вгору, по черзі).
 	var sel = [
-		'main .section-title', 'main .bgv-kicker', '.bgv-hero__kicker', '.bgv-hero__title', '.bgv-hero__desc', '.bgv-hero__cta', '.bgv-sec-head__text', 
+		'main .section-title', 'main .bgv-kicker', '.bgv-sec-head__text', 
 		'.bgv-stats__item', '.bgv-adv2__head > *', '.bgv-adv2__card', '.about-text p', '.about-image-wrapp',
 		'.bgv-projects__head .bgv-chips', '.bgv-card', '.bgv-ach2__card', '.bgv-aw2__list > li',
 		'.bgv-inv__text > *', '.bgv-inv__list li', '.news-content', '.philantropy-item', '.contact-list', '.contact-form-title', '.contact-form-text',

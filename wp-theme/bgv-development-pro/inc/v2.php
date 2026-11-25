@@ -96,8 +96,7 @@ add_action( 'wp_enqueue_scripts', function () {
 	$u = get_template_directory_uri() . '/assets/';
 	wp_enqueue_script( 'bgv', $u . 'bgv.js', array(), BGV_VER, true );
 	if ( is_front_page() ) {
-		wp_enqueue_script( 'gsap', $u . 'gsap/gsap.min.js', array(), '3.12.5', true );
-		wp_enqueue_script( 'bgv-intro', $u . 'intro.js', array( 'gsap' ), BGV_VER, true );
+		wp_enqueue_script( 'bgv-intro', $u . 'intro.js', array(), BGV_VER, true );
 	}
 	wp_localize_script( 'bgv', 'BGV', array(
 		'ajax' => admin_url( 'admin-post.php' ),

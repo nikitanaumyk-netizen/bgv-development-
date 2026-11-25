@@ -1,75 +1,75 @@
-/* Заставка і перший екран — ідентично референсу (GSAP). */
+/* Перший екран — вступна анімація як на bgv-development-site610v4.vercel.app:
+   дві скошені шторки (темна й синя) їдуть вправо → лінія і слоган → заголовок по літерах із розмиття →
+   текст по літерах → кнопки → панель проєкту виїжджає справа → меню і індикатор прокрутки. */
 (function () {
 	'use strict';
-	var preloader = document.getElementById('preloader');
-	if (!preloader) { return; }
-	var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-	var html = document.documentElement;
+	var hero = document.querySelector('.bgv-hero');
+	if (!hero) { return; }
+	var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	document.body.classList.add('has-hero');
 
-	/* Фолбек без GSAP: все видно, прелоадер іде */
-	if (typeof window.gsap === 'undefined') {
-		setTimeout(function () {
-			preloader.classList.add('is-hidden');
-			setTimeout(function () { preloader.style.display = 'none'; }, 950);
-		}, 1200);
-		return;
+	/* ---------- розбивка тексту на літери (рядок за рядком, зліва направо) ---------- */
+	var TX = {
+		title: { char: 30, line: 180, span: 760, dur: 1100 },
+		hero: { char: 12, line: 110, span: 560, dur: 900 }
+	};
+	var esc = function (v) { return v.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+	function split(el, kind) {
+		if (!el || el.children.length) { return null; }
+		var html = el.innerHTML, words = el.textContent.split(/\s+/).filter(Boolean);
+		if (!words.length) { return null; }
+		var plain = words.join(' ');
+		el.innerHTML = '<span class="tx-sr">' + esc(plain) + '</span><span class="tx" aria-hidden="true">' + words.map(function (w) {
+			return '<span class="tw">' + Array.from(w).map(function (c) { return '<span class="tc">' + esc(c) + '</span>'; }).join('') + '</span>';
+		}).join(' ') + '</span>';
+		var cfg = TX[kind], lines = [], top = null, max = 0;
+		el.querySelectorAll('.tw').forEach(function (w) {
+			var y = w.offsetTop;
+			if (top === null || Math.abs(y - top) > 2) { lines.push([]); top = y; }
+			lines[lines.length - 1].push.apply(lines[lines.length - 1], w.children);
+		});
+		lines.forEach(function (chars, k) {
+			var step = Math.min(cfg.char, cfg.span / Math.max(1, chars.length - 1));
+			chars.forEach(function (c, n) {
+				var t = Math.round(k * cfg.line + n * step);
+				c.style.setProperty('--cd', t + 'ms');
+				if (t > max) { max = t; }
+			});
+		});
+		return { html: html, max: max, dur: cfg.dur };
 	}
 
-	/* ---------- ПРЕЛОАДЕР + вхід першого екрана ---------- */
-	var reveals = gsap.utils.toArray('.bgv-ihero-reveal');
-	var indicator = document.getElementById('bgv-scroll-ind');
-	gsap.set(reveals, { y: 60, opacity: 0 });
-	if (indicator) { gsap.set(indicator, { opacity: 0 }); }
-	html.classList.add('bgv-locked');
-
-	var intro = gsap.timeline();
-	intro
-		.fromTo('#preloader-logo',
-			{ opacity: 0, scale: 0.82 },
-			{ opacity: 1, scale: 1, duration: reduceMotion ? 0.2 : 0.9, ease: 'power3.out' })
-		/* Логотип іде першим — вгору і вбік */
-		.to('#preloader-logo', {
-			y: -40, x: 40, opacity: 0,
-			duration: reduceMotion ? 0.2 : 0.6,
-			ease: 'power3.in',
-			delay: reduceMotion ? 0.2 : 0.9
-		})
-		/* Екран відкривається по діагоналі: нижній край скошений, полотно іде вгору і вбік */
-		.fromTo(preloader,
-			{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', xPercent: 0, yPercent: 0 },
-			{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)', xPercent: 18, yPercent: -12,
-				duration: reduceMotion ? 0.3 : 1.25, ease: 'power4.inOut',
-				keyframes: reduceMotion ? undefined : {
-					clipPath: ['polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', 'polygon(0% 0%, 100% 0%, 100% 70%, 0% 100%)', 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 35%)', 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)'],
-					easeEach: 'none'
-				}
-			}, '-=0.25')
-		.add(function () {
-			preloader.style.display = 'none';
-			html.classList.remove('bgv-locked');
-		})
-		.to(reveals, {
-			y: 0,
-			opacity: 1,
-			duration: 1,
-			ease: 'power3.out',
-			stagger: 0.3
-		}, '-=0.55')
-		.to(indicator, { opacity: 1, duration: 0.6 }, '-=0.3');
-
-	if (!reduceMotion) {
-		/* ---------- Діагональні фігури: повільний нескінченний рух ---------- */
-		gsap.to('#bgv-shape-1', { x: 60, y: 40, rotation: 6, transformOrigin: '50% 50%', duration: 16, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-		gsap.to('#bgv-shape-2', { x: -50, y: 60, rotation: -10, transformOrigin: '50% 50%', duration: 19, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-		gsap.to('#bgv-shape-3', { x: -70, y: -40, rotation: 5, transformOrigin: '50% 50%', duration: 22, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-
-		/* Індикатор прокрутки: точка рухається вниз */
-		gsap.fromTo('#bgv-scroll-dot',
-			{ y: 0, opacity: 0 },
-			{ keyframes: [
-				{ opacity: 1, duration: 0.3 },
-				{ y: 53, duration: 1.2, ease: 'power1.inOut' },
-				{ opacity: 0, duration: 0.3 }
-			], repeat: -1, repeatDelay: 0.3 });
+	var title = hero.querySelector('.bgv-hero__title');
+	var sub = hero.querySelector('.bgv-hero__desc, .bgv-hero__lead');
+	var tTitle = null, tSub = null;
+	if (!reduced) {
+		tTitle = split(title, 'title'); if (tTitle) { title.classList.add('tx-on'); }
+		tSub = split(sub, 'hero'); if (tSub) { sub.classList.add('tx-hero'); }
 	}
+	// після появи повертаємо звичайний текст
+	var revert = function (el, info, base) {
+		if (!el || !info) { return; }
+		setTimeout(function () { el.innerHTML = info.html; el.classList.remove('tx-on', 'tx-hero'); }, base + info.max + info.dur + 150);
+	};
+
+	/* ---------- старт: чекаємо перше фото (не довше 1,2 с) ---------- */
+	var started = false;
+	var go = function () {
+		if (started) { return; }
+		started = true;
+		requestAnimationFrame(function () {
+			hero.classList.add('is-played');
+			document.body.classList.add('hero-in');
+			revert(title, tTitle, 860);
+			revert(sub, tSub, 1220);
+		});
+	};
+	if (reduced) { hero.classList.add('is-quick'); document.body.classList.add('intro-quick'); go(); return; }
+	var img = hero.querySelector('.bgv-hero__slide.is-active img');
+	if (!img || (img.complete && img.naturalWidth)) { go(); }
+	else {
+		img.addEventListener('load', go, { once: true });
+		img.addEventListener('error', function () { setTimeout(go, 300); }, { once: true });
+	}
+	setTimeout(go, 1200);
 })();

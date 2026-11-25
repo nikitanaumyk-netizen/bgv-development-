@@ -28,10 +28,11 @@ $bgv_n     = count( $bgv_slides );
 			</div>
 		<?php endforeach; ?>
 	</div>
+	<div class="bgv-hero__wipe" aria-hidden="true"><i></i><i></i></div>
 	<div class="container bgv-hero__in">
 		<div class="bgv-hero__text">
-			<?php if ( bgv_opt( 'hero_subtitle' ) ) : ?><p class="bgv-hero__kicker"><?php echo esc_html( bgv_opt( 'hero_subtitle' ) ); ?></p><?php endif; ?>
-			<h2 class="bgv-hero__title"><?php echo esc_html( $bgv_title ); ?></h2>
+			<?php if ( bgv_opt( 'hero_subtitle' ) ) : ?><p class="bgv-hero__kicker"><span><?php echo esc_html( bgv_opt( 'hero_subtitle' ) ); ?></span></p><?php endif; ?>
+			<h1 class="bgv-hero__title"><?php echo esc_html( $bgv_title ); ?></h1>
 			<?php if ( bgv_opt( 'hero_description' ) ) : ?><p class="bgv-hero__desc"><?php echo esc_html( bgv_opt( 'hero_description' ) ); ?></p><?php endif; ?>
 			<div class="bgv-hero__cta">
 				<button class="bgv-btn" type="button" data-bgv-open="bgv-quiz"><?php bgv_e( 'Підібрати об’єкт' ); ?></button>
