@@ -4,7 +4,7 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'BGV_VER', '1.0.9' );
+define( 'BGV_VER', '1.1.0' );
 
 require get_template_directory() . '/inc/fields.php';
 if ( file_exists( get_template_directory() . '/inc/migrate.php' ) ) {
@@ -334,3 +334,31 @@ add_action( 'wp_head', function () {
 	}
 	echo $head; // phpcs:ignore
 }, 10000 );
+
+/* ---------- Блоки з полями не згортаються і не переміщуються ---------- */
+foreach ( array( 'page', 'post' ) as $bgv_pt ) {
+	add_filter( 'get_user_option_closedpostboxes_' . $bgv_pt, function ( $closed ) {
+		return is_array( $closed ) ? array_values( array_diff( $closed, array( 'acf-group_bgv_home', 'acf-group_bgv_news' ) ) ) : $closed;
+	} );
+}
+add_action( 'admin_head', function () {
+	?>
+	<style>
+		#acf-group_bgv_home .handle-actions, #acf-group_bgv_news .handle-actions { display: none !important; }
+		#acf-group_bgv_home .postbox-header, #acf-group_bgv_news .postbox-header { pointer-events: none; cursor: default; }
+		#acf-group_bgv_home.closed .inside, #acf-group_bgv_news.closed .inside { display: block !important; }
+	</style>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			['acf-group_bgv_home', 'acf-group_bgv_news'].forEach(function (id) {
+				var box = document.getElementById(id);
+				if (!box) { return; }
+				box.classList.remove('closed');
+				var area = box.closest('.meta-box-sortables');
+				var first = document.querySelector('#normal-sortables, #advanced-sortables, #acf_after_title-sortables');
+				if (box.parentNode && box.parentNode.firstElementChild !== box) { box.parentNode.insertBefore(box, box.parentNode.firstElementChild); }
+			});
+		});
+	</script>
+	<?php
+} );
