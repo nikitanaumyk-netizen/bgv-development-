@@ -27,7 +27,7 @@ function bgv_project_fields( $p ) {
 			'sub_fields' => array( bgv_sub( $p . '_card', 'text', 'Текст плашки' ) ),
 		) ),
 		bgv_sub( $p, 'gallery', 'Галерея', 'gallery', array( 'return_format' => 'id', 'preview_size' => 'medium', 'library' => 'all' ) ),
-		bgv_sub( $p, 'description', 'Опис', 'wysiwyg', array( 'tabs' => 'all', 'toolbar' => 'full', 'media_upload' => 1 ) ),
+		bgv_sub( $p, 'description', 'Опис', 'wysiwyg', array( 'tabs' => 'all', 'toolbar' => 'full', 'media_upload' => 1, 'delay' => 1, 'instructions' => 'Натисніть на поле, щоб відкрити редактор.' ) ),
 		bgv_sub( $p, 'location', 'Адреса / локація' ),
 		bgv_sub( $p, 'features', 'Характеристики', 'repeater', array(
 			'layout' => 'table', 'button_label' => 'Додати рядок',

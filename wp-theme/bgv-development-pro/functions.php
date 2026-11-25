@@ -4,7 +4,7 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'BGV_VER', '1.1.0' );
+define( 'BGV_VER', '1.1.1' );
 
 require get_template_directory() . '/inc/fields.php';
 if ( file_exists( get_template_directory() . '/inc/migrate.php' ) ) {
@@ -354,11 +354,13 @@ add_action( 'admin_head', function () {
 				var box = document.getElementById(id);
 				if (!box) { return; }
 				box.classList.remove('closed');
-				var area = box.closest('.meta-box-sortables');
-				var first = document.querySelector('#normal-sortables, #advanced-sortables, #acf_after_title-sortables');
-				if (box.parentNode && box.parentNode.firstElementChild !== box) { box.parentNode.insertBefore(box, box.parentNode.firstElementChild); }
 			});
 		});
 	</script>
 	<?php
 } );
+
+// Порядок блоків: поля завжди першими (без переміщення DOM, щоб не скидати редактори тексту).
+foreach ( array( 'page', 'post' ) as $bgv_pt2 ) {
+	add_filter( 'get_user_option_meta-box-order_' . $bgv_pt2, function () { return false; } );
+}
