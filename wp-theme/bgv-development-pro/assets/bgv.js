@@ -250,16 +250,33 @@
 			return sep ? s.replace(/\B(?=(\d{3})+(?!\d))/g, sep) : s;
 		};
 		var dur = Math.min(2200, 900 + String(Math.round(target)).length * 250), t0 = null;
-		el.textContent = pre + fmt(0) + post;
+		var from = target >= 1 ? 1 : 0;
+		el.textContent = pre + fmt(from) + post;
 		var step = function (t) {
 			if (!t0) { t0 = t; }
 			var k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
-			el.textContent = pre + fmt(target * e) + post;
+			el.textContent = pre + fmt(from + (target - from) * e) + post;
 			if (k < 1) { requestAnimationFrame(step); } else { el.textContent = src; }
 		};
 		requestAnimationFrame(step);
 	}
 	var counters = $$('.bgv-stats__num, .bgv-ring__txt b[data-count], .bgv-ach2__num');
+	// Кількості в картках проєктів і на сторінках об’єктів: «5733 м²», «1000 + квартир», «51 заміська вілла».
+	$$('.bgv-card__facts li, .estate-popup__building-feature-text').forEach(function (el) {
+		var t = el.textContent.trim();
+		if (/\d{1,2}[.\/]\d{1,2}[.\/]\d{2,4}|\d\s*[–—-]\s*\d|кв\.|\b(19|20)\d\d\b/i.test(t)) { return; } // дати, діапазони, роки
+		// «5733 м²» або «Площа забудови: 5733 м2»
+		var m = t.match(/^([^\d:]*:\s*)?([\d\s\u00a0]*\d)(\s*(?:м2|м²|m2)?[^\d]*)$/);
+		if (!m) { return; }
+		var span = document.createElement('span');
+		span.className = 'bgv-num';
+		span.textContent = m[2];
+		el.textContent = '';
+		if (m[1]) { el.appendChild(document.createTextNode(m[1])); }
+		el.appendChild(span);
+		el.appendChild(document.createTextNode(m[3]));
+		counters.push(span);
+	});
 	var cio = new IntersectionObserver(function (en) {
 		en.forEach(function (x) {
 			if (!x.isIntersecting) { return; }
