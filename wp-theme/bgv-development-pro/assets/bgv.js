@@ -253,7 +253,11 @@
 		var x0 = null;
 		box.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
 		box.addEventListener('touchend', function (e) { if (x0 === null) { return; } var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) { go(i + (dx < 0 ? 1 : -1)); run(); } x0 = null; });
-		go(0); run();
+		go(0);
+		if ('IntersectionObserver' in window) {
+			var vio = new IntersectionObserver(function (en) { en.forEach(function (x) { if (x.isIntersecting) { go(0); run(); vio.disconnect(); } }); }, { threshold: .35 });
+			vio.observe(box);
+		} else { run(); }
 	});
 
 	/* ---- Слайдер «Соціальна відповідальність» ---- */

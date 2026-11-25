@@ -57,7 +57,7 @@ add_action( 'acf/init', function () {
 		'style'    => 'default',
 		'hide_on_screen' => array( 'the_content' ),
 		'fields'   => array(
-			bgv_tab( 'hero', '1. Перший екран' ),
+			bgv_tab( 'hero', '1. Головна (перший екран)' ),
 			bgv_f( 'hero_subtitle', 'Надзаголовок (маленький текст над заголовком)' ),
 			bgv_f( 'hero_title', 'Головний заголовок (H1)', 'textarea', array( 'rows' => 2, 'new_lines' => '' ) ),
 			bgv_f( 'hero_description', 'Опис (показується, якщо підзаголовок порожній)', 'textarea', array( 'rows' => 3 ) ),
@@ -74,7 +74,12 @@ add_action( 'acf/init', function () {
 			) ),
 			bgv_f( 'hero_video', 'Відео замість слайдів (MP4, необов’язково)', 'file', array( 'return_format' => 'id', 'library' => 'all', 'mime_types' => 'mp4,webm', 'instructions' => 'Коротке відео/рендер без звуку, до 15 МБ. Якщо завантажено — показується замість слайдів (перший слайд стає заставкою).' ) ),
 
-			bgv_tab( 'about', '2. Про нас' ),
+			bgv_tab( 'header', '2. Шапка' ),
+			array( 'key' => 'field_bgv_header_msg', 'label' => '', 'name' => '', 'type' => 'message', 'message' => 'Меню сайту відкривається кнопкою «Меню» (як на телефоні). Пункти меню формуються автоматично з розділів головної сторінки.' ),
+			bgv_f( 'header_phone', 'Телефон у шапці та меню', 'text', array( 'instructions' => 'Напр. +38 (044) 277 14 14. Якщо порожньо — береться телефон з «Підвалу».' ) ),
+			array( 'key' => 'field_bgv_leads_msg', 'label' => '', 'name' => '', 'type' => 'message', 'message' => 'Усі заявки з сайту (форма, «Підібрати об’єкт», «Стати партнером», презентації, плаваюча кнопка) зберігаються в меню ліворуч <b>«Заявки»</b> і надсилаються на email з вкладки «Контакти».' ),
+
+			bgv_tab( 'about', '3. Про нас' ),
 			bgv_f( 'about_image', 'Фото', 'image', bgv_img() ),
 			bgv_f( 'about_text', 'Текст', 'wysiwyg', array( 'tabs' => 'all', 'toolbar' => 'basic', 'media_upload' => 0 ) ),
 			bgv_f( 'about_title', 'Заголовок', 'text', array( 'placeholder' => 'Про нас' ) ),
@@ -86,15 +91,6 @@ add_action( 'acf/init', function () {
 					bgv_sub( 'stats', 'label', 'Підпис' ),
 				),
 			) ),
-
-			bgv_tab( 'projects', '3. Проєкти' ),
-			bgv_f( 'projects_title', 'Заголовок розділу' ),
-			bgv_f( 'tab_real_estate', 'Назва вкладки 1' ),
-			bgv_f( 'real_estate', 'Проєкти житлової нерухомості', 'repeater', array( 'layout' => 'block', 'collapsed' => 'field_bgv_real_estate_title', 'button_label' => 'Додати проєкт', 'sub_fields' => bgv_project_fields( 'real_estate' ) ) ),
-			bgv_f( 'tab_commercial_estate', 'Назва вкладки 2' ),
-			bgv_f( 'commercial_estate', 'Проєкти комерційної нерухомості', 'repeater', array( 'layout' => 'block', 'collapsed' => 'field_bgv_commercial_estate_title', 'button_label' => 'Додати проєкт', 'sub_fields' => bgv_project_fields( 'commercial_estate' ) ) ),
-			bgv_f( 'tab_wellbeing_estate', 'Назва вкладки 3' ),
-			bgv_f( 'wellbeing_estate', 'Спортивні, рекреаційні та благодійні проєкти', 'repeater', array( 'layout' => 'block', 'collapsed' => 'field_bgv_wellbeing_estate_title', 'button_label' => 'Додати проєкт', 'sub_fields' => bgv_project_fields( 'wellbeing_estate' ) ) ),
 
 			bgv_tab( 'adv', '4. Ключові переваги' ),
 			bgv_f( 'adv_kicker', 'Надзаголовок (дрібно над заголовком)', 'text', array( 'placeholder' => 'Наші переваги' ) ),
@@ -108,7 +104,16 @@ add_action( 'acf/init', function () {
 				),
 			) ),
 
-			bgv_tab( 'ach', '5. Досягнення' ),
+			bgv_tab( 'projects', '5. Проєкти' ),
+			bgv_f( 'projects_title', 'Заголовок розділу' ),
+			bgv_f( 'tab_real_estate', 'Назва вкладки 1' ),
+			bgv_f( 'real_estate', 'Проєкти житлової нерухомості', 'repeater', array( 'layout' => 'block', 'collapsed' => 'field_bgv_real_estate_title', 'button_label' => 'Додати проєкт', 'sub_fields' => bgv_project_fields( 'real_estate' ) ) ),
+			bgv_f( 'tab_commercial_estate', 'Назва вкладки 2' ),
+			bgv_f( 'commercial_estate', 'Проєкти комерційної нерухомості', 'repeater', array( 'layout' => 'block', 'collapsed' => 'field_bgv_commercial_estate_title', 'button_label' => 'Додати проєкт', 'sub_fields' => bgv_project_fields( 'commercial_estate' ) ) ),
+			bgv_f( 'tab_wellbeing_estate', 'Назва вкладки 3' ),
+			bgv_f( 'wellbeing_estate', 'Спортивні, рекреаційні та благодійні проєкти', 'repeater', array( 'layout' => 'block', 'collapsed' => 'field_bgv_wellbeing_estate_title', 'button_label' => 'Додати проєкт', 'sub_fields' => bgv_project_fields( 'wellbeing_estate' ) ) ),
+
+			bgv_tab( 'ach', '6. Досягнення' ),
 			bgv_f( 'ach_kicker', 'Надпис над заголовком', 'text', array( 'placeholder' => 'Готовність об’єктів' ) ),
 			bgv_f( 'ach_title', 'Заголовок розділу' ),
 			bgv_f( 'achievements', 'Готовність об’єктів (відсотки набігають)', 'repeater', array(
@@ -121,7 +126,7 @@ add_action( 'acf/init', function () {
 				),
 			) ),
 
-			bgv_tab( 'awards', '6. Нагороди' ),
+			bgv_tab( 'awards', '7. Нагороди' ),
 			bgv_f( 'awards_kicker', 'Надпис над заголовком', 'text', array( 'placeholder' => 'Нагороди' ) ),
 			bgv_f( 'awards_heading', 'Заголовок розділу' ),
 			bgv_f( 'awards_text', 'Вступний текст', 'textarea', array( 'rows' => 2 ) ),
@@ -141,7 +146,12 @@ add_action( 'acf/init', function () {
 				),
 			) ),
 
-			bgv_tab( 'inv', '7. Інвесторам' ),
+			bgv_tab( 'news', '8. Акції та новини' ),
+			array( 'key' => 'field_bgv_news_msg', 'label' => '', 'name' => '', 'type' => 'message', 'message' => 'Новини додаються в меню ліворуч: <b>Новини → Додати новину</b>. На головній автоматично показуються 10 останніх.' ),
+			bgv_f( 'news_title', 'Заголовок розділу' ),
+			bgv_f( 'news_link', 'Текст посилання на всі новини' ),
+
+			bgv_tab( 'inv', '9. Інвесторам' ),
 			bgv_f( 'inv_kicker', 'Надпис над заголовком', 'text', array( 'placeholder' => 'Інвесторам' ) ),
 			bgv_f( 'inv_title', 'Заголовок' ),
 			bgv_f( 'inv_text', 'Опис', 'textarea', array( 'rows' => 4 ) ),
@@ -155,12 +165,7 @@ add_action( 'acf/init', function () {
 			bgv_f( 'inv_button', 'Текст кнопки' ),
 			bgv_f( 'inv_images', 'Фото на фоні (змінюються автоматично)', 'gallery', array( 'return_format' => 'id', 'preview_size' => 'medium', 'library' => 'all' ) ),
 
-			bgv_tab( 'news', '8. Новини' ),
-			array( 'key' => 'field_bgv_news_msg', 'label' => '', 'name' => '', 'type' => 'message', 'message' => 'Новини додаються в меню ліворуч: <b>Новини → Додати новину</b>. На головній автоматично показуються 10 останніх.' ),
-			bgv_f( 'news_title', 'Заголовок розділу' ),
-			bgv_f( 'news_link', 'Текст посилання на всі новини' ),
-
-			bgv_tab( 'social', '9. Соціальна відповідальність' ),
+			bgv_tab( 'social', '10. Соціальна відповідальність' ),
 			bgv_f( 'social_title', 'Заголовок' ),
 			bgv_f( 'social_items', 'Пункти', 'repeater', array(
 				'layout' => 'table', 'button_label' => 'Додати пункт',
@@ -169,7 +174,7 @@ add_action( 'acf/init', function () {
 			bgv_f( 'social_image', 'Фото праворуч (перший слайд)', 'image', bgv_img() ),
 			bgv_f( 'social_gallery', 'Слайдер праворуч: додаткові фото', 'gallery', array( 'return_format' => 'id', 'preview_size' => 'medium', 'library' => 'all', 'instructions' => 'Фото змінюються автоматично. Перший слайд — «Фото праворуч», далі — ці фото по порядку (можна перетягувати).' ) ),
 
-			bgv_tab( 'contacts', '10. Контакти' ),
+			bgv_tab( 'contacts', '11. Контакти' ),
 			bgv_f( 'contacts_title', 'Заголовок' ),
 			bgv_f( 'company_title', 'Заголовок колонки контактів' ),
 			bgv_f( 'company', 'Контакти компанії', 'repeater', array(
@@ -193,10 +198,8 @@ add_action( 'acf/init', function () {
 			bgv_f( 'form_title', 'Форма: заголовок' ),
 			bgv_f( 'form_text', 'Форма: текст', 'textarea', array( 'rows' => 3 ) ),
 			bgv_f( 'form_email', 'Куди надсилати заявки (email)', 'email' ),
-			bgv_f( 'header_phone', 'Телефон у шапці та меню', 'text', array( 'instructions' => 'Напр. +38 (044) 277 14 14. Якщо порожньо — береться телефон з «Підвалу».' ) ),
-			array( 'key' => 'field_bgv_leads_msg', 'label' => '', 'name' => '', 'type' => 'message', 'message' => 'Усі заявки з сайту (форма, «Підібрати об’єкт», «Стати партнером», презентації, плаваюча кнопка) зберігаються в меню ліворуч <b>«Заявки»</b> і надсилаються на email з вкладки «Контакти».' ),
 
-			bgv_tab( 'footer', '11. Підвал' ),
+			bgv_tab( 'footer', '12. Підвал' ),
 			bgv_f( 'footer_email', 'Email' ),
 			bgv_f( 'footer_phone', 'Телефон' ),
 			bgv_f( 'footer_address', 'Адреса', 'textarea', array( 'rows' => 2 ) ),

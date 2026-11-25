@@ -33,7 +33,7 @@ $bgv_en    = bgv_en_page_id();
 				</div>
 			</nav>
 			<button class="bgv-btn bgv-header__cta" type="button" data-bgv-open="bgv-quiz"><?php bgv_e( 'Підібрати об’єкт' ); ?></button>
-			<button class="bgv-burger" type="button" aria-label="<?php bgv_e( 'Меню' ); ?>" aria-expanded="false" aria-controls="site-navigation"><span></span><span></span><span></span></button>
+			<button class="bgv-burger bgv-burger--text" type="button" aria-label="<?php bgv_e( 'Меню' ); ?>" aria-expanded="false" aria-controls="site-navigation"><span></span><span></span><span></span></button>
 		</div>
 	</header>
 	<main>

@@ -64,6 +64,5 @@
 		if (a && !a.closest('summary')) { setTimeout(close, 10); }
 	});
 	document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { close(); } });
-	window.addEventListener('resize', function () { if (window.innerWidth > 1180) { close(); } });
 	window.bgvMenu = { open: open, close: close };
 })();

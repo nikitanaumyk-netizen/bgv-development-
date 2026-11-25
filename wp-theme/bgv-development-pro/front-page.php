@@ -62,6 +62,8 @@ get_header();
 
 <?php get_template_part( 'parts/achievements', null, array( 'only' => 'achievements' ) ); ?>
 
+<?php get_template_part( 'parts/achievements', null, array( 'only' => 'awards' ) ); ?>
+
 <section class="news" id="news">
 	<div class="container">
 		<div class="news-header">
@@ -96,8 +98,6 @@ get_header();
 
 
 <?php get_template_part( 'parts/investors' ); ?>
-
-<?php get_template_part( 'parts/achievements', null, array( 'only' => 'awards' ) ); ?>
 
 <section class="philantropy" id="social">
 	<div class="philantropy-content">

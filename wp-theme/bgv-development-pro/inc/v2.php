@@ -27,7 +27,7 @@ function bgv_t( $s ) {
 	static $d = null;
 	if ( null === $d ) {
 		$d = array(
-			'Про нас' => 'About', 'Про компанію' => 'About the company', 'Наші переваги' => 'Our advantages', 'Відкрити проєкт' => 'Open project', 'Дивитися проєкти' => 'View projects', 'Гортайте вниз' => 'Scroll down', 'Нагорода' => 'Award', 'Медіа' => 'Media', 'Членство' => 'Membership', 'Ключові переваги' => 'Key advantages', 'Цифри' => 'Key figures', 'Переваги' => 'Advantages',
+			'Про нас' => 'About', 'Про компанію' => 'About the company', 'Наші переваги' => 'Our advantages', 'Відкрити проєкт' => 'Open project', 'Соціальна відповідальність' => 'Social responsibility', 'Дивитися проєкти' => 'View projects', 'Гортайте вниз' => 'Scroll down', 'Нагорода' => 'Award', 'Медіа' => 'Media', 'Членство' => 'Membership', 'Ключові переваги' => 'Key advantages', 'Цифри' => 'Key figures', 'Переваги' => 'Advantages',
 			'Досягнення' => 'Achievements', 'Нагороди' => 'Awards', 'Завантажити презентацію' => 'Download presentation',
 			'Проєкти' => 'Projects', 'Усі проєкти' => 'All projects', 'Інвесторам' => 'Investors', 'Прес-центр' => 'Press centre',
 			'Контакти' => 'Contacts', 'Підібрати об’єкт' => 'Find a property', 'Замовити дзвінок' => 'Request a call',
@@ -122,10 +122,11 @@ function bgv_nav_items() {
 		$proj[] = array( $h . '?cat=' . $m[0] . '#our-projects', $label ? $label : bgv_t( $m[1] ), 'data-bgv-cat="' . $m[0] . '"' );
 	}
 	$items[] = array( $h . '#our-projects', bgv_t( 'Проєкти' ), '', $proj );
-	$items[] = array( $h . '#investors', bgv_t( 'Інвесторам' ) );
 	if ( bgv_opt( 'achievements' ) ) { $items[] = array( $h . '#achievements', bgv_t( 'Досягнення' ) ); }
 	if ( bgv_opt( 'awards' ) ) { $items[] = array( $h . '#awards', bgv_t( 'Нагороди' ) ); }
 	$items[] = array( get_permalink( get_option( 'page_for_posts' ) ), bgv_t( 'Прес-центр' ) );
+	$items[] = array( $h . '#investors', bgv_t( 'Інвесторам' ) );
+	$items[] = array( $h . '#social', bgv_t( 'Соціальна відповідальність' ) );
 	$items[] = array( $h . '#contact-us', bgv_t( 'Контакти' ) );
 	return $items;
 }

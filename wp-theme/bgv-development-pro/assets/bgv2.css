@@ -1047,3 +1047,28 @@ html.mnav-open, html.mnav-open body { overflow: hidden; }
 .bgv-aslider__count b { color: #fff; font-weight: 600; }
 .bgv-aslider__progress { grid-column: 1 / -1; height: 2px; background: rgba(255, 255, 255, .25); }
 .bgv-aslider__progress span { display: block; height: 100%; width: 0; background: #fff; }
+
+/* ===== Комп’ютер: замість пунктів у шапці — кнопка «Меню», що відкриває повноекранне меню як на телефоні ===== */
+@media (min-width: 1181px) {
+	.mnav { display: flex; }
+	.bgv-nav { display: none !important; }
+	.bgv-header__cta { margin-left: auto; }
+	.bgv-burger { display: block !important; width: 48px; height: 48px; padding: 0; margin: 0 0 0 16px; position: relative; color: #001A72; border: 0; background: none; cursor: pointer; }
+	.bgv-burger span { position: absolute; left: 12px; width: 24px; height: 1.6px; margin: 0; background: currentColor; transition: transform .4s var(--ease-out); }
+	.bgv-burger span:nth-child(1) { top: 16px; }
+	.bgv-burger span:nth-child(2) { top: 23px; }
+	.bgv-burger span:nth-child(3) { top: 30px; width: 15px; }
+	.bgv-burger:hover span:nth-child(3) { transform: scaleX(1.6); transform-origin: left; }
+	.home .bgv-header .bgv-burger span { background: #fff; }
+	.bgv-header.is-scrolled .bgv-burger span { background: #fff; }
+	body:not(.home) .bgv-header:not(.is-scrolled) .bgv-burger span { background: #001A72; }
+	/* повноекранне меню на великому екрані */
+	.mnav { padding: 0 max(40px, calc((100vw - 1360px) / 2)) 40px; }
+	.mnav__top { height: 96px; }
+	.mnav__list { max-width: 760px; margin-top: clamp(20px, 5vh, 56px); }
+	.mnav__link, .mnav summary { font-size: clamp(1.8rem, 2.6vw, 2.6rem); padding: 16px 0; }
+	.mnav details div { flex-direction: row; flex-wrap: wrap; gap: 4px 28px; }
+	.mnav__foot { max-width: 760px; grid-template-columns: repeat(3, 1fr); }
+	.mnav__plate { width: 55%; }
+	.admin-bar .mnav { top: 32px; }
+}
