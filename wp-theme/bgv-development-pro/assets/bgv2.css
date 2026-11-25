@@ -734,3 +734,5 @@ html:not(.past-hero) .bgv-fab { opacity: 0; transform: translateY(16px); pointer
 .bgv-inv__list li:last-child { border-bottom: 1px solid rgba(255, 255, 255, .3); }
 .bgv-inv--photo .bgv-inv__t, .bgv-inv--photo .bgv-inv__d { text-shadow: 0 1px 12px rgba(0, 26, 114, .6); }
 .bgv-inv--photo::before { background: linear-gradient(90deg, rgba(0, 26, 114, .9) 0%, rgba(0, 26, 114, .72) 50%, rgba(0, 26, 114, .6) 100%); }
+/* Досягнення: менше число */
+.bgv-ach2__num { font-size: clamp(40px, 3.4vw, 54px); letter-spacing: -1px; }
