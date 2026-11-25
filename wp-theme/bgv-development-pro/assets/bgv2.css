@@ -728,3 +728,9 @@ html:not(.past-hero) .bgv-fab { opacity: 0; transform: translateY(16px); pointer
 .bgv-inv--photo::before { z-index: 1; }
 .bgv-inv--photo .bgv-inv__in { z-index: 2; }
 .bgv-inv--photo::before { background: linear-gradient(90deg, rgba(0, 26, 114, .9) 0%, rgba(0, 26, 114, .7) 50%, rgba(0, 26, 114, .4) 100%); }
+/* Інвесторам: без синіх плашок за пунктами — тільки текст і тонкі лінії */
+.bgv-inv__list, .bgv-inv--photo .bgv-inv__list { background: none; gap: 0; }
+.bgv-inv__list li, .bgv-inv--photo .bgv-inv__list li { background: none !important; backdrop-filter: none !important; padding: 22px 0; border-top: 1px solid rgba(255, 255, 255, .3); }
+.bgv-inv__list li:last-child { border-bottom: 1px solid rgba(255, 255, 255, .3); }
+.bgv-inv--photo .bgv-inv__t, .bgv-inv--photo .bgv-inv__d { text-shadow: 0 1px 12px rgba(0, 26, 114, .6); }
+.bgv-inv--photo::before { background: linear-gradient(90deg, rgba(0, 26, 114, .9) 0%, rgba(0, 26, 114, .72) 50%, rgba(0, 26, 114, .6) 100%); }
