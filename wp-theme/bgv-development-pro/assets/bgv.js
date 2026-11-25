@@ -281,7 +281,7 @@
 	/* ---- Анімації: поява тексту та «набігання» цифр ---- */
 	var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	/* «Досягнення» і «Нагороди»: поява як на першому екрані — шторки, заголовок по літерах, картки по черзі */
-	var showSecs = $$('#advantages, #achievements');
+	var showSecs = $$('#advantages, #achievements, #colophon');
 	if (!still && 'IntersectionObserver' in window) {
 		showSecs.forEach(function (sec) {
 			sec.classList.add('bgv-show');
@@ -298,11 +298,11 @@
 					}).join('') + '</span>';
 				}).join(' ');
 			}
-			$$('.bgv-ach2__card, .bgv-aw3__list > li, .bgv-adv2__card', sec).forEach(function (c, i) { c.style.setProperty('--si', i); });
+			$$('.bgv-ach2__card, .bgv-aw3__list > li, .bgv-adv2__card, .footer-content > *, .bgv-copy', sec).forEach(function (c, i) { c.style.setProperty('--si', i); });
 		});
 		var sio = new IntersectionObserver(function (en) {
 			en.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('is-played'); sio.unobserve(x.target); } });
-		}, { threshold: .25 });
+		}, { threshold: .15 });
 		showSecs.forEach(function (sec) { sio.observe(sec); });
 	}
 	/* «Нагороди»: фон із фото, що змінюються (як на першому екрані) */
