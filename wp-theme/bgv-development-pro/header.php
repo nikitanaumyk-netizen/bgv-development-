@@ -13,6 +13,7 @@ $bgv_en    = bgv_en_page_id();
 <div id="page" class="site">
 	<header id="masthead" class="site-header bgv-header">
 		<div class="container bgv-header__in">
+			<a class="mlogo bgv-hdr-mlogo" href="<?php echo esc_url( bgv_home( '/' ) ); ?>" aria-label="BGV Development"><span class="mlogo__mark">BGV</span><span class="mlogo__word">Development</span></a>
 			<div class="site-branding">
 				<a href="<?php echo esc_url( bgv_home( '/' ) ); ?>" class="custom-logo-link" rel="home">
 					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/logo.svg' ); ?>" class="custom-logo logo-dark" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" width="170" height="20">

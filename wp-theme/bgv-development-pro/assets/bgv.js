@@ -34,6 +34,7 @@
 	var burger = $('.bgv-burger');
 	if (burger) {
 		burger.addEventListener('click', function () {
+			if (window.bgvMenu) { window.bgvMenu.open(); return; }
 			var open = !html.classList.contains('nav-open');
 			html.classList.toggle('nav-open', open);
 			burger.setAttribute('aria-expanded', open ? 'true' : 'false');

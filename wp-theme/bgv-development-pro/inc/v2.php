@@ -95,6 +95,7 @@ function bgv_file_url( $id ) {
 add_action( 'wp_enqueue_scripts', function () {
 	$u = get_template_directory_uri() . '/assets/';
 	wp_enqueue_script( 'bgv', $u . 'bgv.js', array(), BGV_VER, true );
+	wp_enqueue_script( 'bgv-mnav', $u . 'mnav.js', array(), BGV_VER, true );
 	if ( is_front_page() ) {
 		wp_enqueue_script( 'bgv-intro', $u . 'intro.js', array(), BGV_VER, true );
 	}
@@ -401,3 +402,42 @@ function bgv_news_chips( $js = false ) {
 add_filter( 'private_title_format', function ( $f, $post ) {
 	return ( $post && 'bgv_lead' === $post->post_type ) ? '%s' : $f;
 }, 10, 2 );
+
+/* ---------- Мобільне меню (як на bgv-development-site610v4.vercel.app) ---------- */
+function bgv_mlogo() {
+	return '<span class="mlogo__mark">BGV</span><span class="mlogo__word">Development</span>';
+}
+add_action( 'wp_footer', function () {
+	$items = bgv_nav_items();
+	$phone = bgv_phone();
+	?>
+	<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="<?php bgv_e( 'Меню' ); ?>" data-phase="closed" aria-hidden="true">
+		<div class="mnav__plate" aria-hidden="true"></div>
+		<div class="mnav__glow" aria-hidden="true"></div>
+		<div class="mnav__intro" aria-hidden="true"><span class="mnav__intro-logo mlogo"><?php echo bgv_mlogo(); // phpcs:ignore ?></span></div>
+		<div class="mnav__top">
+			<a class="mlogo" href="<?php echo esc_url( bgv_home( '/' ) ); ?>" aria-label="BGV Development"><?php echo bgv_mlogo(); // phpcs:ignore ?></a>
+			<button class="mnav__close" type="button" data-mnav-close aria-label="<?php bgv_e( 'Закрити' ); ?>">&times;</button>
+		</div>
+		<div class="mnav__list">
+			<?php foreach ( $items as $i => $it ) : ?>
+				<div class="mnav__row" style="--i:<?php echo (int) $i; ?>">
+					<?php if ( ! empty( $it[3] ) ) : ?>
+						<details class="mnav__item"><summary><span class="mnav__txt"><?php echo esc_html( $it[1] ); ?></span></summary><div>
+							<?php foreach ( $it[3] as $s ) : ?><a href="<?php echo esc_url( $s[0] ); ?>" <?php echo isset( $s[2] ) ? $s[2] : ''; // phpcs:ignore ?>><?php echo esc_html( $s[1] ); ?></a><?php endforeach; ?>
+						</div></details>
+					<?php else : ?>
+						<a class="mnav__link mnav__item" href="<?php echo esc_url( $it[0] ); ?>"><span class="mnav__txt"><?php echo esc_html( $it[1] ); ?></span></a>
+					<?php endif; ?>
+					<i class="mnav__rule" aria-hidden="true"></i>
+				</div>
+			<?php endforeach; ?>
+		</div>
+		<div class="mnav__foot">
+			<button class="bgv-btn" type="button" data-bgv-open="bgv-quiz"><?php bgv_e( 'Підібрати об’єкт' ); ?></button>
+			<button class="bgv-btn bgv-btn--mline" type="button" data-bgv-open="bgv-form" data-bgv-title="<?php bgv_e( 'Замовити дзвінок' ); ?>"><?php bgv_e( 'Замовити дзвінок' ); ?></button>
+			<?php if ( $phone ) : ?><a class="mnav__phone" href="<?php echo esc_attr( bgv_tel( $phone ) ); ?>"><?php echo esc_html( $phone ); ?></a><?php endif; ?>
+		</div>
+	</div>
+	<?php
+}, 4 );
