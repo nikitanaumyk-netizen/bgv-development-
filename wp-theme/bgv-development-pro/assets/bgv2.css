@@ -747,3 +747,13 @@ html:not(.past-hero) .bgv-fab { opacity: 0; transform: translateY(16px); pointer
 /* Проєкти: фото з'являються знизу вгору */
 .bgv-anim .bgv-card__img.bgv-ph { clip-path: inset(100% 0 0 0); -webkit-clip-path: inset(100% 0 0 0); }
 .bgv-anim .bgv-card__img.bgv-ph.is-in { clip-path: inset(0 0 0 0); -webkit-clip-path: inset(0 0 0 0); }
+
+/* v2.7.7 — слайдер «Соцвідповідальність»: фото повністю в кадрі */
+.bgv-soc-slider .bgv-soc-slide { background-size: contain; background-repeat: no-repeat; background-position: center; background-color: var(--bgv-navy); }
+.philantropy .bgv-soc-slider { max-height: calc(100vh - 120px); }
+
+/* Плавніша поява фото і тексту */
+.bgv-anim .bgv-ph, .bgv-anim .bgv-card__img.bgv-ph { opacity: 0; transition: clip-path 2.2s cubic-bezier(.22, .61, .36, 1), -webkit-clip-path 2.2s cubic-bezier(.22, .61, .36, 1), opacity 1.6s ease-out !important; }
+.bgv-anim .bgv-ph.is-in, .bgv-anim .bgv-card__img.bgv-ph.is-in { opacity: 1; }
+.bgv-anim .bgv-adv2__card.bgv-rv.bgv-ph, .bgv-anim .bgv-ach2__card.bgv-rv.bgv-ph { transition: opacity 1.6s ease-out, transform 1.4s cubic-bezier(.22, .61, .36, 1), clip-path 2.2s cubic-bezier(.22, .61, .36, 1), -webkit-clip-path 2.2s cubic-bezier(.22, .61, .36, 1) !important; }
+.bgv-anim .bgv-rv { transform: translateY(18px); transition: opacity 1.3s ease-out, transform 1.3s cubic-bezier(.22, .61, .36, 1); }

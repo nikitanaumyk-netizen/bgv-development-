@@ -348,7 +348,7 @@
 		var sib = el.parentNode ? Array.prototype.indexOf.call(el.parentNode.children, el) : 0;
 		var card = el.closest('.bgv-card, .bgv-aw3__list > li, .swiper-slide');
 		if (card && card.parentNode) { sib = Array.prototype.indexOf.call(card.parentNode.children, card); }
-		el.style.transitionDelay = (Math.min(sib, 5) * 120) + 'ms';
+		el.style.transitionDelay = (Math.min(sib, 5) * 200) + 'ms';
 		el.classList.add('is-in');
 	};
 	var pio = new IntersectionObserver(function (en) {
