@@ -780,3 +780,38 @@ html:not(.past-hero) .bgv-fab { opacity: 0; transform: translateY(16px); pointer
 	.bgv-intro { animation-duration: .3s; animation-delay: .4s; }
 	.home .bgv-hero__kicker, .home .bgv-hero__title, .home .bgv-hero__desc, .home .bgv-hero__lead, .home .bgv-hero__cta, .home .bgv-hero__panel { animation-duration: .3s; animation-delay: .7s; }
 }
+
+/* ==========================================================
+   v2.8.1 — заставка ідентично референсу
+   ========================================================== */
+html.bgv-intro-lock, html.bgv-intro-lock body { overflow: hidden; }
+.bgv-intro { background: #001A72; color: #fff; animation: bgvIntroOut .9s cubic-bezier(.87, 0, .13, 1) 2s forwards; }
+.bgv-intro__logo { width: clamp(160px, 22vw, 240px); height: auto; overflow: visible; opacity: 0; transform: scale(.82); animation: bgvIntroLogo .9s cubic-bezier(.33, 1, .68, 1) 0s forwards; }
+/* тексти: y 60 → 0, по черзі з кроком 0,3 с, старт трохи раніше кінця заставки */
+.home .bgv-hero__kicker, .home .bgv-hero__title, .home .bgv-hero__desc, .home .bgv-hero__lead, .home .bgv-hero__cta, .home .bgv-hero__panel { animation: bgvIntroUp 1s cubic-bezier(.33, 1, .68, 1) forwards; }
+.home .bgv-hero__kicker { animation-delay: 2.55s; }
+.home .bgv-hero__title { animation-delay: 2.55s; }
+.home .bgv-hero__desc, .home .bgv-hero__lead { animation-delay: 2.85s; }
+.home .bgv-hero__cta { animation-delay: 3.15s; }
+.home .bgv-hero__panel { animation-delay: 3.35s; }
+
+/* Діагональні фігури бренду — повільний нескінченний рух */
+.bgv-hero__shapes { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+.bgv-shape { transform-box: fill-box; transform-origin: 50% 50%; }
+.bgv-shape--1 { animation: bgvShape1 16s ease-in-out infinite alternate; }
+.bgv-shape--2 { animation: bgvShape2 19s ease-in-out infinite alternate; }
+.bgv-shape--3 { animation: bgvShape3 22s ease-in-out infinite alternate; }
+@keyframes bgvShape1 { to { transform: translate(60px, 40px) rotate(6deg); } }
+@keyframes bgvShape2 { to { transform: translate(-50px, 60px) rotate(-10deg); } }
+@keyframes bgvShape3 { to { transform: translate(-70px, -40px) rotate(5deg); } }
+.bgv-hero--v5 .bgv-hero__in { z-index: 2; }
+
+/* Індикатор прокрутки з точкою, що біжить вниз */
+.bgv-scroll-ind { position: absolute; left: 50%; bottom: 150px; z-index: 3; transform: translateX(-50%); opacity: 0; animation: bgvFade .6s ease 3.6s forwards; }
+.bgv-scroll-ind__track { position: relative; display: block; width: 1px; height: 60px; background: rgba(255, 255, 255, .35); }
+.bgv-scroll-ind__dot { position: absolute; top: 0; left: 50%; width: 7px; height: 7px; margin-left: -3.5px; border-radius: 50%; background: #fff; animation: bgvDot 2.1s ease-in-out infinite; }
+@keyframes bgvDot { 0% { transform: translateY(0); opacity: 0; } 14% { opacity: 1; } 71% { transform: translateY(53px); opacity: 1; } 86%, 100% { transform: translateY(53px); opacity: 0; } }
+@keyframes bgvFade { to { opacity: 1; } }
+.bgv-hero__scroll { display: none; }
+@media (max-width: 1180px) { .bgv-scroll-ind { display: none; } }
+@media (prefers-reduced-motion: reduce) { .bgv-shape, .bgv-scroll-ind__dot { animation: none; } }
