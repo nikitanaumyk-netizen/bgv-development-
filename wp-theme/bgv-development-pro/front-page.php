@@ -22,9 +22,7 @@ get_header();
 					<?php endforeach; ?>
 				</ul>
 			<?php endif; ?>
-			<?php if ( bgv_opt( 'about_footer' ) ) : ?><p class="bgv-about__footer"><?php echo esc_html( bgv_opt( 'about_footer' ) ); ?></p><?php endif; ?>
 			<div class="bgv-about__cta">
-				<button class="bgv-btn" type="button" data-bgv-open="bgv-quiz"><?php bgv_e( 'Підібрати об’єкт за 3 кроки' ); ?></button>
 				<button class="bgv-btn bgv-btn--ghost" type="button" data-bgv-open="bgv-form" data-bgv-title="<?php bgv_e( 'Зв’язатися з нами' ); ?>"><?php bgv_e( 'Зв’язатися з нами' ); ?></button>
 			</div>
 		</div>

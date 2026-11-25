@@ -744,3 +744,6 @@ html:not(.past-hero) .bgv-fab { opacity: 0; transform: translateY(16px); pointer
 .bgv-anim .bgv-adv2__card.bgv-rv.bgv-ph { transition: opacity .8s ease, transform .8s cubic-bezier(.2, .7, .2, 1), clip-path 1.2s cubic-bezier(.65, 0, .25, 1), -webkit-clip-path 1.2s cubic-bezier(.65, 0, .25, 1); }
 .bgv-anim .bgv-ach2__card.bgv-rv.bgv-ph { transition: opacity .8s ease, transform .8s cubic-bezier(.2, .7, .2, 1), clip-path 1.2s cubic-bezier(.65, 0, .25, 1), -webkit-clip-path 1.2s cubic-bezier(.65, 0, .25, 1); }
 @media print { .bgv-anim .bgv-ph { clip-path: none !important; -webkit-clip-path: none !important; } }
+/* Проєкти: фото з'являються знизу вгору */
+.bgv-anim .bgv-card__img.bgv-ph { clip-path: inset(100% 0 0 0); -webkit-clip-path: inset(100% 0 0 0); }
+.bgv-anim .bgv-card__img.bgv-ph.is-in { clip-path: inset(0 0 0 0); -webkit-clip-path: inset(0 0 0 0); }
