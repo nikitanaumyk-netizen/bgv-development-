@@ -256,6 +256,31 @@
 
 	/* ---- Анімації: поява тексту та «набігання» цифр ---- */
 	var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	/* «Досягнення» і «Нагороди»: поява як на першому екрані — шторки, заголовок по літерах, картки по черзі */
+	var showSecs = $$('#achievements, #awards');
+	if (!still && 'IntersectionObserver' in window) {
+		showSecs.forEach(function (sec) {
+			sec.classList.add('bgv-show');
+			var w = document.createElement('div'); w.className = 'bgv-show__wipe'; w.setAttribute('aria-hidden', 'true'); w.innerHTML = '<i></i><i></i>';
+			sec.insertBefore(w, sec.firstChild);
+			var h = sec.querySelector('h2');
+			if (h && !h.children.length) {
+				var txt = h.textContent.trim(), words = txt.split(/\s+/), k = 0;
+				h.setAttribute('aria-label', txt);
+				h.innerHTML = words.map(function (wd) {
+					return '<span class="tw" aria-hidden="true">' + Array.from(wd).map(function (c) {
+						var span = document.createElement('span'); span.className = 'tc'; span.style.setProperty('--cd', Math.min(26 * (k++), 900) + 'ms'); span.textContent = c;
+						return span.outerHTML;
+					}).join('') + '</span>';
+				}).join(' ');
+			}
+			$$('.bgv-ach2__card, .bgv-aw3__list > li', sec).forEach(function (c, i) { c.style.setProperty('--si', i); });
+		});
+		var sio = new IntersectionObserver(function (en) {
+			en.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('is-played'); sio.unobserve(x.target); } });
+		}, { threshold: .25 });
+		showSecs.forEach(function (sec) { sio.observe(sec); });
+	}
 	if (!('IntersectionObserver' in window) || still) { return; }
 
 	// Лічильник: «80 300 м²» → від 0 до 80300 з тим самим форматом і підписом.
@@ -321,7 +346,7 @@
 		'.bgv-inv__text > *', '.bgv-inv__list li', '.news-content', '.philantropy-item', '.contact-list', '.contact-form-title', '.contact-form-text',
 		'.blog-list__item', '.estate-popup__main', '.estate-popup__sidebar'
 	].join(',');
-	var items = $$(sel).filter(function (el) { return !el.closest('.bgv-modal') && !el.closest('.bgv-header'); });
+	var items = $$(sel).filter(function (el) { return !el.closest('.bgv-modal') && !el.closest('.bgv-header') && !el.closest('.bgv-show'); });
 	html.classList.add('bgv-anim');
 	var rio = new IntersectionObserver(function (en) {
 		en.forEach(function (x) {
@@ -342,7 +367,7 @@
 		'.philantropy-side-img', '.blog-list__item-image', '.estate-popup__gallery-main', '.estate-popup__gallery-items > a',
 		'.post-page img', '.about-image-wrapp'
 	].join(',');
-	var photos = $$(photoSel).filter(function (el) { return !el.closest('.bgv-hero') && !el.closest('.bgv-modal'); });
+	var photos = $$(photoSel).filter(function (el) { return !el.closest('.bgv-hero') && !el.closest('.bgv-modal') && !el.closest('.bgv-show'); });
 	// Спостерігаємо за батьківським блоком: повністю «зрізане» фото браузер вважає невидимим.
 	var holders = [];
 	var showPhoto = function (el) {
