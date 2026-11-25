@@ -13,7 +13,8 @@ $bgv_proj_img = function ( $name ) {
 	return 0;
 };
 ?>
-<?php if ( $bgv_ach ) : ?>
+<?php $bgv_only = isset( $args['only'] ) ? $args['only'] : ''; ?>
+<?php if ( $bgv_ach && 'awards' !== $bgv_only ) : ?>
 <section class="bgv-ach2" id="achievements">
 	<div class="container">
 		<div class="bgv-sec-head">
@@ -37,7 +38,7 @@ $bgv_proj_img = function ( $name ) {
 	</div>
 </section>
 <?php endif; ?>
-<?php if ( $bgv_aw ) : ?>
+<?php if ( $bgv_aw && 'achievements' !== $bgv_only ) : ?>
 <?php
 // Фон: фото з карток нагород (міняються по черзі, як на першому екрані); якщо їх немає — рендер з поля «Фон розділу».
 $bgv_aw_bgs = array();

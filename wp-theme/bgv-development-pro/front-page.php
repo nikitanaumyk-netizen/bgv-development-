@@ -60,9 +60,7 @@ get_header();
 
 <?php get_template_part( 'parts/projects' ); ?>
 
-<?php get_template_part( 'parts/achievements' ); ?>
-
-<?php get_template_part( 'parts/investors' ); ?>
+<?php get_template_part( 'parts/achievements', null, array( 'only' => 'achievements' ) ); ?>
 
 <section class="news" id="news">
 	<div class="container">
@@ -95,6 +93,11 @@ get_header();
 		</div>
 	</div>
 </section>
+
+
+<?php get_template_part( 'parts/investors' ); ?>
+
+<?php get_template_part( 'parts/achievements', null, array( 'only' => 'awards' ) ); ?>
 
 <section class="philantropy" id="social">
 	<div class="philantropy-content">
