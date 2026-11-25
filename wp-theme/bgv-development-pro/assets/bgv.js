@@ -202,6 +202,14 @@
 			fab.classList.toggle('is-open', o);
 			fb.setAttribute('aria-expanded', o ? 'true' : 'false');
 		});
+		// Закрити меню кнопки натисканням будь-де поза нею або клавішею Esc.
+		var fabClose = function () { fab.classList.remove('is-open'); fb.setAttribute('aria-expanded', 'false'); };
+		document.addEventListener('pointerdown', function (e) {
+			if (fab.classList.contains('is-open') && !fab.contains(e.target)) { fabClose(); }
+		});
+		document.addEventListener('keydown', function (e) {
+			if (e.key === 'Escape' && fab.classList.contains('is-open')) { fabClose(); }
+		});
 	}
 
 	/* ---- Перший екран: слайди ---- */
