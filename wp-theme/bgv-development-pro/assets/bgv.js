@@ -181,42 +181,20 @@
 		});
 	}
 
-	/* ---- Карта ---- */
-	var canvas = $('#bgv-map-canvas');
-	function initMap() {
-		if (!canvas || !window.L || canvas._map) { return; }
-		var pins = JSON.parse(canvas.getAttribute('data-pins') || '[]');
-		if (!pins.length) { return; }
-		var map = L.map(canvas, { scrollWheelZoom: false, zoomControl: true, attributionControl: true });
-		canvas._map = map;
-		L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-			maxZoom: 19, className: 'bgv-tiles',
-			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-		}).addTo(map);
-		var esc = function (s) { return String(s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
-		var markers = pins.map(function (p) {
-			var icon = L.divIcon({ className: 'bgv-pin st-' + (p.status || 'none'), html: '<span></span>', iconSize: [30, 40], iconAnchor: [15, 38], popupAnchor: [0, -34] });
-			var pop = '<div class="bgv-pop">' + (p.img ? '<img src="' + esc(p.img) + '" alt="">' : '') +
-				(p.label ? '<span class="bgv-badge st-' + esc(p.status) + '">' + esc(p.label) + '</span>' : '') +
-				'<b>' + esc(p.title) + '</b>' + (p.loc ? '<small>' + esc(p.loc) + '</small>' : '') +
-				'<a href="' + esc(p.url) + '">' + esc(canvas.getAttribute('data-more')) + ' →</a></div>';
-			return L.marker([p.lat, p.lng], { icon: icon, title: p.title }).addTo(map).bindPopup(pop, { maxWidth: 260, minWidth: 220 });
-		});
-		map.fitBounds(L.featureGroup(markers).getBounds().pad(0.15), { maxZoom: 12 });
-		$$('.bgv-map__list a[data-pin]').forEach(function (a) {
-			a.addEventListener('click', function (e) {
-				e.preventDefault();
-				var m = markers[+a.getAttribute('data-pin')];
-				map.setView(m.getLatLng(), Math.max(map.getZoom(), 13), { animate: true });
-				m.openPopup();
-			});
-		});
-		map.on('click', function () { map.scrollWheelZoom.enable(); });
-	}
-	if (canvas) {
-		if ('IntersectionObserver' in window) {
-			var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { initMap(); io.disconnect(); } }, { rootMargin: '300px' });
-			io.observe(canvas);
-		} else { window.addEventListener('load', initMap); }
+	/* ---- Перший екран: слайди ---- */
+	var hero = $('.bgv-hero');
+	if (hero) {
+		var slides = $$('.bgv-hero__slide', hero), dots = $$('.bgv-hero__dots button', hero), cap = $('.bgv-hero__cap', hero), cur = 0, timer;
+		var show = function (n) {
+			if (!slides.length) { return; }
+			cur = (n + slides.length) % slides.length;
+			slides.forEach(function (s, i) { s.classList.toggle('is-active', i === cur); });
+			dots.forEach(function (d, i) { d.classList.toggle('is-active', i === cur); });
+			if (cap) { $('span', cap).textContent = slides[cur].getAttribute('data-cap'); cap.setAttribute('href', slides[cur].getAttribute('data-link') || '#our-projects'); }
+		};
+		var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		var start = function () { clearInterval(timer); if (!reduce && slides.length > 1) { timer = setInterval(function () { show(cur + 1); }, 6000); } };
+		dots.forEach(function (d, i) { d.addEventListener('click', function () { show(i); start(); }); });
+		start();
 	}
 })();

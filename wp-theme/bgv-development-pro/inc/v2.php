@@ -100,10 +100,6 @@ add_action( 'wp_enqueue_scripts', function () {
 		'ok'   => bgv_t( 'Дякуємо! Ми зв’яжемося з вами найближчим часом.' ),
 		'err'  => bgv_t( 'Не вдалося надіслати. Спробуйте ще раз або зателефонуйте нам.' ),
 	) );
-	if ( is_front_page() || ( bgv_en_page_id() && is_page( bgv_en_page_id() ) ) ) {
-		wp_enqueue_style( 'leaflet', $u . 'leaflet/leaflet.css', array(), '1.9.4' );
-		wp_enqueue_script( 'leaflet', $u . 'leaflet/leaflet.js', array(), '1.9.4', true );
-	}
 }, 20 );
 
 /* ---------- Меню ---------- */
@@ -117,14 +113,12 @@ function bgv_nav_items() {
 	);
 	if ( bgv_opt( 'achievements' ) ) { $about[] = array( $h . '#achievements', bgv_t( 'Досягнення' ) ); }
 	if ( bgv_opt( 'awards' ) ) { $about[] = array( $h . '#awards', bgv_t( 'Нагороди' ) ); }
-	if ( bgv_file_url( bgv_opt( 'presentation_pdf' ) ) ) { $about[] = array( '#bgv-pres', bgv_t( 'Завантажити презентацію' ), 'data-bgv-pres="company"' ); }
 	$items[] = array( $h . '#about', bgv_t( 'Про нас' ), '', $about );
 	$proj    = array();
 	foreach ( bgv_group_meta() as $g => $m ) {
 		$label  = bgv_opt( 'tab_' . $g );
 		$proj[] = array( $h . '?cat=' . $m[0] . '#our-projects', $label ? $label : bgv_t( $m[1] ), 'data-bgv-cat="' . $m[0] . '"' );
 	}
-	$proj[]  = array( $h . '#map', bgv_t( 'Карта об’єктів' ) );
 	$items[] = array( $h . '#our-projects', bgv_t( 'Проєкти' ), '', $proj );
 	$items[] = array( $h . '#investors', bgv_t( 'Інвесторам' ) );
 	$items[] = array( get_permalink( get_option( 'page_for_posts' ) ), bgv_t( 'Прес-центр' ) );

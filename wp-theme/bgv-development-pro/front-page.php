@@ -2,41 +2,8 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 get_header();
 ?>
-<section class="hero">
-	<div class="container">
-		<div class="hero-description">
-			<p><?php echo esc_html( bgv_opt( 'hero_description' ) ); ?></p>
-			<?php if ( bgv_opt( 'hero_lead' ) ) : ?><p class="hero-lead"><?php echo esc_html( bgv_opt( 'hero_lead' ) ); ?></p><?php endif; ?>
-			<div class="hero-cta">
-				<button class="bgv-btn" type="button" data-bgv-open="bgv-quiz"><?php bgv_e( 'Підібрати об’єкт за 3 кроки' ); ?></button>
-				<a class="bgv-btn bgv-btn--ghost" href="#our-projects"><?php bgv_e( 'Наші проєкти' ); ?></a>
-			</div>
-		</div>
-		<p class="hero-sub-title"><?php echo esc_html( bgv_opt( 'hero_subtitle' ) ); ?></p>
-		<h1 class="hero-title"><?php echo esc_html( bgv_opt( 'hero_title' ) ); ?></h1>
-	</div>
-	<?php
-	$bgv_hero = array(
-		array( 'hero_image_1', 'hero-bg hero-bg-1 not-for-mob' ),
-		array( 'hero_image_2', 'hero-bg hero-bg-2 not-for-mob' ),
-		array( 'hero_mob_1', 'hero-bg hero-bg-1 not-for-tab' ),
-		array( 'hero_mob_2', 'hero-bg hero-bg-2 not-for-tab' ),
-	);
-	$bgv_video = bgv_file_url( bgv_opt( 'hero_video' ) );
-	foreach ( $bgv_hero as $h ) {
-		$u = bgv_img_url( bgv_opt( $h[0] ) );
-		if ( $u && $bgv_video && 'hero_image_1' === $h[0] ) {
-			echo '<video class="' . esc_attr( $h[1] ) . ' hero-video" src="' . esc_url( $bgv_video ) . '" poster="' . esc_url( $u ) . '" autoplay muted loop playsinline preload="metadata"></video>';
-			continue;
-		}
-		if ( $u ) {
-			echo '<img src="' . esc_url( $u ) . '" class="' . esc_attr( $h[1] ) . '" alt="" fetchpriority="high">';
-		}
-	}
-	?>
-</section>
+<?php get_template_part( 'parts/hero' ); ?>
 
-<?php get_template_part( 'parts/map' ); ?>
 
 <?php $bgv_stats = bgv_opt( 'stats' ); if ( $bgv_stats ) : ?>
 <section class="bgv-stats" id="stats">

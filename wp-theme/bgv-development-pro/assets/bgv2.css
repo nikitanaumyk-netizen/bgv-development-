@@ -132,48 +132,6 @@ section[id] { scroll-margin-top: calc(var(--bgv-head) + 12px); }
 	.hero-cta .bgv-btn { flex: 1 1 auto; }
 }
 
-/* ---------- Карта ---------- */
-.bgv-map { padding: 80px 0 40px; }
-.bgv-map__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
-.bgv-map__head .section-title { margin: 0; color: var(--bgv-navy); }
-.bgv-map__legend { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 0; padding: 0; list-style: none; font: 400 14px/20px Qanelas, sans-serif; color: var(--bgv-muted); }
-.bgv-map__legend li { display: flex; align-items: center; gap: 8px; }
-.bgv-map__legend i, .bgv-map__list i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; flex-shrink: 0; background: var(--bgv-blue); }
-.st-building { --st: var(--bgv-orange); }
-.st-done { --st: var(--bgv-green); }
-.st-concept { --st: var(--bgv-blue); }
-.st-none { --st: var(--bgv-navy); }
-i.st-building, i.st-done, i.st-concept, i.st-none { background: var(--st); }
-.bgv-map__wrap { display: grid; grid-template-columns: 1fr 300px; background: #fff; border: 1px solid var(--bgv-line); }
-.bgv-map__canvas { height: 520px; background: #e6ebf3; z-index: 1; }
-.bgv-map__list { margin: 0; padding: 8px 0; list-style: none; max-height: 520px; overflow-y: auto; border-left: 1px solid var(--bgv-line); }
-.bgv-map__list a { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: var(--bgv-navy); text-decoration: none; font: 500 15px/20px Qanelas, sans-serif; }
-.bgv-map__list a:hover { background: var(--bgv-bg); }
-.bgv-pin { background: none; border: 0; }
-.bgv-pin span {
-	display: block; width: 30px; height: 30px; margin: 2px 0 0; border-radius: 50% 50% 50% 0; transform: rotate(-45deg);
-	background: var(--st, var(--bgv-navy)); border: 3px solid #fff; box-shadow: 0 4px 12px rgba(0, 26, 114, .35);
-}
-.bgv-pin span::after { content: ''; position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; background: #fff; }
-.bgv-pop { display: flex; flex-direction: column; gap: 6px; font-family: Qanelas, sans-serif; }
-.bgv-pop img { width: 100%; height: 130px; object-fit: cover; display: block; }
-.bgv-pop b { font-size: 16px; line-height: 20px; color: var(--bgv-navy); }
-.bgv-pop small { color: var(--bgv-muted); font-size: 13px; line-height: 17px; }
-.bgv-pop a { color: var(--bgv-blue) !important; font-weight: 600; text-decoration: none; }
-.bgv-pop .bgv-badge { position: static; align-self: flex-start; }
-.leaflet-popup-content { margin: 12px; }
-.leaflet-popup-content-wrapper { border-radius: 0; }
-@media (max-width: 1023px) {
-	.bgv-map__wrap { grid-template-columns: 1fr; }
-	.bgv-map__canvas { height: 420px; }
-	.bgv-map__list { border-left: 0; border-top: 1px solid var(--bgv-line); max-height: none; display: grid; grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 767px) {
-	.bgv-map { padding: 48px 0 24px; }
-	.bgv-map__canvas { height: 360px; }
-	.bgv-map__list { grid-template-columns: 1fr; }
-}
-
 /* ---------- Цифри ---------- */
 .bgv-stats { padding: 40px 0; }
 .bgv-stats__list { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--bgv-line); }
@@ -385,5 +343,116 @@ html, body.bgv2 { overflow-x: clip; }
 	.bgv2 .hero-description { position: relative; background: rgba(240, 244, 248, .9); padding: 16px 20px 20px 0; box-shadow: 40px 0 40px -20px rgba(240, 244, 248, .9); }
 	.bgv2 .hero-sub-title, .bgv2 .hero-title { position: relative; }
 }
-.bgv-tiles { filter: grayscale(1) brightness(1.06) contrast(.92); }
 @media (min-width: 768px) { .bgv-stats__num { font-size: clamp(32px, 3.1vw, 50px); } }
+
+/* ==========================================================
+   v2.1 — за брендбуком BGV Development (Guidelines)
+   Logo color #001A72 · Main blue #253C92 · Dark #1A1A1A
+   Blue 400 #4057CB · Blue 300 #6B7DDB · Blue 200 #BEC8FF · Gray #F0F4F8
+   Шрифт Qanelas; інтерліньяж: текст ≥150%, заголовки ≥110%
+   ========================================================== */
+:root {
+	--bgv-navy: #001A72;
+	--bgv-blue: #253C92;
+	--bgv-400: #4057CB;
+	--bgv-300: #6B7DDB;
+	--bgv-200: #BEC8FF;
+	--bgv-bg: #F0F4F8;
+	--bgv-text: #1A1A1A;
+	--bgv-line: #DCE2F0;
+	--bgv-muted: #4D5470;
+}
+/* статуси — тільки кольори бренду */
+.st-building { --st: var(--bgv-400); }
+.st-done { --st: var(--bgv-navy); }
+.st-concept { --st: var(--bgv-300); }
+.st-none { --st: var(--bgv-blue); }
+
+/* інтерліньяж за брендбуком */
+.bgv2 main p, .bgv2 main li, .bgv2 .site-footer p, .bgv-modal p, .bgv-input { line-height: 1.5; }
+.bgv2 h1, .bgv2 h2, .bgv2 h3, .bgv2 .section-title, .bgv-modal__title, .bgv-inv__title, .bgv-adv__t, .bgv-card__title, .bgv-award__title, .bgv-inv__t, .bgv-ach__name { line-height: 1.15 !important; }
+.bgv2 main .bgv-stats__num { line-height: 1.1; }
+.bgv2 main .bgv-badge, .bgv2 main .bgv-adv__n, .bgv-ring__txt b { line-height: 1.1; }
+.bgv2 main .bgv-card__facts li { line-height: 1.4; }
+
+/* кнопки, чипи, бейджі — прямі кути, як у фірмових плашках */
+.bgv-btn { background: var(--bgv-blue); border-color: var(--bgv-blue); font-weight: 500; }
+.bgv-btn:hover { background: var(--bgv-navy); border-color: var(--bgv-navy); }
+.bgv-btn--ghost { background: transparent; color: var(--bgv-blue) !important; }
+.bgv-btn--ghost:hover { background: var(--bgv-blue); border-color: var(--bgv-blue); }
+.bgv-btn--light { background: #fff; border-color: #fff; color: var(--bgv-navy) !important; }
+.bgv-btn--light:hover { background: var(--bgv-200); border-color: var(--bgv-200); color: var(--bgv-navy) !important; }
+.bgv-btn--outline-light { background: transparent; border-color: #fff; color: #fff !important; }
+.bgv-btn--outline-light:hover { background: #fff; color: var(--bgv-navy) !important; }
+.bgv-chip, .bgv-badge { border-radius: 0; }
+.bgv-chip.is-active { background: var(--bgv-blue); border-color: var(--bgv-blue); }
+.bgv-chip.is-active sup { color: var(--bgv-200); }
+.bgv-opt input:checked + span { background: var(--bgv-blue); border-color: var(--bgv-blue); }
+.bgv-quiz__bar span { background: var(--bgv-blue); }
+.bgv-form-msg.is-ok { color: var(--bgv-blue); }
+.bgv-nav .sub-menu { border-top-color: var(--bgv-blue); }
+.bgv-nav .menu-item > a:hover, .bgv-nav .sub-menu a:hover { color: var(--bgv-400) !important; }
+.bgv-lang a.is-active { background: var(--bgv-blue); }
+.bgv-header__cta { background: var(--bgv-blue); border-color: var(--bgv-blue); }
+.bgv-ring__fg { stroke: var(--bgv-blue); }
+.bgv-ring__bg { stroke: var(--bgv-200); opacity: .55; }
+.bgv-award__logo { color: var(--bgv-blue); }
+.bgv-adv__item:hover { background: var(--bgv-blue); }
+.bgv-adv__n { color: var(--bgv-400); }
+
+/* плаваюча кнопка — фірмовий прямокутник */
+.bgv-fab__btn, .bgv-fab__btn::before { border-radius: 0; }
+.bgv-fab__btn { background: var(--bgv-blue); box-shadow: 0 10px 30px rgba(37, 60, 146, .4); }
+.bgv-fab__btn::before { border-color: var(--bgv-400); }
+.bgv-fab__btn:hover { background: var(--bgv-navy); }
+
+/* Інвесторам — фірмовий нахилений прямокутник замість градієнта */
+.bgv-inv { background: var(--bgv-navy); }
+.bgv-inv::after { right: -8%; top: -30%; width: 46%; height: 160%; background: var(--bgv-blue); transform: rotate(-16deg); }
+.bgv-inv__list { background: rgba(255, 255, 255, .18); }
+.bgv-inv__list li { background: rgba(0, 26, 114, .92); }
+.bgv-inv__kicker { color: var(--bgv-200); }
+.bgv-inv__desc, .bgv-inv__d { color: #DDE3FF; }
+
+/* ---------- Перший екран за ТЗ ---------- */
+.bgv-hero { position: relative; min-height: min(calc(100vh - var(--bgv-head)), 860px); min-height: min(calc(100svh - var(--bgv-head)), 860px); display: flex; align-items: flex-end; overflow: hidden; background: var(--bgv-navy); color: #fff; }
+.bgv-hero__media, .bgv-hero__slide { position: absolute; inset: 0; }
+.bgv-hero__slide { opacity: 0; transition: opacity 1.2s ease; }
+.bgv-hero__slide.is-active { opacity: 1; }
+.bgv-hero__slide img, .bgv-hero__video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.bgv-hero__slide.is-active img { animation: bgvKen 9s ease-out both; }
+@keyframes bgvKen { from { transform: scale(1.08); } to { transform: scale(1); } }
+.bgv-hero__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0, 26, 114, .88) 0%, rgba(0, 26, 114, .62) 42%, rgba(0, 26, 114, .08) 75%), linear-gradient(0deg, rgba(0, 26, 114, .55) 0%, rgba(0, 26, 114, 0) 40%); }
+.bgv-hero__shape { position: absolute; left: -12%; bottom: -38%; width: 52%; height: 70%; background: var(--bgv-blue); opacity: .55; transform: rotate(-16deg); pointer-events: none; mix-blend-mode: multiply; }
+.bgv-hero__in { position: relative; z-index: 2; width: 100%; display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; padding-top: 80px; padding-bottom: 64px; }
+.bgv-hero__text { max-width: 760px; }
+.bgv-hero__kicker { margin: 0 0 18px; font: 500 15px/1.5 Qanelas, sans-serif; letter-spacing: 3px; text-transform: uppercase; color: var(--bgv-200); }
+.bgv-hero__title { margin: 0; font: 600 clamp(36px, 4.6vw, 68px)/1.1 Qanelas, sans-serif; color: #fff; text-transform: none; }
+.bgv-hero__lead { margin: 22px 0 0; font: 600 clamp(18px, 1.6vw, 22px)/1.5 Qanelas, sans-serif; color: #fff; }
+.bgv-hero__desc { margin: 12px 0 0; max-width: 620px; font: 400 clamp(16px, 1.25vw, 18px)/1.5 Qanelas, sans-serif; color: #DDE3FF; }
+.bgv-hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.bgv-hero__nav { display: flex; flex-direction: column; align-items: flex-end; gap: 14px; flex-shrink: 0; }
+.bgv-hero__cap { color: #fff; text-decoration: none; font: 500 15px/1.5 Qanelas, sans-serif; padding: 8px 14px; background: rgba(0, 26, 114, .55); border-left: 3px solid var(--bgv-400); }
+.bgv-hero__cap:hover { background: var(--bgv-blue); }
+.bgv-hero__dots { display: flex; gap: 8px; }
+.bgv-hero__dots button { width: 36px; height: 4px; padding: 0; border: 0; background: rgba(255, 255, 255, .4); cursor: pointer; transition: background .2s, width .2s; }
+.bgv-hero__dots button.is-active { background: #fff; width: 56px; }
+@media (max-width: 1023px) { .bgv-hero__in { flex-direction: column; align-items: flex-start; } .bgv-hero__nav { align-items: flex-start; } }
+@media (max-width: 767px) {
+	.bgv-hero { min-height: calc(100svh - var(--bgv-head)); }
+	.bgv-hero__in { padding-top: 48px; padding-bottom: 32px; gap: 24px; }
+	.bgv-hero__media::after { background: linear-gradient(0deg, rgba(0, 26, 114, .95) 0%, rgba(0, 26, 114, .75) 55%, rgba(0, 26, 114, .25) 100%); }
+	.bgv-hero__shape { width: 90%; height: 40%; bottom: -20%; }
+	.bgv-hero__kicker { font-size: 13px; letter-spacing: 2px; margin-bottom: 12px; }
+	.bgv-hero__cta .bgv-btn { flex: 1 1 100%; }
+	.bgv-hero__cap { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .bgv-hero__slide.is-active img { animation: none; } .bgv-hero__slide { transition: none; } }
+
+/* цифри одразу під першим екраном */
+.bgv-stats { padding: 56px 0 24px; }
+.bgv-stats__num { color: var(--bgv-navy); font-weight: 300; }
+@media (max-width: 767px) {
+	.bgv-hero__media::after { background: linear-gradient(0deg, rgba(0, 26, 114, .96) 0%, rgba(0, 26, 114, .8) 45%, rgba(0, 26, 114, .15) 85%); }
+	.bgv-hero__cta .bgv-btn { flex: 0 1 calc(100% - 70px); }
+}
