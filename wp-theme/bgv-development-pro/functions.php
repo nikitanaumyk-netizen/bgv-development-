@@ -4,11 +4,12 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'BGV_VER', '2.1.0' );
+define( 'BGV_VER', '2.2.0' );
 
 require get_template_directory() . '/inc/fields.php';
 require get_template_directory() . '/inc/v2.php';
 require get_template_directory() . '/inc/setup-v21.php';
+require get_template_directory() . '/inc/setup-v22.php';
 if ( file_exists( get_template_directory() . '/inc/bgv-api.php' ) ) { require get_template_directory() . '/inc/bgv-api.php'; }
 if ( file_exists( get_template_directory() . '/inc/migrate-v2.php' ) ) { require get_template_directory() . '/inc/migrate-v2.php'; }
 if ( file_exists( get_template_directory() . '/inc/migrate.php' ) ) {

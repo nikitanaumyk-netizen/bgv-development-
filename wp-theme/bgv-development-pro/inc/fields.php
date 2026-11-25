@@ -148,7 +148,7 @@ add_action( 'acf/init', function () {
 			bgv_f( 'inv_button', 'Текст кнопки' ),
 
 			bgv_tab( 'news', 'Новини' ),
-			array( 'key' => 'field_bgv_news_msg', 'label' => '', 'name' => '', 'type' => 'message', 'message' => 'Новини додаються в меню ліворуч: <b>Новини → Додати новину</b>. На головній автоматично показуються 10 останніх. Рубрика (Новини / Акції / ЗМІ про нас / Хід будівництва) обирається в самій новині.' ),
+			array( 'key' => 'field_bgv_news_msg', 'label' => '', 'name' => '', 'type' => 'message', 'message' => 'Новини додаються в меню ліворуч: <b>Новини → Додати новину</b>. На головній автоматично показуються 10 останніх.' ),
 			bgv_f( 'news_title', 'Заголовок розділу' ),
 			bgv_f( 'news_link', 'Текст посилання на всі новини' ),
 
@@ -158,7 +158,8 @@ add_action( 'acf/init', function () {
 				'layout' => 'table', 'button_label' => 'Додати пункт',
 				'sub_fields' => array( bgv_sub( 'social_items', 'text', 'Текст пункту', 'textarea', array( 'rows' => 3 ) ) ),
 			) ),
-			bgv_f( 'social_image', 'Фото праворуч', 'image', bgv_img() ),
+			bgv_f( 'social_image', 'Фото праворуч (перший слайд)', 'image', bgv_img() ),
+			bgv_f( 'social_gallery', 'Слайдер праворуч: додаткові фото', 'gallery', array( 'return_format' => 'id', 'preview_size' => 'medium', 'library' => 'all', 'instructions' => 'Фото змінюються автоматично. Перший слайд — «Фото праворуч», далі — ці фото по порядку (можна перетягувати).' ) ),
 
 			bgv_tab( 'contacts', 'Контакти' ),
 			bgv_f( 'contacts_title', 'Заголовок' ),
@@ -220,7 +221,6 @@ function bgv_news_fields() {
 			bgv_tab( 'news_main', 'Основне' ),
 			array( 'key' => 'field_bgv_news_hint', 'label' => '', 'name' => '', 'type' => 'message', 'message' => 'Заголовок новини — поле «Назва» вгорі. Дата публікації — у блоці «Опублікувати» праворуч (посилання «Редагувати» біля дати). Після змін натисніть <b>«Опублікувати»</b> або <b>«Оновити»</b> праворуч.' ),
 			bgv_f( 'news_cover', 'Обкладинка (фото на картці та вгорі новини)', 'image', bgv_img( array( 'required' => 1 ) ) ),
-			bgv_f( 'news_category', 'Рубрика', 'taxonomy', array( 'taxonomy' => 'category', 'field_type' => 'select', 'return_format' => 'id', 'add_term' => 0, 'save_terms' => 0, 'load_terms' => 1, 'allow_null' => 0, 'instructions' => 'Новини, Акції, ЗМІ про нас або Хід будівництва — по ній працюють фільтри на сайті.' ) ),
 			bgv_f( 'news_excerpt', 'Короткий опис (показується у списку новин)', 'textarea', array( 'rows' => 3, 'instructions' => 'Необов’язково. Якщо порожньо — візьметься початок тексту.' ) ),
 			bgv_tab( 'news_text', 'Текст новини' ),
 			bgv_f( 'news_body', 'Текст', 'wysiwyg', array( 'tabs' => 'visual', 'toolbar' => 'full', 'media_upload' => 1, 'instructions' => 'Щоб вставити фото в текст — кнопка «Додати медіафайл».' ) ),
@@ -255,9 +255,7 @@ add_action( 'acf/save_post', function ( $post_id ) {
 	$body = get_field( 'news_body', $post_id, false );
 	if ( null !== $body ) { $data['post_content'] = $body; }
 	$data['post_excerpt'] = (string) get_field( 'news_excerpt', $post_id, false );
-	$cid = (int) get_field( 'news_category', $post_id, false );
-	$cat = $cid ? get_term( $cid, 'category' ) : null;
-	if ( ! $cat || is_wp_error( $cat ) || 'uncategorized' === $cat->slug ) { $cat = get_term_by( 'slug', 'novyny', 'category' ); }
+	$cat = get_term_by( 'slug', 'novyny', 'category' );
 	if ( $cat ) { wp_set_post_categories( $post_id, array( $cat->term_id ) ); }
 	remove_action( 'acf/save_post', __FUNCTION__ );
 	wp_update_post( wp_slash( $data ) );

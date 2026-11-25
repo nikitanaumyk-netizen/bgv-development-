@@ -5,7 +5,6 @@ get_header();
 <section class="blog-list">
 	<div class="container">
 		<h1 class="blog-list__title"><?php echo esc_html( is_category() ? single_cat_title( '', false ) : ( get_the_title( get_option( 'page_for_posts' ) ) ?: 'Акції та новини' ) ); ?></h1>
-		<?php bgv_news_chips(); ?>
 		<div class="blog-list__news">
 			<?php while ( have_posts() ) : the_post(); $cats = get_the_category(); ?>
 				<a class="blog-list__item" href="<?php the_permalink(); ?>">

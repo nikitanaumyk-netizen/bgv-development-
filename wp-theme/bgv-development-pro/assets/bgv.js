@@ -197,4 +197,22 @@
 		dots.forEach(function (d, i) { d.addEventListener('click', function () { show(i); start(); }); });
 		start();
 	}
+
+	/* ---- Слайдер «Соціальна відповідальність» ---- */
+	$$('[data-slider]').forEach(function (box) {
+		var sl = $$('.bgv-soc-slide', box), dt = $$('.bgv-soc-dots button', box), i = 0, t;
+		if (sl.length < 2) { return; }
+		var go = function (n) {
+			i = (n + sl.length) % sl.length;
+			sl.forEach(function (s, k) { s.classList.toggle('is-active', k === i); });
+			dt.forEach(function (d, k) { d.classList.toggle('is-active', k === i); });
+		};
+		var run = function () { clearInterval(t); t = setInterval(function () { go(i + 1); }, 5000); };
+		dt.forEach(function (d, k) { d.addEventListener('click', function () { go(k); run(); }); });
+		$$('.bgv-soc-arrow', box).forEach(function (a) { a.addEventListener('click', function () { go(i + (+a.getAttribute('data-dir'))); run(); }); });
+		var x0 = null;
+		box.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+		box.addEventListener('touchend', function (e) { if (x0 === null) { return; } var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) { go(i + (dx < 0 ? 1 : -1)); run(); } x0 = null; });
+		run();
+	});
 })();

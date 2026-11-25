@@ -65,7 +65,6 @@ get_header();
 	<div class="container">
 		<div class="news-header">
 			<h2 class="section-title"><?php echo esc_html( bgv_opt( 'news_title' ) ); ?></h2>
-			<?php bgv_news_chips( true ); ?>
 			<a class="news-link cursor" href="<?php echo esc_url( get_permalink( get_option( 'page_for_posts' ) ) ); ?>"><?php echo esc_html( bgv_opt( 'news_link' ) ); ?> <?php echo bgv_chevron(); // phpcs:ignore ?></a>
 		</div>
 		<div class="news-content">
@@ -104,7 +103,21 @@ get_header();
 				<?php endforeach; ?>
 			</ul>
 		</div>
-		<div class="philantropy-side-img" style="background-image:url('<?php echo esc_url( bgv_img_url( bgv_opt( 'social_image' ), 'large' ) ); ?>')"></div>
+		<?php
+		$bgv_soc = array_values( array_unique( array_filter( array_merge( array( (int) bgv_opt( 'social_image' ) ), array_map( 'intval', (array) bgv_opt( 'social_gallery' ) ) ) ) ) );
+		?>
+		<div class="philantropy-side-img bgv-soc-slider" data-slider>
+			<?php foreach ( $bgv_soc as $i => $img ) : ?>
+				<div class="bgv-soc-slide<?php echo 0 === $i ? ' is-active' : ''; ?>" style="background-image:url('<?php echo esc_url( bgv_img_url( $img, 'large' ) ); ?>')" role="img" aria-label="<?php echo esc_attr( get_post_meta( $img, '_wp_attachment_image_alt', true ) ); ?>"></div>
+			<?php endforeach; ?>
+			<?php if ( count( $bgv_soc ) > 1 ) : ?>
+				<div class="bgv-soc-nav">
+					<button type="button" class="bgv-soc-arrow" data-dir="-1" aria-label="Попереднє фото">←</button>
+					<div class="bgv-soc-dots"><?php foreach ( $bgv_soc as $i => $img ) : ?><button type="button" class="<?php echo 0 === $i ? 'is-active' : ''; ?>" data-slide="<?php echo (int) $i; ?>" aria-label="Фото <?php echo (int) $i + 1; ?>"></button><?php endforeach; ?></div>
+					<button type="button" class="bgv-soc-arrow" data-dir="1" aria-label="Наступне фото">→</button>
+				</div>
+			<?php endif; ?>
+		</div>
 	</div>
 </section>
 

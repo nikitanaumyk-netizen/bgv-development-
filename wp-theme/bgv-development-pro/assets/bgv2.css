@@ -456,3 +456,28 @@ html, body.bgv2 { overflow-x: clip; }
 	.bgv-hero__media::after { background: linear-gradient(0deg, rgba(0, 26, 114, .96) 0%, rgba(0, 26, 114, .8) 45%, rgba(0, 26, 114, .15) 85%); }
 	.bgv-hero__cta .bgv-btn { flex: 0 1 calc(100% - 70px); }
 }
+
+/* ---------- v2.2: Ключові переваги — спокійний текстовий блок ---------- */
+.bgv-adv { padding: 72px 0 40px; }
+.bgv-adv__list { grid-template-columns: repeat(4, 1fr); gap: 0 40px; background: none; border: 0; }
+.bgv-adv__item, .bgv-adv__item:hover { background: none; padding: 28px 0 0; gap: 0; position: relative; border-top: 1px solid var(--bgv-line); transition: none; }
+.bgv-adv__item:hover * { color: inherit; }
+.bgv-adv__item::before { content: ''; position: absolute; left: 0; top: -2px; width: 56px; height: 3px; background: var(--bgv-blue); }
+.bgv-adv__n, .bgv-adv__item:hover .bgv-adv__n { font: 300 48px/1.1 Qanelas, sans-serif; color: var(--bgv-300); margin-bottom: 20px; }
+.bgv-adv__t, .bgv-adv__item:hover .bgv-adv__t { font: 600 22px/1.2 Qanelas, sans-serif; color: var(--bgv-navy); margin-bottom: 10px; }
+.bgv-adv__d, .bgv-adv__item:hover .bgv-adv__d { font: 400 16px/1.5 Qanelas, sans-serif; color: var(--bgv-muted); }
+@media (max-width: 1023px) { .bgv-adv__list { grid-template-columns: 1fr 1fr; gap: 40px 32px; } }
+@media (max-width: 560px) { .bgv-adv__list { grid-template-columns: 1fr; gap: 32px; } .bgv-adv__n { font-size: 40px; margin-bottom: 12px; } }
+
+/* ---------- v2.2: слайдер «Соціальна відповідальність» ---------- */
+.bgv-soc-slider { position: relative; overflow: hidden; background-color: var(--bgv-200); min-height: 420px; }
+.bgv-soc-slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 1s ease; }
+.bgv-soc-slide.is-active { opacity: 1; }
+.bgv-soc-nav { position: absolute; left: 24px; right: 24px; bottom: 24px; z-index: 2; display: flex; align-items: center; gap: 16px; }
+.bgv-soc-arrow { width: 44px; height: 44px; border: 0; background: rgba(255, 255, 255, .92); color: var(--bgv-navy); font: 500 20px/1 Qanelas, sans-serif; cursor: pointer; transition: background .2s, color .2s; }
+.bgv-soc-arrow:hover { background: var(--bgv-blue); color: #fff; }
+.bgv-soc-dots { display: flex; gap: 8px; flex: 1; justify-content: center; }
+.bgv-soc-dots button { width: 32px; height: 4px; padding: 0; border: 0; background: rgba(255, 255, 255, .55); cursor: pointer; }
+.bgv-soc-dots button.is-active { background: #fff; width: 52px; }
+@media (max-width: 767px) { .bgv-soc-slider { min-height: 320px; } .bgv-soc-nav { left: 16px; right: 16px; bottom: 16px; } }
+@media (prefers-reduced-motion: reduce) { .bgv-soc-slide { transition: none; } }
