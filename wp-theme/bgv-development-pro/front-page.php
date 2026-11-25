@@ -5,40 +5,33 @@ get_header();
 <?php get_template_part( 'parts/hero' ); ?>
 
 
-<?php $bgv_stats = bgv_opt( 'stats' ); if ( $bgv_stats ) : ?>
-<section class="bgv-stats" id="stats">
-	<div class="container">
-		<h2 class="vh"><?php bgv_e( 'Цифри' ); ?></h2>
-		<ul class="bgv-stats__list">
-			<?php foreach ( $bgv_stats as $s ) : ?>
-				<li class="bgv-stats__item">
-					<p class="bgv-stats__num"><?php echo esc_html( $s['number'] ); ?></p>
-					<p class="bgv-stats__label"><?php echo esc_html( $s['label'] ); ?></p>
-				</li>
-			<?php endforeach; ?>
-		</ul>
-	</div>
-</section>
-<?php endif; ?>
-
-<?php get_template_part( 'parts/advantages' ); ?>
-
-<section class="about" id="about">
-	<div class="container">
-		<h2 class="vh"><?php bgv_e( 'Про нас' ); ?></h2>
-		<div class="about-content">
-			<div class="about-image-wrapp">
-				<?php if ( bgv_img_url( bgv_opt( 'about_image' ) ) ) : ?>
-					<img src="<?php echo esc_url( bgv_img_url( bgv_opt( 'about_image' ), 'large' ) ); ?>" class="about-image-1" alt="" loading="lazy">
-				<?php endif; ?>
-			</div>
-			<div class="about-text">
-				<div class="main-about-text"><?php echo wp_kses_post( bgv_opt( 'about_text' ) ); ?></div>
-				<div class="about-footer-text"><p><?php echo esc_html( bgv_opt( 'about_footer' ) ); ?></p></div>
+<section class="bgv-about" id="about">
+	<div class="container bgv-about__in">
+		<div class="bgv-about__img">
+			<?php if ( bgv_img_url( bgv_opt( 'about_image' ) ) ) : ?>
+				<img src="<?php echo esc_url( bgv_img_url( bgv_opt( 'about_image' ), 'large' ) ); ?>" alt="<?php echo esc_attr( bgv_opt( 'about_title' ) ?: bgv_t( 'Про нас' ) ); ?>" loading="lazy">
+			<?php endif; ?>
+		</div>
+		<div class="bgv-about__body">
+			<h2 class="bgv-about__title"><?php echo esc_html( bgv_opt( 'about_title' ) ?: bgv_t( 'Про нас' ) ); ?></h2>
+			<div class="bgv-about__text"><?php echo wp_kses_post( bgv_opt( 'about_text' ) ); ?></div>
+			<?php $bgv_stats = array_filter( (array) bgv_opt( 'stats' ), function ( $x ) { return ! empty( $x['number'] ); } ); if ( $bgv_stats ) : ?>
+				<ul class="bgv-about__stats" id="stats">
+					<?php foreach ( $bgv_stats as $x ) : ?>
+						<li><p class="bgv-stats__num"><?php echo esc_html( $x['number'] ); ?></p><p class="bgv-about__label"><?php echo esc_html( $x['label'] ); ?></p></li>
+					<?php endforeach; ?>
+				</ul>
+			<?php endif; ?>
+			<?php if ( bgv_opt( 'about_footer' ) ) : ?><p class="bgv-about__footer"><?php echo esc_html( bgv_opt( 'about_footer' ) ); ?></p><?php endif; ?>
+			<div class="bgv-about__cta">
+				<button class="bgv-btn" type="button" data-bgv-open="bgv-quiz"><?php bgv_e( 'Підібрати об’єкт за 3 кроки' ); ?></button>
+				<button class="bgv-btn bgv-btn--ghost" type="button" data-bgv-open="bgv-form" data-bgv-title="<?php bgv_e( 'Зв’язатися з нами' ); ?>"><?php bgv_e( 'Зв’язатися з нами' ); ?></button>
 			</div>
 		</div>
 	</div>
 </section>
+
+<?php get_template_part( 'parts/advantages' ); ?>
 
 <?php get_template_part( 'parts/projects' ); ?>
 

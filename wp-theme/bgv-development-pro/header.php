@@ -16,7 +16,7 @@ $bgv_en    = bgv_en_page_id();
 			<div class="site-branding">
 				<a href="<?php echo esc_url( bgv_home( '/' ) ); ?>" class="custom-logo-link" rel="home">
 					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/logo.svg' ); ?>" class="custom-logo logo-dark" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" width="170" height="20">
-					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/logo-white.svg' ); ?>" class="custom-logo logo-light" alt="" aria-hidden="true" width="170" height="20">
+					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/footer-logo.svg' ); ?>" class="custom-logo logo-light" alt="" aria-hidden="true" width="76" height="50">
 				</a>
 			</div>
 			<nav id="site-navigation" class="main-navigation bgv-nav" aria-label="<?php bgv_e( 'Меню' ); ?>">

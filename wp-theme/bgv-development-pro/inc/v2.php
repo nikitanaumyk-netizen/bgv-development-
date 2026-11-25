@@ -27,7 +27,7 @@ function bgv_t( $s ) {
 	static $d = null;
 	if ( null === $d ) {
 		$d = array(
-			'Про нас' => 'About', 'Про компанію' => 'About the company', 'Наші переваги' => 'Our advantages', 'Ключові переваги' => 'Key advantages', 'Цифри' => 'Key figures', 'Переваги' => 'Advantages',
+			'Про нас' => 'About', 'Про компанію' => 'About the company', 'Наші переваги' => 'Our advantages', 'Відкрити проєкт' => 'Open project', 'Гортайте вниз' => 'Scroll down', 'Нагорода' => 'Award', 'Медіа' => 'Media', 'Членство' => 'Membership', 'Ключові переваги' => 'Key advantages', 'Цифри' => 'Key figures', 'Переваги' => 'Advantages',
 			'Досягнення' => 'Achievements', 'Нагороди' => 'Awards', 'Завантажити презентацію' => 'Download presentation',
 			'Проєкти' => 'Projects', 'Усі проєкти' => 'All projects', 'Інвесторам' => 'Investors', 'Прес-центр' => 'Press centre',
 			'Контакти' => 'Contacts', 'Підібрати об’єкт' => 'Find a property', 'Замовити дзвінок' => 'Request a call',
@@ -111,8 +111,6 @@ function bgv_nav_items() {
 		array( $h . '#stats', bgv_t( 'Цифри' ) ),
 		array( $h . '#advantages', bgv_t( 'Переваги' ) ),
 	);
-	if ( bgv_opt( 'achievements' ) ) { $about[] = array( $h . '#achievements', bgv_t( 'Досягнення' ) ); }
-	if ( bgv_opt( 'awards' ) ) { $about[] = array( $h . '#awards', bgv_t( 'Нагороди' ) ); }
 	$items[] = array( $h . '#about', bgv_t( 'Про нас' ), '', $about );
 	$proj    = array();
 	foreach ( bgv_group_meta() as $g => $m ) {
@@ -121,6 +119,8 @@ function bgv_nav_items() {
 	}
 	$items[] = array( $h . '#our-projects', bgv_t( 'Проєкти' ), '', $proj );
 	$items[] = array( $h . '#investors', bgv_t( 'Інвесторам' ) );
+	if ( bgv_opt( 'achievements' ) ) { $items[] = array( $h . '#achievements', bgv_t( 'Досягнення' ) ); }
+	if ( bgv_opt( 'awards' ) ) { $items[] = array( $h . '#awards', bgv_t( 'Нагороди' ) ); }
 	$items[] = array( get_permalink( get_option( 'page_for_posts' ) ), bgv_t( 'Прес-центр' ) );
 	$items[] = array( $h . '#contact-us', bgv_t( 'Контакти' ) );
 	return $items;
