@@ -27,7 +27,7 @@ function bgv_t( $s ) {
 	static $d = null;
 	if ( null === $d ) {
 		$d = array(
-			'Про нас' => 'About', 'Про компанію' => 'Company', 'Цифри' => 'Key figures', 'Переваги' => 'Advantages',
+			'Про нас' => 'About', 'Про компанію' => 'About the company', 'Наші переваги' => 'Our advantages', 'Ключові переваги' => 'Key advantages', 'Цифри' => 'Key figures', 'Переваги' => 'Advantages',
 			'Досягнення' => 'Achievements', 'Нагороди' => 'Awards', 'Завантажити презентацію' => 'Download presentation',
 			'Проєкти' => 'Projects', 'Усі проєкти' => 'All projects', 'Інвесторам' => 'Investors', 'Прес-центр' => 'Press centre',
 			'Контакти' => 'Contacts', 'Підібрати об’єкт' => 'Find a property', 'Замовити дзвінок' => 'Request a call',

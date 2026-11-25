@@ -64,8 +64,9 @@ add_action( 'acf/init', function () {
 			bgv_tab( 'hero', 'Перший екран' ),
 			bgv_f( 'hero_subtitle', 'Надзаголовок (маленький текст над заголовком)' ),
 			bgv_f( 'hero_title', 'Головний заголовок (H1)', 'textarea', array( 'rows' => 2, 'new_lines' => '' ) ),
-			bgv_f( 'hero_lead', 'Підзаголовок (жирним під заголовком)' ),
-			bgv_f( 'hero_description', 'Опис', 'textarea', array( 'rows' => 3 ) ),
+			bgv_f( 'hero_lead', 'Підзаголовок під заголовком' ),
+			bgv_f( 'hero_description', 'Опис (показується, якщо підзаголовок порожній)', 'textarea', array( 'rows' => 3 ) ),
+			bgv_f( 'hero_button', 'Текст кнопки', 'text', array( 'placeholder' => 'Про компанію' ) ),
 			bgv_f( 'hero_slides', 'Слайди (фото / рендери, змінюються автоматично)', 'repeater', array(
 				'layout' => 'table', 'button_label' => 'Додати слайд', 'max' => 8,
 				'instructions' => 'Великі горизонтальні фото або рендери (від 1920 px завширшки). Підпис і посилання показуються в куті екрана.',
@@ -78,10 +79,12 @@ add_action( 'acf/init', function () {
 			bgv_f( 'hero_video', 'Відео замість слайдів (MP4, необов’язково)', 'file', array( 'return_format' => 'id', 'library' => 'all', 'mime_types' => 'mp4,webm', 'instructions' => 'Коротке відео/рендер без звуку, до 15 МБ. Якщо завантажено — показується замість слайдів (перший слайд стає заставкою).' ) ),
 
 			bgv_tab( 'adv', 'Переваги' ),
+			bgv_f( 'adv_kicker', 'Надзаголовок (дрібно над заголовком)', 'text', array( 'placeholder' => 'Наші переваги' ) ),
 			bgv_f( 'adv_title', 'Заголовок розділу' ),
 			bgv_f( 'advantages', 'Ключові переваги', 'repeater', array(
 				'layout' => 'table', 'button_label' => 'Додати перевагу',
 				'sub_fields' => array(
+					bgv_sub( 'advantages', 'image', 'Фото картки', 'image', bgv_img( array( 'preview_size' => 'thumbnail' ) ) ),
 					bgv_sub( 'advantages', 'title', 'Назва' ),
 					bgv_sub( 'advantages', 'text', 'Пояснення' ),
 				),

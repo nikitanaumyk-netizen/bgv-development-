@@ -5,38 +5,7 @@ get_header();
 <?php get_template_part( 'parts/hero' ); ?>
 
 
-<?php $bgv_stats = bgv_opt( 'stats' ); if ( $bgv_stats ) : ?>
-<section class="bgv-stats" id="stats">
-	<div class="container">
-		<h2 class="vh"><?php bgv_e( 'Цифри' ); ?></h2>
-		<ul class="bgv-stats__list">
-			<?php foreach ( $bgv_stats as $s ) : ?>
-				<li class="bgv-stats__item">
-					<p class="bgv-stats__num"><?php echo esc_html( $s['number'] ); ?></p>
-					<p class="bgv-stats__label"><?php echo esc_html( $s['label'] ); ?></p>
-				</li>
-			<?php endforeach; ?>
-		</ul>
-	</div>
-</section>
-<?php endif; ?>
-
-<?php $bgv_adv = bgv_opt( 'advantages' ); if ( $bgv_adv ) : ?>
-<section class="bgv-adv" id="advantages">
-	<div class="container">
-		<h2 class="section-title"><?php echo esc_html( bgv_opt( 'adv_title' ) ?: bgv_t( 'Переваги' ) ); ?></h2>
-		<ol class="bgv-adv__list">
-			<?php foreach ( $bgv_adv as $i => $a ) : if ( empty( $a['title'] ) ) { continue; } ?>
-				<li class="bgv-adv__item">
-					<span class="bgv-adv__n"><?php echo esc_html( sprintf( '%02d', $i + 1 ) ); ?></span>
-					<p class="bgv-adv__t"><?php echo esc_html( $a['title'] ); ?></p>
-					<?php if ( ! empty( $a['text'] ) ) : ?><p class="bgv-adv__d"><?php echo esc_html( $a['text'] ); ?></p><?php endif; ?>
-				</li>
-			<?php endforeach; ?>
-		</ol>
-	</div>
-</section>
-<?php endif; ?>
+<?php get_template_part( 'parts/advantages' ); ?>
 
 <section class="about" id="about">
 	<div class="container">
