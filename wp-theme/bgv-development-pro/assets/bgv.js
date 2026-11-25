@@ -5,6 +5,27 @@
 	var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
 	var html = document.documentElement;
 
+	/* ---- Завжди починати з першого екрана при відкритті та оновленні сторінки ----
+	 * Виняток: перехід з іншої сторінки сайту за посиланням меню на розділ (напр. «Контакти»). */
+	(function () {
+		var nav = (performance.getEntriesByType && performance.getEntriesByType('navigation')[0]) || {};
+		var type = nav.type || (performance.navigation && performance.navigation.type === 1 ? 'reload' : 'navigate');
+		var fromSite = document.referrer && document.referrer.indexOf(location.host) !== -1;
+		var keepHash = location.hash && type === 'navigate' && fromSite;
+		if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+		if (keepHash) {
+			// Докрутити до розділу після завантаження фото (висота сторінки змінюється).
+			var go = function () { var t = document.getElementById(decodeURIComponent(location.hash.slice(1))); if (t) { t.scrollIntoView(); } };
+			window.addEventListener('load', function () { go(); setTimeout(go, 400); });
+			return;
+		}
+		if (location.hash && history.replaceState) { history.replaceState(null, '', location.pathname + location.search); }
+		var top = function () { window.scrollTo(0, 0); };
+		top();
+		window.addEventListener('load', top);
+		window.addEventListener('pageshow', function (e) { if (e.persisted) { top(); } });
+	})();
+
 	/* ---- Шапка: тінь при прокрутці, бургер, підменю ---- */
 	var header = $('.bgv-header');
 	var heroEl = document.querySelector('.bgv-hero');
