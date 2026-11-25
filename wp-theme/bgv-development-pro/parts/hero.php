@@ -35,7 +35,6 @@ $bgv_n     = count( $bgv_slides );
 			<h1 class="bgv-hero__title"><?php echo esc_html( $bgv_title ); ?></h1>
 			<?php if ( bgv_opt( 'hero_description' ) ) : ?><p class="bgv-hero__desc"><?php echo esc_html( bgv_opt( 'hero_description' ) ); ?></p><?php endif; ?>
 			<div class="bgv-hero__cta">
-				<button class="bgv-btn" type="button" data-bgv-open="bgv-quiz"><?php bgv_e( 'Підібрати об’єкт' ); ?></button>
 				<a class="bgv-btn bgv-btn--outline-light" href="#our-projects"><?php bgv_e( 'Наші проєкти' ); ?></a>
 			</div>
 		</div>

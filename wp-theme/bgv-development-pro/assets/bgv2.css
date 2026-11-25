@@ -984,3 +984,4 @@ html.mnav-open, html.mnav-open body { overflow: hidden; }
 .bgv-show.is-played .bgv-adv2__kicker { opacity: 1; transform: none; transition: opacity 1s var(--ease-out) .62s, transform 1.1s var(--ease-out) .62s; }
 .bgv-show .bgv-adv2__card { opacity: 0; transform: translate3d(0, 50px, 0); clip-path: inset(0 100% 0 0); }
 .bgv-show.is-played .bgv-adv2__card { opacity: 1; transform: none; clip-path: inset(0 0 0 0); transition: opacity 1s var(--ease-out) calc(1.3s + var(--si, 0) * .18s), transform 1.3s var(--ease-out) calc(1.3s + var(--si, 0) * .18s), clip-path 1.4s var(--ease-io) calc(1.3s + var(--si, 0) * .18s) !important; }
+@media (max-width: 1180px) { .bgv-hero--v5 .bgv-hero__cta { grid-template-columns: auto; justify-content: start; } }
