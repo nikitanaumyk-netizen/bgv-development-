@@ -406,7 +406,8 @@ add_filter( 'private_title_format', function ( $f, $post ) {
 
 /* ---------- Мобільне меню (як на bgv-development-site610v4.vercel.app) ---------- */
 function bgv_mlogo() {
-	return '<span class="mlogo__mark">BGV</span><span class="mlogo__word">Development</span>';
+	// Той самий логотип, що й у шапці на першому екрані (білий, вертикальний).
+	return '<img class="mlogo__img" src="' . esc_url( get_template_directory_uri() . '/assets/footer-logo.svg' ) . '" alt="BGV Development" width="171" height="113">';
 }
 add_action( 'wp_footer', function () {
 	$items = bgv_nav_items();
@@ -435,9 +436,7 @@ add_action( 'wp_footer', function () {
 			<?php endforeach; ?>
 		</div>
 		<div class="mnav__foot">
-			<button class="bgv-btn" type="button" data-bgv-open="bgv-quiz"><?php bgv_e( 'Підібрати об’єкт' ); ?></button>
 			<button class="bgv-btn bgv-btn--mline" type="button" data-bgv-open="bgv-form" data-bgv-title="<?php bgv_e( 'Замовити дзвінок' ); ?>"><?php bgv_e( 'Замовити дзвінок' ); ?></button>
-			<?php if ( $phone ) : ?><a class="bgv-btn bgv-btn--mline mnav__phone" href="<?php echo esc_attr( bgv_tel( $phone ) ); ?>"><?php echo esc_html( $phone ); ?></a><?php endif; ?>
 		</div>
 	</div>
 	<?php

@@ -1077,3 +1077,7 @@ html.mnav-open, html.mnav-open body { overflow: hidden; }
 .site-footer.bgv-show.is-played .footer-content > *, .site-footer.bgv-show.is-played .bgv-copy { opacity: 1; transform: none; clip-path: inset(0 0 0 0); transition: opacity 1s var(--ease-out) calc(1.1s + var(--si, 0) * .18s), transform 1.3s var(--ease-out) calc(1.1s + var(--si, 0) * .18s), clip-path 1.4s var(--ease-io) calc(1.1s + var(--si, 0) * .18s); }
 .site-footer.bgv-show .bgv-show__wipe i:nth-child(1) { background: #253C92; }
 .site-footer.bgv-show .bgv-show__wipe i:nth-child(2) { background: #4057CB; }
+/* Меню: логотип як на першому екрані */
+.mnav .mlogo__img { display: block; width: 58px; height: auto; }
+.mnav__intro-logo .mlogo__img { width: clamp(150px, 40vw, 210px); }
+@media (min-width: 1181px) { .mnav__top .mlogo__img { width: 74px; } .mnav__foot { grid-template-columns: minmax(0, 360px); } }
