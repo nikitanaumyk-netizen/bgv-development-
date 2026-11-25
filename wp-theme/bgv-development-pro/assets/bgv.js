@@ -314,7 +314,7 @@
 
 	// Поява тексту і карток під час прокрутки (знизу вгору, по черзі).
 	var sel = [
-		'main .section-title', 'main .bgv-kicker', '.bgv-sec-head__text', '.bgv-hero__kicker', '.bgv-hero__title', '.bgv-hero__lead', '.bgv-hero__desc', '.bgv-hero__cta',
+		'main .section-title', 'main .bgv-kicker', '.bgv-sec-head__text', 
 		'.bgv-stats__item', '.bgv-adv2__head > *', '.bgv-adv2__card', '.about-text p', '.about-image-wrapp',
 		'.bgv-projects__head .bgv-chips', '.bgv-card', '.bgv-ach2__card', '.bgv-aw2__list > li',
 		'.bgv-inv__text > *', '.bgv-inv__list li', '.news-content', '.philantropy-item', '.contact-list', '.contact-form-title', '.contact-form-text',

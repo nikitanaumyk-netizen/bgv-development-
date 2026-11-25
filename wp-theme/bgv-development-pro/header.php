@@ -10,6 +10,11 @@ $bgv_en    = bgv_en_page_id();
 </head>
 <body <?php body_class( 'bgv2' ); ?>>
 <?php wp_body_open(); ?>
+<?php if ( is_front_page() ) : ?>
+<div class="bgv-intro" aria-hidden="true">
+	<img class="bgv-intro__logo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/footer-logo.svg' ); ?>" alt="" width="171" height="113">
+</div>
+<?php endif; ?>
 <div id="page" class="site">
 	<header id="masthead" class="site-header bgv-header">
 		<div class="container bgv-header__in">

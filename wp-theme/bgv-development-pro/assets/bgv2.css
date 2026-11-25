@@ -757,3 +757,26 @@ html:not(.past-hero) .bgv-fab { opacity: 0; transform: translateY(16px); pointer
 .bgv-anim .bgv-ph.is-in, .bgv-anim .bgv-card__img.bgv-ph.is-in { opacity: 1; }
 .bgv-anim .bgv-adv2__card.bgv-rv.bgv-ph, .bgv-anim .bgv-ach2__card.bgv-rv.bgv-ph { transition: opacity 1.6s ease-out, transform 1.4s cubic-bezier(.22, .61, .36, 1), clip-path 2.2s cubic-bezier(.22, .61, .36, 1), -webkit-clip-path 2.2s cubic-bezier(.22, .61, .36, 1) !important; }
 .bgv-anim .bgv-rv { transform: translateY(18px); transition: opacity 1.3s ease-out, transform 1.3s cubic-bezier(.22, .61, .36, 1); }
+
+/* ==========================================================
+   Заставка при вході на сайт (як у прикладі): синій екран → логотип →
+   екран їде вгору → тексти першого екрана з’являються по черзі. Чистий CSS.
+   ========================================================== */
+.bgv-intro { position: fixed; inset: 0; z-index: 100001; display: flex; align-items: center; justify-content: center; background: var(--bgv-navy, #001A72); pointer-events: none; will-change: transform; animation: bgvIntroOut .9s cubic-bezier(.76, 0, .24, 1) 2s forwards; }
+.bgv-intro__logo { width: clamp(150px, 18vw, 220px); height: auto; opacity: 0; transform: scale(.82); animation: bgvIntroLogo .9s cubic-bezier(.22, 1, .36, 1) .15s forwards; }
+@keyframes bgvIntroLogo { to { opacity: 1; transform: scale(1); } }
+@keyframes bgvIntroOut { to { transform: translateY(-100%); visibility: hidden; } }
+.home .bgv-hero__kicker, .home .bgv-hero__title, .home .bgv-hero__desc, .home .bgv-hero__lead, .home .bgv-hero__cta, .home .bgv-hero__panel {
+	opacity: 0; transform: translateY(60px); animation: bgvIntroUp 1s cubic-bezier(.22, 1, .36, 1) forwards;
+}
+.home .bgv-hero__kicker { animation-delay: 2.55s; }
+.home .bgv-hero__title { animation-delay: 2.7s; }
+.home .bgv-hero__desc, .home .bgv-hero__lead { animation-delay: 3s; }
+.home .bgv-hero__cta { animation-delay: 3.3s; }
+.home .bgv-hero__panel { animation-delay: 3.5s; }
+@keyframes bgvIntroUp { to { opacity: 1; transform: none; } }
+.home .bgv-hero__slide.is-active img { animation-delay: 2.4s; }
+@media (prefers-reduced-motion: reduce) {
+	.bgv-intro { animation-duration: .3s; animation-delay: .4s; }
+	.home .bgv-hero__kicker, .home .bgv-hero__title, .home .bgv-hero__desc, .home .bgv-hero__lead, .home .bgv-hero__cta, .home .bgv-hero__panel { animation-duration: .3s; animation-delay: .7s; }
+}
