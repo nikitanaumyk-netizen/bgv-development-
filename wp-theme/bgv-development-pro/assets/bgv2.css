@@ -687,3 +687,44 @@ a.bgv-aw3__card:hover { box-shadow: 0 20px 44px rgba(0, 26, 114, .14); transform
 .bgv-ach2__card::before { background: linear-gradient(180deg, rgba(0, 26, 114, .15) 0%, rgba(0, 26, 114, .45) 45%, rgba(0, 26, 114, .92) 100%); }
 .bgv-fab { transition: opacity .3s, transform .3s; }
 html:not(.past-hero) .bgv-fab { opacity: 0; transform: translateY(16px); pointer-events: none; }
+
+/* ==========================================================
+   v2.6 — правки після презентації
+   ========================================================== */
+/* Логотип нижче (і правильний відступ під адмін-панеллю) */
+@media (min-width: 1181px) {
+	.home.admin-bar.bgv2 .site-header.bgv-header { top: 32px; }
+	.home .bgv-header .bgv-header__in { align-items: center; padding-top: 18px; }
+	.home.bgv2 .site-header.bgv-header { height: 112px; }
+	.home.bgv2 .site-header.bgv-header.is-scrolled { height: 84px; }
+	.home.bgv2 .site-header.bgv-header.is-scrolled .bgv-header__in { padding-top: 0; }
+	.home .bgv-header .logo-light { width: 78px; }
+}
+
+/* Досягнення: без кругів, тільки число, що набігає */
+.bgv-ach2__pc { display: flex; flex-direction: column; gap: 6px; }
+.bgv-ach2__num { font: 300 clamp(64px, 6vw, 96px)/1 Qanelas, sans-serif; color: #fff; letter-spacing: -2px; }
+.bgv-ach2__pc span { font: 600 13px/1.5 Qanelas, sans-serif; letter-spacing: 3px; text-transform: uppercase; color: var(--bgv-200); }
+
+/* Інвесторам: фото на фоні, як на першому екрані */
+.bgv-inv--photo { background: var(--bgv-navy); }
+.bgv-inv__bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.bgv-inv__bg .bgv-soc-slide { background-size: cover; background-position: center; }
+.bgv-inv--photo::before { content: ''; position: absolute; inset: 0; z-index: 0; background: linear-gradient(90deg, rgba(0, 26, 114, .92) 0%, rgba(0, 26, 114, .78) 45%, rgba(0, 26, 114, .55) 100%); }
+.bgv-inv--photo::after { display: none; }
+.bgv-inv--photo .bgv-inv__in { z-index: 1; }
+.bgv-inv--photo .bgv-inv__list { background: rgba(255, 255, 255, .2); }
+.bgv-inv--photo .bgv-inv__list li { background: rgba(0, 26, 114, .72); backdrop-filter: blur(4px); }
+.bgv-inv { padding: 110px 0; }
+
+/* Підвал: меню лівіше, у дві колонки, не під кнопкою дзвінка */
+@media (min-width: 768px) {
+	.site-footer .footer-content { gap: 48px; }
+	.site-footer .footer-menu { margin-right: 120px; }
+	.site-footer .footer-menu .menu { display: grid !important; grid-template-columns: repeat(2, auto); gap: 18px 56px !important; }
+}
+@media (max-width: 767px) { .site-footer .footer-menu .menu { display: grid !important; grid-template-columns: 1fr 1fr; gap: 14px 24px !important; } .site-footer { padding-bottom: 90px; } }
+.bgv-inv--photo .bgv-inv__bg { z-index: 0; }
+.bgv-inv--photo::before { z-index: 1; }
+.bgv-inv--photo .bgv-inv__in { z-index: 2; }
+.bgv-inv--photo::before { background: linear-gradient(90deg, rgba(0, 26, 114, .9) 0%, rgba(0, 26, 114, .7) 50%, rgba(0, 26, 114, .4) 100%); }

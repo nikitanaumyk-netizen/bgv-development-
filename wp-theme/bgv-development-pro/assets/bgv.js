@@ -259,7 +259,7 @@
 		};
 		requestAnimationFrame(step);
 	}
-	var counters = $$('.bgv-stats__num, .bgv-ring__txt b[data-count]');
+	var counters = $$('.bgv-stats__num, .bgv-ring__txt b[data-count], .bgv-ach2__num');
 	var cio = new IntersectionObserver(function (en) {
 		en.forEach(function (x) {
 			if (!x.isIntersecting) { return; }

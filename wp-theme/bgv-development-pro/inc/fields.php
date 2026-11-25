@@ -158,6 +158,7 @@ add_action( 'acf/init', function () {
 				),
 			) ),
 			bgv_f( 'inv_button', 'Текст кнопки' ),
+			bgv_f( 'inv_images', 'Фото на фоні (змінюються автоматично)', 'gallery', array( 'return_format' => 'id', 'preview_size' => 'medium', 'library' => 'all' ) ),
 
 			bgv_tab( 'news', 'Новини' ),
 			array( 'key' => 'field_bgv_news_msg', 'label' => '', 'name' => '', 'type' => 'message', 'message' => 'Новини додаються в меню ліворуч: <b>Новини → Додати новину</b>. На головній автоматично показуються 10 останніх.' ),

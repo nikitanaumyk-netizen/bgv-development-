@@ -3,7 +3,15 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! bgv_opt( 'inv_title' ) ) { return; }
 $bgv_items = array_filter( (array) bgv_opt( 'inv_items' ), function ( $a ) { return ! empty( $a['title'] ); } );
 ?>
-<section class="bgv-inv" id="investors">
+<?php $bgv_inv_bg = array_values( array_filter( array_map( 'intval', (array) bgv_opt( 'inv_images' ) ) ) ); ?>
+<section class="bgv-inv<?php echo $bgv_inv_bg ? ' bgv-inv--photo' : ''; ?>" id="investors">
+	<?php if ( $bgv_inv_bg ) : ?>
+		<div class="bgv-inv__bg" data-slider>
+			<?php foreach ( $bgv_inv_bg as $i => $img ) : ?>
+				<div class="bgv-soc-slide<?php echo 0 === $i ? ' is-active' : ''; ?>" style="background-image:url('<?php echo esc_url( bgv_img_url( $img, 'full' ) ); ?>')"></div>
+			<?php endforeach; ?>
+		</div>
+	<?php endif; ?>
 	<div class="container bgv-inv__in">
 		<div class="bgv-inv__text">
 			<p class="bgv-inv__kicker"><?php bgv_e( 'Інвесторам' ); ?></p>

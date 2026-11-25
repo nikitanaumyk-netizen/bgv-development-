@@ -26,9 +26,9 @@ $bgv_proj_img = function ( $name ) {
 				$img = bgv_img_url( ! empty( $a['image'] ) ? $a['image'] : $bgv_proj_img( $a['name'] ), 'large' );
 				?>
 				<li class="bgv-ach2__card"<?php echo $img ? ' style="background-image:url(\'' . esc_url( $img ) . '\')"' : ''; ?>>
-					<div class="bgv-ring" style="--p:<?php echo (int) $pc; ?>" data-p="<?php echo (int) $pc; ?>">
-						<svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" class="bgv-ring__bg"/><circle cx="60" cy="60" r="52" class="bgv-ring__fg" pathLength="100"/></svg>
-						<div class="bgv-ring__txt"><b data-count="<?php echo (int) $pc; ?>%"><?php echo (int) $pc; ?>%</b><span><?php echo esc_html( $a['label'] ?: bgv_t( 'збудовано' ) ); ?></span></div>
+					<div class="bgv-ach2__pc">
+						<b class="bgv-ach2__num" data-count="<?php echo (int) $pc; ?>%"><?php echo (int) $pc; ?>%</b>
+						<span><?php echo esc_html( $a['label'] ?: bgv_t( 'збудовано' ) ); ?></span>
 					</div>
 					<p class="bgv-ach2__name"><?php echo esc_html( $a['name'] ); ?></p>
 				</li>
