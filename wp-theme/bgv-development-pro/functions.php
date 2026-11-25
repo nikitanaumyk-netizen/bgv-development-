@@ -4,7 +4,7 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'BGV_VER', '1.1.2' );
+define( 'BGV_VER', '1.1.3' );
 
 require get_template_directory() . '/inc/fields.php';
 if ( file_exists( get_template_directory() . '/inc/migrate.php' ) ) {
@@ -360,7 +360,9 @@ add_action( 'admin_head', function () {
 	<?php
 } );
 
-// Порядок блоків: поля завжди першими (без переміщення DOM, щоб не скидати редактори тексту).
+// Порядок блоків: Yoast SEO угорі, під ним поля (без переміщення DOM, щоб не скидати редактори тексту).
 foreach ( array( 'page', 'post' ) as $bgv_pt2 ) {
-	add_filter( 'get_user_option_meta-box-order_' . $bgv_pt2, function () { return false; } );
+	add_filter( 'get_user_option_meta-box-order_' . $bgv_pt2, function () {
+		return array( 'normal' => 'wpseo_meta,acf-group_bgv_home,acf-group_bgv_news', 'side' => '', 'advanced' => '' );
+	} );
 }

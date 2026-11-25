@@ -27,7 +27,7 @@ function bgv_project_fields( $p ) {
 			'sub_fields' => array( bgv_sub( $p . '_card', 'text', 'Текст плашки' ) ),
 		) ),
 		bgv_sub( $p, 'gallery', 'Галерея', 'gallery', array( 'return_format' => 'id', 'preview_size' => 'medium', 'library' => 'all' ) ),
-		bgv_sub( $p, 'description', 'Опис', 'wysiwyg', array( 'tabs' => 'all', 'toolbar' => 'full', 'media_upload' => 1, 'delay' => 1, 'instructions' => 'Натисніть на поле, щоб відкрити редактор.' ) ),
+		bgv_sub( $p, 'description', 'Опис', 'wysiwyg', array( 'tabs' => 'all', 'toolbar' => 'full', 'media_upload' => 1 ) ),
 		bgv_sub( $p, 'location', 'Адреса / локація' ),
 		bgv_sub( $p, 'features', 'Характеристики', 'repeater', array(
 			'layout' => 'table', 'button_label' => 'Додати рядок',
@@ -51,7 +51,7 @@ add_action( 'acf/init', function () {
 		'key'      => 'group_bgv_home',
 		'title'    => 'Вміст головної сторінки',
 		'location' => array( array( array( 'param' => 'page_type', 'operator' => '==', 'value' => 'front_page' ) ) ),
-		'position' => 'acf_after_title',
+		'position' => 'normal',
 		'style'    => 'default',
 		'hide_on_screen' => array( 'the_content' ),
 		'fields'   => array(
@@ -144,7 +144,7 @@ add_action( 'acf/init', function () {
 		'key'      => 'group_bgv_news',
 		'title'    => 'Новина',
 		'location' => array( array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'post' ) ) ),
-		'position' => 'acf_after_title',
+		'position' => 'normal',
 		'style'    => 'default',
 		'hide_on_screen' => array( 'the_content', 'excerpt', 'discussion', 'comments', 'trackbacks', 'custom_fields', 'format', 'featured_image', 'tags', 'send-trackbacks', 'author', 'categories' ),
 		'fields'   => bgv_news_fields(),
