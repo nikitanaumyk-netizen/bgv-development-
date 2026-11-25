@@ -216,3 +216,4 @@ p { font-size: 32px; line-height: 1.45; }
 .tile { background: none; border-top: none; border-left: 2px solid var(--blue200); padding: 6px 28px 6px 28px; }
 .tile p { font-size: 32px; font-weight: 600; line-height: 1.3; }
 .gallery .g5 { width: 377px; height: 560px; object-fit: cover; }
+.veil-top { height: 480px; background: linear-gradient(180deg, rgba(240,244,248,0.9) 0%, rgba(240,244,248,0.6) 50%, rgba(240,244,248,0) 100%); }
