@@ -1,20 +1,36 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-$bgv_ach = array_filter( (array) bgv_opt( 'achievements' ), function ( $a ) { return ! empty( $a['name'] ); } );
-$bgv_aw  = array_filter( (array) bgv_opt( 'awards' ), function ( $a ) { return ! empty( $a['title'] ); } );
+$bgv_ach = array_values( array_filter( (array) bgv_opt( 'achievements' ), function ( $a ) { return ! empty( $a['name'] ); } ) );
+$bgv_aw  = array_values( array_filter( (array) bgv_opt( 'awards' ), function ( $a ) { return ! empty( $a['title'] ); } ) );
+// Фото за назвою проєкту, якщо в рядку фото не задано.
+$bgv_proj_img = function ( $name ) {
+	foreach ( bgv_all_projects() as $p ) {
+		$t = mb_strtolower( $p['title'] );
+		foreach ( preg_split( '/[\s,«»"()|]+/u', mb_strtolower( $name ) ) as $w ) {
+			if ( mb_strlen( $w ) > 3 && ! in_array( $w, array( 'житомир', 'будинок', 'школа', 'дитяча' ), true ) && false !== mb_strpos( $t, $w ) ) { return (int) $p['image']; }
+		}
+	}
+	return 0;
+};
 ?>
 <?php if ( $bgv_ach ) : ?>
-<section class="bgv-ach" id="achievements">
+<section class="bgv-ach2" id="achievements">
 	<div class="container">
-		<h2 class="section-title"><?php echo esc_html( bgv_opt( 'ach_title' ) ?: bgv_t( 'Досягнення' ) ); ?></h2>
-		<ul class="bgv-ach__list">
-			<?php foreach ( $bgv_ach as $a ) : $pc = max( 0, min( 100, (int) $a['percent'] ) ); ?>
-				<li class="bgv-ach__item">
-					<div class="bgv-ring" style="--p:<?php echo (int) $pc; ?>">
+		<div class="bgv-sec-head">
+			<p class="bgv-kicker"><?php bgv_e( 'Готовність об’єктів' ); ?></p>
+			<h2 class="section-title"><?php echo esc_html( bgv_opt( 'ach_title' ) ?: bgv_t( 'Досягнення' ) ); ?></h2>
+		</div>
+		<ul class="bgv-ach2__list">
+			<?php foreach ( $bgv_ach as $a ) :
+				$pc  = max( 0, min( 100, (int) $a['percent'] ) );
+				$img = bgv_img_url( ! empty( $a['image'] ) ? $a['image'] : $bgv_proj_img( $a['name'] ), 'large' );
+				?>
+				<li class="bgv-ach2__card"<?php echo $img ? ' style="background-image:url(\'' . esc_url( $img ) . '\')"' : ''; ?>>
+					<div class="bgv-ring" style="--p:<?php echo (int) $pc; ?>" data-p="<?php echo (int) $pc; ?>">
 						<svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" class="bgv-ring__bg"/><circle cx="60" cy="60" r="52" class="bgv-ring__fg" pathLength="100"/></svg>
-						<div class="bgv-ring__txt"><b><?php echo (int) $pc; ?>%</b><span><?php echo esc_html( $a['label'] ?: bgv_t( 'збудовано' ) ); ?></span></div>
+						<div class="bgv-ring__txt"><b data-count="<?php echo (int) $pc; ?>%"><?php echo (int) $pc; ?>%</b><span><?php echo esc_html( $a['label'] ?: bgv_t( 'збудовано' ) ); ?></span></div>
 					</div>
-					<p class="bgv-ach__name"><?php echo esc_html( $a['name'] ); ?></p>
+					<p class="bgv-ach2__name"><?php echo esc_html( $a['name'] ); ?></p>
 				</li>
 			<?php endforeach; ?>
 		</ul>
@@ -22,20 +38,32 @@ $bgv_aw  = array_filter( (array) bgv_opt( 'awards' ), function ( $a ) { return !
 </section>
 <?php endif; ?>
 <?php if ( $bgv_aw ) : ?>
-<section class="bgv-awards" id="awards">
+<section class="bgv-aw2" id="awards">
 	<div class="container">
-		<h2 class="section-title"><?php echo esc_html( bgv_opt( 'awards_heading' ) ?: bgv_t( 'Нагороди' ) ); ?></h2>
-		<?php if ( bgv_opt( 'awards_text' ) ) : ?><p class="bgv-awards__intro"><?php echo esc_html( bgv_opt( 'awards_text' ) ); ?></p><?php endif; ?>
-		<ul class="bgv-awards__list">
-			<?php foreach ( $bgv_aw as $a ) : $tag = ! empty( $a['link'] ) ? 'a' : 'div'; ?>
+		<div class="bgv-sec-head">
+			<p class="bgv-kicker"><?php bgv_e( 'Визнання' ); ?></p>
+			<h2 class="section-title"><?php echo esc_html( bgv_opt( 'awards_heading' ) ?: bgv_t( 'Нагороди' ) ); ?></h2>
+			<?php if ( bgv_opt( 'awards_text' ) ) : ?><p class="bgv-sec-head__text"><?php echo esc_html( bgv_opt( 'awards_text' ) ); ?></p><?php endif; ?>
+		</div>
+		<ul class="bgv-aw2__list">
+			<?php foreach ( $bgv_aw as $a ) :
+				$photo = ! empty( $a['photo'] ) ? (int) $a['photo'] : 0;
+				if ( ! $photo && ! empty( $a['link'] ) ) { $pid = url_to_postid( $a['link'] ); $photo = $pid ? (int) get_post_thumbnail_id( $pid ) : 0; }
+				$tag = ! empty( $a['link'] ) ? 'a' : 'div';
+				?>
 				<li>
-					<<?php echo $tag; // phpcs:ignore ?> class="bgv-award"<?php echo 'a' === $tag ? ' href="' . esc_url( $a['link'] ) . '"' : ''; ?>>
-						<span class="bgv-award__logo">
-							<?php if ( bgv_img_url( $a['image'] ) ) : ?><img src="<?php echo esc_url( bgv_img_url( $a['image'], 'medium' ) ); ?>" alt="" loading="lazy">
-							<?php else : ?><svg viewBox="0 0 48 48" width="44" height="44" aria-hidden="true"><path d="M24 4l5.5 11.2 12.3 1.8-8.9 8.7 2.1 12.3L24 32.2 13 38l2.1-12.3-8.9-8.7 12.3-1.8z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/></svg><?php endif; ?>
+					<<?php echo $tag; // phpcs:ignore ?> class="bgv-aw2__card"<?php echo 'a' === $tag ? ' href="' . esc_url( $a['link'] ) . '"' : ''; ?>>
+						<span class="bgv-aw2__img"<?php echo bgv_img_url( $photo ) ? ' style="background-image:url(\'' . esc_url( bgv_img_url( $photo, 'large' ) ) . '\')"' : ''; ?>>
+							<span class="bgv-aw2__badge">
+								<?php if ( bgv_img_url( $a['image'] ) ) : ?><img src="<?php echo esc_url( bgv_img_url( $a['image'], 'medium' ) ); ?>" alt="">
+								<?php else : ?><svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><path d="M24 4l5.5 11.2 12.3 1.8-8.9 8.7 2.1 12.3L24 32.2 13 38l2.1-12.3-8.9-8.7 12.3-1.8z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></svg><?php endif; ?>
+							</span>
 						</span>
-						<span class="bgv-award__title"><?php echo esc_html( $a['title'] ); ?></span>
-						<?php if ( ! empty( $a['note'] ) ) : ?><span class="bgv-award__note"><?php echo esc_html( $a['note'] ); ?></span><?php endif; ?>
+						<span class="bgv-aw2__body">
+							<?php if ( ! empty( $a['note'] ) ) : ?><span class="bgv-aw2__note"><?php echo esc_html( $a['note'] ); ?></span><?php endif; ?>
+							<span class="bgv-aw2__title"><?php echo esc_html( $a['title'] ); ?></span>
+							<?php if ( 'a' === $tag ) : ?><span class="bgv-aw2__more"><?php bgv_e( 'Детальніше' ); ?> →</span><?php endif; ?>
+						</span>
 					</<?php echo $tag; // phpcs:ignore ?>>
 				</li>
 			<?php endforeach; ?>

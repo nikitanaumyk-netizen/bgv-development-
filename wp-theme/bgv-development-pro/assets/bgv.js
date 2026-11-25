@@ -215,4 +215,69 @@
 		box.addEventListener('touchend', function (e) { if (x0 === null) { return; } var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) { go(i + (dx < 0 ? 1 : -1)); run(); } x0 = null; });
 		run();
 	});
+
+	/* ---- Анімації: поява тексту та «набігання» цифр ---- */
+	var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	if (!('IntersectionObserver' in window) || still) { return; }
+
+	// Лічильник: «80 300 м²» → від 0 до 80300 з тим самим форматом і підписом.
+	function countUp(el) {
+		var src = el.getAttribute('data-count') || el.textContent;
+		var m = src.match(/^(\D*)([\d\s .,]*\d)(.*)$/);
+		if (!m) { return; }
+		var pre = m[1], num = m[2], post = m[3];
+		var sep = /\d[\s ]\d/.test(num) ? ' ' : '';
+		var target = parseFloat(num.replace(/[\s ]/g, '').replace(',', '.'));
+		if (!isFinite(target)) { return; }
+		var fmt = function (v) {
+			var s = String(Math.round(v));
+			return sep ? s.replace(/\B(?=(\d{3})+(?!\d))/g, sep) : s;
+		};
+		var dur = Math.min(2200, 900 + String(Math.round(target)).length * 250), t0 = null;
+		el.textContent = pre + fmt(0) + post;
+		var step = function (t) {
+			if (!t0) { t0 = t; }
+			var k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+			el.textContent = pre + fmt(target * e) + post;
+			if (k < 1) { requestAnimationFrame(step); } else { el.textContent = src; }
+		};
+		requestAnimationFrame(step);
+	}
+	var counters = $$('.bgv-stats__num, .bgv-ring__txt b[data-count]');
+	var cio = new IntersectionObserver(function (en) {
+		en.forEach(function (x) {
+			if (!x.isIntersecting) { return; }
+			cio.unobserve(x.target);
+			countUp(x.target);
+			var ring = x.target.closest('.bgv-ring');
+			if (ring) { ring.classList.add('is-run'); }
+		});
+	}, { threshold: .4 });
+	counters.forEach(function (c) {
+		var ring = c.closest('.bgv-ring'); if (ring) { ring.classList.add('is-wait'); }
+		cio.observe(c);
+	});
+
+	// Поява тексту і карток під час прокрутки (знизу вгору, по черзі).
+	var sel = [
+		'main .section-title', 'main .bgv-kicker', '.bgv-sec-head__text', '.bgv-hero__kicker', '.bgv-hero__title', '.bgv-hero__lead', '.bgv-hero__desc', '.bgv-hero__cta',
+		'.bgv-stats__item', '.bgv-adv2__head > *', '.bgv-adv2__card', '.about-text p', '.about-image-wrapp',
+		'.bgv-projects__head .bgv-chips', '.bgv-card', '.bgv-ach2__card', '.bgv-aw2__list > li',
+		'.bgv-inv__text > *', '.bgv-inv__list li', '.news-content', '.philantropy-item', '.contact-list', '.contact-form-title', '.contact-form-text',
+		'.blog-list__item', '.estate-popup__main', '.estate-popup__sidebar'
+	].join(',');
+	var items = $$(sel).filter(function (el) { return !el.closest('.bgv-modal') && !el.closest('.bgv-header'); });
+	html.classList.add('bgv-anim');
+	var rio = new IntersectionObserver(function (en) {
+		en.forEach(function (x) {
+			if (!x.isIntersecting) { return; }
+			rio.unobserve(x.target);
+			var sib = x.target.parentNode ? Array.prototype.indexOf.call(x.target.parentNode.children, x.target) : 0;
+			x.target.style.transitionDelay = Math.min(sib, 5) * 90 + 'ms';
+			x.target.classList.add('is-in');
+		});
+	}, { threshold: .12, rootMargin: '0px 0px -6% 0px' });
+	items.forEach(function (el) { el.classList.add('bgv-rv'); rio.observe(el); });
+	// Страховка: якщо щось не потрапило в поле зору (друк, якорі) — показати через 4 с.
+	setTimeout(function () { items.forEach(function (el) { if (el.getBoundingClientRect().top < window.innerHeight) { el.classList.add('is-in'); } }); }, 4000);
 })();

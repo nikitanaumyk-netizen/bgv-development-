@@ -5,6 +5,22 @@ get_header();
 <?php get_template_part( 'parts/hero' ); ?>
 
 
+<?php $bgv_stats = bgv_opt( 'stats' ); if ( $bgv_stats ) : ?>
+<section class="bgv-stats" id="stats">
+	<div class="container">
+		<h2 class="vh"><?php bgv_e( 'Цифри' ); ?></h2>
+		<ul class="bgv-stats__list">
+			<?php foreach ( $bgv_stats as $s ) : ?>
+				<li class="bgv-stats__item">
+					<p class="bgv-stats__num"><?php echo esc_html( $s['number'] ); ?></p>
+					<p class="bgv-stats__label"><?php echo esc_html( $s['label'] ); ?></p>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+</section>
+<?php endif; ?>
+
 <?php get_template_part( 'parts/advantages' ); ?>
 
 <section class="about" id="about">

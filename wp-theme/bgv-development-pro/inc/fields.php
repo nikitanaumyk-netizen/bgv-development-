@@ -119,6 +119,7 @@ add_action( 'acf/init', function () {
 			bgv_f( 'achievements', 'Готовність об’єктів (кругові діаграми)', 'repeater', array(
 				'layout' => 'table', 'button_label' => 'Додати об’єкт', 'instructions' => 'Якщо список порожній — розділ на сайті не показується.',
 				'sub_fields' => array(
+					bgv_sub( 'achievements', 'image', 'Фото', 'image', bgv_img( array( 'preview_size' => 'thumbnail' ) ) ),
 					bgv_sub( 'achievements', 'name', 'Об’єкт' ),
 					bgv_sub( 'achievements', 'percent', 'Готовність, %', 'number', array( 'min' => 0, 'max' => 100 ) ),
 					bgv_sub( 'achievements', 'label', 'Підпис під %', 'text', array( 'placeholder' => 'збудовано' ) ),
@@ -129,9 +130,10 @@ add_action( 'acf/init', function () {
 			bgv_f( 'awards_heading', 'Заголовок розділу' ),
 			bgv_f( 'awards_text', 'Вступний текст', 'textarea', array( 'rows' => 2 ) ),
 			bgv_f( 'awards', 'Нагороди та членство', 'repeater', array(
-				'layout' => 'table', 'button_label' => 'Додати нагороду', 'instructions' => 'Логотип необов’язковий. Якщо список порожній — розділ не показується.',
+				'layout' => 'table', 'button_label' => 'Додати нагороду', 'instructions' => 'Якщо «Фото картки» порожнє — береться фото з новини за посиланням. Якщо список порожній — розділ не показується.',
 				'sub_fields' => array(
-					bgv_sub( 'awards', 'image', 'Логотип', 'image', bgv_img( array( 'preview_size' => 'thumbnail' ) ) ),
+					bgv_sub( 'awards', 'photo', 'Фото картки', 'image', bgv_img( array( 'preview_size' => 'thumbnail' ) ) ),
+					bgv_sub( 'awards', 'image', 'Логотип нагороди (необов’язково)', 'image', bgv_img( array( 'preview_size' => 'thumbnail' ) ) ),
 					bgv_sub( 'awards', 'title', 'Назва нагороди' ),
 					bgv_sub( 'awards', 'note', 'За що / рік' ),
 					bgv_sub( 'awards', 'link', 'Посилання (новина), необов’язково' ),
