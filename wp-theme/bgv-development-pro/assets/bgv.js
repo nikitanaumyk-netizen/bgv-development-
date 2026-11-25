@@ -257,7 +257,7 @@
 	/* ---- Анімації: поява тексту та «набігання» цифр ---- */
 	var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	/* «Досягнення» і «Нагороди»: поява як на першому екрані — шторки, заголовок по літерах, картки по черзі */
-	var showSecs = $$('#achievements, #awards');
+	var showSecs = $$('#advantages, #achievements, #awards');
 	if (!still && 'IntersectionObserver' in window) {
 		showSecs.forEach(function (sec) {
 			sec.classList.add('bgv-show');
@@ -274,7 +274,7 @@
 					}).join('') + '</span>';
 				}).join(' ');
 			}
-			$$('.bgv-ach2__card, .bgv-aw3__list > li', sec).forEach(function (c, i) { c.style.setProperty('--si', i); });
+			$$('.bgv-ach2__card, .bgv-aw3__list > li, .bgv-adv2__card', sec).forEach(function (c, i) { c.style.setProperty('--si', i); });
 		});
 		var sio = new IntersectionObserver(function (en) {
 			en.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('is-played'); sio.unobserve(x.target); } });
