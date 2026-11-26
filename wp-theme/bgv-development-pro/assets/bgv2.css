@@ -1081,3 +1081,31 @@ html.mnav-open, html.mnav-open body { overflow: hidden; }
 .mnav .mlogo__img { display: block; width: 58px; height: auto; }
 .mnav__intro-logo .mlogo__img { width: clamp(150px, 40vw, 210px); }
 @media (min-width: 1181px) { .mnav__top .mlogo__img { width: 74px; } .mnav__foot { grid-template-columns: minmax(0, 360px); } }
+
+/* ===== «Наші проєкти» у стилі «Нагород» ===== */
+.bgv-pj__head { margin-bottom: 40px; }
+.bgv-pj__chips { margin-top: 28px; }
+.bgv-pj .bgv-chip { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .35); color: #fff !important; }
+.bgv-pj .bgv-chip sup { color: #BEC8FF; }
+.bgv-pj .bgv-chip:hover { border-color: #fff; }
+.bgv-pj .bgv-chip.is-active { background: #fff; border-color: #fff; color: var(--bgv-navy) !important; }
+.bgv-pj .bgv-chip.is-active sup { color: var(--bgv-blue); }
+.bgv-pj__list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.bgv-pj__list > li[hidden] { display: none; }
+.bgv-pj__card { transition: box-shadow .25s, transform .25s; }
+.bgv-pj__card:hover { box-shadow: 0 20px 44px rgba(0, 0, 0, .28); transform: translateY(-4px); }
+.bgv-pj .bgv-aw3__img { text-decoration: none; }
+.bgv-pj .bgv-aw3__plate b { white-space: nowrap; }
+.bgv-pj .bgv-aw3__name { color: var(--bgv-text); text-decoration: none; font-weight: 600; }
+.bgv-pj .bgv-aw3__name:hover { color: var(--bgv-blue); }
+.bgv-pj .bgv-card__facts { margin-top: 4px; }
+.bgv-pj .bgv-card__actions { margin-top: auto; padding-top: 14px; }
+.bgv-awx .bgv-pj__chips { opacity: 0; transform: translate3d(0, 16px, 0); }
+.bgv-awx.is-played .bgv-pj__chips { opacity: 1; transform: none; transition: opacity 1s ease .9s, transform 1s var(--ease-out) .9s; }
+@media (max-width: 1100px) { .bgv-pj__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 767px) {
+	.bgv-pj__list { grid-template-columns: 1fr; gap: 16px; }
+	.bgv-pj__chips { flex-wrap: nowrap; overflow-x: auto; margin: 22px -20px 0; padding: 0 20px 4px; width: calc(100% + 40px); scrollbar-width: none; }
+	.bgv-pj .bgv-chip { white-space: nowrap; }
+	.bgv-pj .bgv-aw3__plate b { font-size: 22px; }
+}

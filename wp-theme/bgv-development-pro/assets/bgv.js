@@ -314,23 +314,25 @@
 		showSecs.forEach(function (sec) { sio.observe(sec); });
 	}
 	/* «Нагороди»: фон із фото, що змінюються (як на першому екрані) */
-	(function () {
-		var sl = $$('#awards .bgv-aw3__slide'), i = 0;
+	['#awards', '#our-projects'].forEach(function (id) {
+		var sl = $$(id + ' .bgv-aw3__slide'), i = 0;
 		if (sl.length < 2 || still) { return; }
 		setInterval(function () {
 			sl[i].classList.remove('is-active'); i = (i + 1) % sl.length; sl[i].classList.add('is-active');
 		}, 6000);
-	})();
+	});
 	/* «Нагороди»: власна поява — рендер виходить із розмиття, заголовок з-під маски, картки влітають у 3D з бліком */
-	var aw = document.getElementById('awards');
-	if (aw && !still && 'IntersectionObserver' in window) {
+	// Те саме для «Наших проєктів».
+	['awards', 'our-projects'].forEach(function (id) {
+		var aw = document.getElementById(id);
+		if (!aw || still || !('IntersectionObserver' in window)) { return; }
 		aw.classList.add('bgv-awx');
-		$$('.bgv-aw3__list > li', aw).forEach(function (c, i) { c.style.setProperty('--ai', i); });
+		$$('.bgv-aw3__list > li', aw).forEach(function (c, i) { c.style.setProperty('--ai', Math.min(i, 5)); });
 		var aio = new IntersectionObserver(function (en) {
 			en.forEach(function (x) { if (x.isIntersecting) { aw.classList.add('is-played'); aio.disconnect(); } });
-		}, { threshold: .2 });
+		}, { threshold: .12 });
 		aio.observe(aw);
-	}
+	});
 	if (!('IntersectionObserver' in window) || still) { return; }
 
 	// Лічильник: «80 300 м²» → від 0 до 80300 з тим самим форматом і підписом.

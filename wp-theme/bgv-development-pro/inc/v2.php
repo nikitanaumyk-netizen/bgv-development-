@@ -63,6 +63,23 @@ function bgv_status_label( $st ) {
 	$m = array( 'building' => 'Будується', 'done' => 'Здано / реалізовано', 'concept' => 'Проєктування / концепція' );
 	return isset( $m[ $st ] ) ? bgv_t( $m[ $st ] ) : '';
 }
+// Коротка назва на плашці фото картки проєкту (напр. BOSTON). Поле «Коротка назва» має пріоритет.
+function bgv_project_short( $p ) {
+	if ( ! empty( $p['short'] ) ) { return trim( $p['short'] ); }
+	$t = trim( (string) $p['title'] );
+	foreach ( array( 'напівмарафон' => 'Напівмарафон', 'школа' => 'Школа мистецтв' ) as $k => $v ) { if ( false !== mb_stripos( $t, $k ) ) { return bgv_t( $v ); } }
+	$t = preg_replace( '/^(ЖК|ТРЦ|ТЦ|Котеджне містечко|Апарт-готель)\s+/u', '', $t );
+	$w = preg_split( '/[\s,]+/u', $t );
+	return trim( $w[0], '«»"\'.,' );
+}
+// Місто з адреси: «м. Київ, …» → «Київ», «…, село Лісники, …» → «Лісники».
+function bgv_project_city( $loc ) {
+	$loc = trim( (string) $loc );
+	if ( '' === $loc ) { return ''; }
+	if ( preg_match( '/(?:^|,\s*)(?:м\.|місто|село|с\.|смт)\s*([^,]+)/u', $loc, $m ) ) { return trim( $m[1] ); }
+	$parts = explode( ',', $loc );
+	return trim( $parts[0] );
+}
 function bgv_group_meta() {
 	return array(
 		'real_estate'       => array( 'res', 'Житлова нерухомість & Вілли' ),

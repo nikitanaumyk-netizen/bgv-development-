@@ -22,6 +22,7 @@ function bgv_project_fields( $p ) {
 		bgv_sub( $p, 'title', 'Назва', 'text', array( 'required' => 1 ) ),
 		bgv_sub( $p, 'slug', 'Адреса сторінки (латиницею, напр. ozon-house)', 'text', array( 'instructions' => 'Сторінка проєкту відкриється за адресою /proekt/адреса/. Без пробілів, тільки латиниця, цифри та дефіс.' ) ),
 		bgv_sub( $p, 'image', 'Головне фото (картка)', 'image', bgv_img( array( 'required' => 1 ) ) ),
+		bgv_sub( $p, 'short', 'Коротка назва на фото картки', 'text', array( 'instructions' => 'Великий напис на білій плашці фото, напр. BOSTON. Якщо порожньо — береться з назви автоматично.' ) ),
 		bgv_sub( $p, 'card_info', 'Плашки на картці (дата, площа)', 'repeater', array(
 			'layout' => 'table', 'button_label' => 'Додати плашку',
 			'sub_fields' => array( bgv_sub( $p . '_card', 'text', 'Текст плашки' ) ),
